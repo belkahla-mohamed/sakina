@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Navbar B — Recherche inline + mega-menu</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito+Sans:wght@400;600;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FFFDF7;--ink:#25235B;--soft:#5B5986;--pink:#E8457F;--teal:#1B9A8E;--yellow:#FFD166;--line:rgba(37,35,91,.16);}
+*{font-family:'Nunito Sans',sans-serif;}
+body{background:var(--bg);color:var(--ink);}
+.d{font-family:'Baloo 2',cursive;}
+.ar{font-family:'Tajawal',sans-serif;direction:rtl;}
+.btn{font-family:'Baloo 2',cursive;font-weight:600;border-radius:999px;box-shadow:0 5px 0 var(--ink);}
+.lbl{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft);font-weight:700;}
+.card{border:2px solid var(--line);border-radius:20px;background:#fff;}
+.mega a{display:block;padding:7px 0;font-size:14px;font-weight:600;}
+.mega a:hover{color:var(--pink);}
+</style>
+</head>
+<body>
+
+<div class="text-center text-[12px] py-2 font-semibold text-white" style="background:var(--ink)">
+  NAVBAR B · <span style="color:#FFD166">Champ de recherche visible + mega-menu catégories</span> — 5/10
+</div>
+
+<div class="text-[11px] font-bold uppercase tracking-widest px-6 pt-6 pb-2" style="color:var(--soft)">Desktop — mega-menu ouvert</div>
+
+<div class="text-center text-[13px] py-2 font-semibold text-white" style="background:var(--teal)">
+  Livraison gratuite partout au Maroc · <span class="ar inline-block">التوصيل مجاني إلى جميع أنحاء المغرب</span>
+</div>
+
+<header class="sticky top-0 z-30 border-b" style="border-color:var(--line);background:rgba(255,253,247,.96);backdrop-filter:blur(8px)">
+  <div class="max-w-6xl mx-auto px-4 h-[68px] flex items-center gap-5">
+    <a class="d text-2xl font-bold leading-none shrink-0">Sakina <span style="color:var(--pink)">Stores</span></a>
+
+    <div class="hidden md:flex flex-1 items-center h-10 rounded-full px-4 gap-2 border" style="border-color:var(--line);background:#fff">
+      <span class="text-sm">🔍</span>
+      <input class="flex-1 text-sm bg-transparent outline-none" placeholder="Rechercher un produit, un âge, une catégorie…">
+      <kbd class="text-[10px] px-1.5 py-0.5 rounded border" style="border-color:var(--line);color:var(--soft)">↵</kbd>
+    </div>
+
+    <nav class="hidden lg:flex items-center gap-5 text-[15px] font-semibold shrink-0">
+      <a class="py-2" style="color:var(--pink)">Accueil</a>
+      <a class="py-2 relative" id="megaBtn">Boutique ▾</a>
+      <a class="py-2">À propos</a>
+      <a class="py-2">Contact</a>
+    </nav>
+
+    <div class="flex items-center gap-2.5 shrink-0">
+      <div class="hidden sm:flex items-center text-[13px] font-bold rounded-full px-2 py-1 border" style="border-color:var(--line)">
+        <span>FR</span><span class="mx-1 opacity-30">|</span><span class="ar">عربي</span>
+      </div>
+      <button class="w-9 h-9 rounded-full flex items-center justify-center text-sm border relative" style="border-color:var(--line)">🛒<span class="absolute -top-1 -right-1 text-[9px] font-extrabold w-4 h-4 rounded-full flex items-center justify-center text-white" style="background:var(--pink)">2</span></button>
+      <button class="btn hidden sm:block text-white text-[13px] px-5 py-2.5" style="background:var(--pink)">WhatsApp</button>
+    </div>
+  </div>
+
+  <!-- MEGA MENU -->
+  <div class="hidden lg:block border-t" style="border-color:var(--line);background:#fff">
+    <div class="max-w-6xl mx-auto px-4 py-6 grid grid-cols-4 gap-8">
+      <div>
+        <div class="lbl mb-2" style="color:var(--pink)">Par catégorie</div>
+        <div class="mega">
+          <a>Jouets & éveil</a><a>Livres & coloriage</a><a>École & papeterie</a><a>Vêtements bébé</a><a>Coffrets & packs</a>
+        </div>
+      </div>
+      <div>
+        <div class="lbl mb-2" style="color:var(--pink)">Par âge</div>
+        <div class="mega">
+          <a>0 – 2 ans</a><a>3 – 5 ans</a><a>6 – 9 ans</a><a>10 ans et +</a>
+        </div>
+      </div>
+      <div>
+        <div class="lbl mb-2" style="color:var(--pink)">Populaires</div>
+        <div class="mega">
+          <a>Nouveautés</a><a>Meilleures ventes</a><a>Promotions</a><a>Épuisés bientôt</a>
+        </div>
+      </div>
+      <div class="rounded-2xl p-5 text-white" style="background:linear-gradient(135deg,#E8457F,#FF6B9D)">
+        <div class="d text-lg font-bold leading-tight">Pack famille<br>-25% cette semaine</div>
+        <div class="ar text-[13px] mt-1 opacity-90">حزمة العائلة بخصم 25%</div>
+        <button class="btn w-full mt-3 text-[13px] py-2" style="background:#FFD166;color:#25235B">Voir le pack</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="max-w-6xl mx-auto px-4 py-10 text-center text-sm" style="color:var(--soft)">(la page continue ici)</div>
+
+<!-- MOBILE -->
+<div class="max-w-6xl mx-auto px-4 pt-2">
+  <div class="text-[11px] font-bold uppercase tracking-widest pb-2" style="color:var(--soft)">Mobile</div>
+  <div class="card overflow-hidden">
+    <div class="text-center text-[12px] py-1.5 font-semibold text-white" style="background:var(--teal)">Livraison gratuite partout au Maroc</div>
+    <div class="h-14 flex items-center justify-between px-4">
+      <button class="text-xl">☰</button>
+      <a class="d text-xl font-bold">Sakina <span style="color:var(--pink)">Stores</span></a>
+      <div class="flex items-center gap-3 text-base">🔍 🛒</div>
+    </div>
+    <div class="px-4 pb-4">
+      <div class="flex items-center h-9 rounded-full px-4 gap-2 border" style="border-color:var(--line)">
+        <span class="text-sm">🔍</span>
+        <input class="flex-1 text-sm bg-transparent outline-none" placeholder="Rechercher…">
+      </div>
+    </div>
+  </div>
+
+  <div class="card p-6 mt-6">
+    <div class="lbl mb-3">Caractéristiques</div>
+    <ul class="text-[13px] space-y-1.5" style="color:var(--soft)">
+      <li>• Champ de recherche <b>toujours visible</b> dans la barre (desktop) — idéal si le catalogue grossit.</li>
+      <li>• Mega-menu au survol de « Boutique » : catégories + âges + produits populaires + promo.</li>
+      <li>• Espace de logo réduit → recherche au centre, CTA WhatsApp à droite.</li>
+      <li>• Mobile : recherche déplacée sous la barre, menu latéral identique à A.</li>
+      <li>• Risque : sur petit catalogue (&lt; 30 produits) la recherche apporte peu.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="text-center text-[11px] py-6" style="color:var(--soft)">Maquette — rien n'est encore appliqué au site</div>
+</body>
+</html>

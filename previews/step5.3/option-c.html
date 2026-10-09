@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Navbar C — Bandeau flottant</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito+Sans:wght@400;600;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FFFDF7;--ink:#25235B;--soft:#5B5986;--pink:#E8457F;--teal:#1B9A8E;--yellow:#FFD166;--line:rgba(37,35,91,.16);}
+*{font-family:'Nunito Sans',sans-serif;}
+body{background:var(--bg);color:var(--ink);}
+.d{font-family:'Baloo 2',cursive;}
+.ar{font-family:'Tajawal',sans-serif;direction:rtl;}
+.btn{font-family:'Baloo 2',cursive;font-weight:600;border-radius:999px;box-shadow:0 5px 0 var(--ink);}
+.lbl{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft);font-weight:700;}
+.floatbar{position:sticky;top:14px;z-index:40;margin:14px auto 0;max-width:1120px;border:2px solid var(--ink);border-radius:999px;background:#fff;box-shadow:0 8px 0 rgba(37,35,91,.85);}
+</style>
+</head>
+<body>
+
+<div class="text-center text-[12px] py-2 font-semibold text-white" style="background:var(--ink)">
+  NAVBAR C · <span style="color:#FFD166">Bandeau flottant arrondi, sticky avec ombre portée</span> — 5/10
+</div>
+
+<!-- announcement -->
+<div class="text-center text-[13px] py-2 font-semibold text-white" style="background:var(--teal)">
+  Livraison gratuite partout au Maroc · <span class="ar inline-block">التوصيل مجاني إلى جميع أنحاء المغرب</span>
+</div>
+
+<!-- floating bar -->
+<div class="px-4">
+  <div class="floatbar h-[62px] flex items-center justify-between gap-4 px-5">
+    <a class="d text-xl font-bold leading-none shrink-0">Sakina <span style="color:var(--pink)">Stores</span></a>
+    <nav class="hidden lg:flex items-center gap-6 text-[15px] font-semibold">
+      <a>Accueil</a><a style="color:var(--pink)">Boutique</a><a>Nouveautés</a><a>À propos</a><a>Contact</a>
+    </nav>
+    <div class="flex items-center gap-2">
+      <button class="w-8 h-8 rounded-full flex items-center justify-center text-sm border" style="border-color:var(--line)">🔍</button>
+      <div class="hidden sm:flex items-center text-[12px] font-bold rounded-full px-2 py-1 border" style="border-color:var(--line)">
+        <span>FR</span><span class="mx-1 opacity-30">|</span><span class="ar">عربي</span>
+      </div>
+      <button class="w-8 h-8 rounded-full flex items-center justify-center text-sm border relative" style="border-color:var(--line)">🛒<span class="absolute -top-1 -right-1 text-[9px] font-extrabold w-4 h-4 rounded-full flex items-center justify-center text-white" style="background:var(--pink)">2</span></button>
+      <button class="btn text-white text-[13px] px-5 py-2" style="background:var(--pink)">WhatsApp</button>
+    </div>
+  </div>
+</div>
+
+<!-- hero area to show float -->
+<div class="max-w-6xl mx-auto px-4 pt-8">
+  <div class="rounded-[28px] border overflow-hidden" style="border-color:var(--line);background:linear-gradient(120deg,#FFE3EE 0%,#FFF3CF 50%,#D6F5F2 100%)">
+    <div class="px-8 py-16 max-w-2xl">
+      <span class="inline-block text-xs font-bold bg-white px-4 py-1.5 rounded-full border" style="color:var(--pink);border-color:var(--line)">★ Nouvelle collection</span>
+      <h1 class="d mt-4 text-4xl md:text-5xl font-bold leading-[1.05]">Un monde coloré pour vos petits !</h1>
+      <p class="ar mt-3 text-base">عالم مليء بالألوان لطفلكم</p>
+      <button class="btn mt-6 text-white text-sm px-6 py-3" style="background:var(--pink)">Voir la boutique</button>
+    </div>
+  </div>
+</div>
+
+<div class="max-w-6xl mx-auto px-4 py-10 text-center text-sm" style="color:var(--soft)">
+  (défilez : le bandeau reste collant sous l'annonce)
+</div>
+
+<!-- MOBILE -->
+<div class="max-w-6xl mx-auto px-4 pt-2">
+  <div class="text-[11px] font-bold uppercase tracking-widest pb-2" style="color:var(--soft)">Mobile</div>
+  <div class="mx-auto max-w-[360px]">
+    <div class="text-center text-[12px] py-1.5 font-semibold text-white" style="background:var(--teal)">Livraison gratuite partout au Maroc</div>
+    <div class="mt-3 h-14 rounded-full border-2 flex items-center justify-between px-4" style="border-color:var(--ink);background:#fff;box-shadow:0 6px 0 rgba(37,35,91,.85)">
+      <button class="text-xl">☰</button>
+      <a class="d text-lg font-bold">Sakina <span style="color:var(--pink)">Stores</span></a>
+      <div class="flex items-center gap-2.5 text-base">🔍 🛒</div>
+    </div>
+  </div>
+
+  <div class="card p-6 mt-6" style="border:2px solid var(--line);border-radius:20px;background:#fff">
+    <div class="lbl mb-3">Caractéristiques</div>
+    <ul class="text-[13px] space-y-1.5" style="color:var(--soft)">
+      <li>• Barre <b>flottante arrondie</b> (pilule), bordure encre + ombre portée — signature de la marque.</li>
+      <li>• Sticky : elle suit le défilement sous le bandeau d'annonce.</li>
+      <li>• Logo + nav + recherche + langue + panier + CTA WhatsApp, le tout sur une seule ligne.</li>
+      <li>• Le plus "designed" et mémorable ; le moins proche de la référence.</li>
+      <li>• Risque : sur écran très étroit, la ligne devient serrée (dégradation à prévoir).</li>
+    </ul>
+  </div>
+</div>
+
+<div class="text-center text-[11px] py-6" style="color:var(--soft)">Maquette — rien n'est encore appliqué au site</div>
+</body>
+</html>

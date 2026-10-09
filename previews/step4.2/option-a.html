@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Typographie A — Fredoka + Nunito + Cairo</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#FFFDF7;--ink:#25235B;--soft:#5B5986;--pink:#E8457F;--teal:#1B9A8E;--line:rgba(37,35,91,.14);}
+  body{background:var(--bg);color:var(--ink);}
+  .fr{font-family:'Fredoka',sans-serif;}
+  .body-fr{font-family:'Nunito',sans-serif;}
+  .ar{font-family:'Cairo',sans-serif;direction:rtl;}
+  .tag{font-family:'Nunito',sans-serif;}
+</style>
+</head>
+<body>
+
+<div class="text-center text-[12px] py-2 font-semibold text-white" style="background:var(--ink)">
+  TYPOGRAPHIE A · <span style="color:#FFD166">FR: Fredoka (titres) + Nunito (texte) · AR: Cairo</span> — 4/10
+</div>
+
+<div class="max-w-5xl mx-auto px-4 py-10">
+
+  <!-- BRAND TEXT -->
+  <section class="rounded-3xl border p-8" style="border-color:var(--line);background:#fff">
+    <p class="tag text-[11px] uppercase tracking-[.2em]" style="color:var(--soft)">Texte réel de la marque</p>
+    <h1 class="fr text-5xl md:text-6xl font-bold leading-[1.05] mt-4">Un monde coloré pour vos petits !</h1>
+    <p class="ar text-4xl font-bold mt-4">عالم مليء بالألوان لطفلكم!</p>
+    <p class="body-fr text-base mt-5" style="color:var(--soft)">
+      Découvrez notre sélection de jouets, livres et accessoires pour enfants.
+      Livraison gratuite partout au Maroc, paiement à la livraison.
+    </p>
+    <p class="ar text-base mt-3" style="color:var(--soft)">
+      اكتشفوا تشكيلتنا من الألعاب والكتب وإكسسوارات الأطفال. التوصيل مجاني إلى جميع أنحاء المغرب والدفع عند الاستلام.
+    </p>
+    <div class="mt-6 flex flex-wrap gap-3">
+      <button class="fr font-semibold text-white text-sm px-6 py-3 rounded-full" style="background:var(--pink);box-shadow:0 5px 0 var(--ink)">Voir la boutique</button>
+      <button class="fr font-semibold text-sm px-6 py-3 rounded-full border" style="border-color:var(--line)">Commander sur WhatsApp</button>
+    </div>
+  </section>
+
+  <!-- SCALE -->
+  <section class="mt-8 rounded-3xl border p-8" style="border-color:var(--line);background:#fff">
+    <p class="tag text-[11px] uppercase tracking-[.2em] mb-5" style="color:var(--soft)">Échelle typographique</p>
+
+    <div class="border-b pb-3 mb-3" style="border-color:var(--line)">
+      <span class="tag text-[10px]" style="color:var(--soft)">H1 · Fredoka 700 · 56/60</span>
+      <div class="fr text-5xl font-bold leading-tight">Nos nouveautés</div>
+      <div class="ar text-3xl font-bold">جديدنا</div>
+    </div>
+
+    <div class="border-b pb-3 mb-3" style="border-color:var(--line)">
+      <span class="tag text-[10px]" style="color:var(--soft)">H2 · Fredoka 600 · 32/38</span>
+      <div class="fr text-3xl font-semibold">Collection de jouets</div>
+      <div class="ar text-2xl font-semibold">مجموعة الألعاب</div>
+    </div>
+
+    <div class="border-b pb-3 mb-3" style="border-color:var(--line)">
+      <span class="tag text-[10px]" style="color:var(--soft)">Body · Nunito 400 · 16/26</span>
+      <div class="body-fr text-base">Un coffret complet livré chez vous en 24h–48h.</div>
+      <div class="ar text-base">طقم كامل يصل إلى بابك خلال 24 إلى 48 ساعة.</div>
+    </div>
+
+    <div class="border-b pb-3 mb-3" style="border-color:var(--line)">
+      <span class="tag text-[10px]" style="color:var(--soft)">Prix · Nunito 800 · 18</span>
+      <div class="body-fr text-lg font-extrabold">149,00 dh <span class="text-sm line-through font-normal" style="color:var(--soft)">199,00 dh</span></div>
+    </div>
+
+    <div>
+      <span class="tag text-[10px]" style="color:var(--sm=oft);color:var(--soft)">Bouton · Fredoka 500 · 14</span>
+      <div class="fr text-sm font-medium">Ajouter au panier</div>
+      <div class="ar text-sm font-medium">أضف إلى السلة</div>
+    </div>
+  </section>
+
+  <!-- COMPONENTS -->
+  <section class="mt-8 grid md:grid-cols-2 gap-6">
+    <div class="rounded-3xl border p-6" style="border-color:var(--line);background:#fff">
+      <p class="tag text-[11px] uppercase tracking-[.2em] mb-4" style="color:var(--soft)">Carte produit</p>
+      <div class="rounded-2xl overflow-hidden border" style="border-color:var(--line)">
+        <div class="h-28 flex items-center justify-center text-xs" style="background:#FFD166">Image</div>
+        <div class="p-4">
+          <p class="fr text-sm font-semibold">Coffret créatif enfant</p>
+          <p class="ar text-sm font-semibold">طقم إبداعي للأطفال</p>
+          <p class="body-fr text-[11px] mt-1" style="color:var(--soft)">★★★★★ (12 avis)</p>
+          <p class="body-fr text-lg font-extrabold mt-1">149,00 dh</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="rounded-3xl border p-6" style="border-color:var(--line);background:#fff">
+      <p class="tag text-[11px] uppercase tracking-[.2em] mb-4" style="color:var(--soft)">Avis client + FAQ</p>
+      <p class="body-fr text-sm font-bold" style="color:var(--teal)">★★★★★ 5,00 · Avis vérifié</p>
+      <p class="body-fr text-sm mt-2">"Livraison rapide et produits super jolis !"</p>
+      <p class="ar text-sm mt-2">« توصيل سريع ومنتجات جميلة جدًا! »</p>
+      <div class="mt-4 pt-4 border-t flex justify-between" style="border-color:var(--line)">
+        <span class="fr text-sm font-semibold">Combien de temps prend la livraison ?</span>
+        <span class="fr">+</span>
+      </div>
+      <div class="mt-3 pt-3 border-t body-fr text-[13px]" style="border-color:var(--line);color:var(--soft)">
+        <span class="ar block">التوصيل يستغرق عادةً بين 24 و48 ساعة حسب مدينتك.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- NOTES -->
+  <section class="mt-8 rounded-3xl border p-6" style="border-color:var(--line);background:#fff">
+    <p class="tag text-[11px] uppercase tracking-[.2em] mb-3" style="color:var(--soft)">Notes</p>
+    <ul class="body-fr text-sm space-y-1.5" style="color:var(--soft)">
+      <li>• FR et AR ont la <b>même hauteur optique</b> (Fredoka ≈ Cairo en graisse).</li>
+      <li>• Tout est chargé via Google Fonts — gratuit, rapide, avec fallback système.</li>
+      <li>• « Fredoka » en gras reste lisible à 14px, utile pour les boutons.</li>
+      <li>• Risque : deux polices arrondies = très « enfantin », moins « premium ».</li>
+    </ul>
+  </section>
+
+</div>
+</body>
+</html>

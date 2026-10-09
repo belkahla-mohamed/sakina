@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C — Bandeau défilant + double carte offre</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito+Sans:wght@400;600;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/fill/style.css">
+<style>
+:root{--bg:#FFFDF7;--ink:#25235B;--soft:#5B5986;--pink:#E8457F;--teal:#1B9A8E;--yellow:#FFD166;--grape:#A78BFA;--line:rgba(37,35,91,.16);}
+*{font-family:'Nunito Sans',sans-serif;}
+body{background:var(--bg);color:var(--ink);}
+.d{font-family:'Baloo 2',cursive;}
+.ar{font-family:'Tajawal',sans-serif;direction:rtl;}
+.btn{font-family:'Baloo 2',cursive;font-weight:600;border-radius:999px;box-shadow:0 5px 0 var(--ink);}
+.lbl{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft);font-weight:700;}
+.card{border:2px solid var(--line);border-radius:20px;background:#fff;}
+.ticker{display:flex;gap:38px;white-space:nowrap;}
+.ticker span{display:inline-flex;align-items:center;gap:8px;}
+</style>
+</head>
+<body>
+
+<div class="text-center text-[12px] py-2 font-semibold text-white" style="background:var(--ink)">
+  SECTIONS 4+5 · <span style="color:#FFD166">C — bandeau défilant jaune + double carte d'offre</span> — 5/10
+</div>
+
+<div class="max-w-6xl mx-auto px-4 py-8 space-y-8">
+
+<!-- ===== 4 · TRUST STRIP (ticker) ===== -->
+<section>
+  <div class="lbl mb-3">Section 4 · Bande de confiance</div>
+  <div class="rounded-full border-2 overflow-hidden" style="border-color:var(--ink);background:var(--yellow);box-shadow:0 6px 0 rgba(37,35,91,.9)">
+    <div class="py-3.5 px-4 text-[13px] font-extrabold" style="color:var(--ink)">
+      <div class="ticker">
+        <span><i class="ph-bold ph-truck"></i> LIVRAISON GRATUITE PARTOUT AU MAROC</span>
+        <span>★</span>
+        <span><i class="ph-bold ph-currency-circle-dollar"></i> PAIEMENT À LA LIVRAISON</span>
+        <span>★</span>
+        <span><i class="ph-bold ph-arrow-counter-clockwise"></i> RETOURS SOUS 7 JOURS</span>
+        <span>★</span>
+        <span><i class="ph-bold ph-headset"></i> SUPPORT WHATSAPP 7J/7</span>
+        <span>★</span>
+        <span class="ar"><i class="ph-bold ph-truck"></i> التوصيل مجاني إلى جميع أنحاء المغرب</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- variante calme en dessous -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-5">
+    <div class="card p-4 flex items-center gap-3"><i class="ph-bold ph-truck" style="color:var(--teal);font-size:22px"></i><div class="text-[12px] font-extrabold leading-tight">Livraison<br>gratuite</div></div>
+    <div class="card p-4 flex items-center gap-3"><i class="ph-bold ph-currency-circle-dollar" style="color:var(--pink);font-size:22px"></i><div class="text-[12px] font-extrabold leading-tight">Paiement à la<br>livraison</div></div>
+    <div class="card p-4 flex items-center gap-3"><i class="ph-bold ph-arrow-counter-clockwise" style="color:var(--grape);font-size:22px"></i><div class="text-[12px] font-extrabold leading-tight">Retours sous<br>7 jours</div></div>
+    <div class="card p-4 flex items-center gap-3"><i class="ph-bold ph-headset" style="color:var(--teal);font-size:22px"></i><div class="text-[12px] font-extrabold leading-tight">Support<br>WhatsApp</div></div>
+  </div>
+</section>
+
+<!-- ===== 5 · PROMO (double carte) ===== -->
+<section>
+  <div class="lbl mb-3">Section 5 · Offre / Pack promo</div>
+  <div class="grid md:grid-cols-2 gap-5">
+    <div class="card overflow-hidden">
+      <div class="h-40 flex items-center justify-center text-[12px]" style="background:linear-gradient(135deg,#FFE3EE,#FFF3CF)">Photo du pack</div>
+      <div class="p-5">
+        <div class="flex items-center gap-2">
+          <span class="text-[10px] font-extrabold px-2.5 py-1 rounded-full text-white" style="background:var(--pink)">-25%</span>
+          <span class="text-[10px] font-bold px-2.5 py-1 rounded-full" style="background:var(--yellow);color:var(--ink)">BEST-SELLER</span>
+        </div>
+        <h3 class="d text-2xl font-bold leading-tight mt-3">Pack Famille — 3 articles</h3>
+        <p class="ar text-[15px] font-bold">حزمة العائلة</p>
+        <p class="text-[13px] mt-2" style="color:var(--soft)">Coffret créatif + 2 livres + set de marqueurs. Livraison gratuite.</p>
+        <div class="flex items-end gap-3 mt-3">
+          <span class="d text-2xl font-bold">349,00 dh</span>
+          <span class="line-through mb-1 text-[13px]" style="color:var(--soft)">465,00 dh</span>
+        </div>
+        <button class="btn w-full mt-4 text-white text-sm py-3" style="background:var(--pink)">J'en profite</button>
+      </div>
+    </div>
+
+    <div class="card overflow-hidden">
+      <div class="h-40 flex items-center justify-center text-[12px]" style="background:linear-gradient(135deg,#D6F5F2,#FFF3CF)">Photo de l'offre</div>
+      <div class="p-5">
+        <div class="flex items-center gap-2">
+          <span class="text-[10px] font-extrabold px-2.5 py-1 rounded-full text-white" style="background:var(--teal)">-15%</span>
+          <span class="text-[10px] font-bold px-2.5 py-1 rounded-full border" style="border-color:var(--line)">NOUVEAU</span>
+        </div>
+        <h3 class="d text-2xl font-bold leading-tight mt-3">Pack Éveil — bébé 0–2 ans</h3>
+        <p class="ar text-[15px] font-bold">حزمة التأهيل — 0 إلى سنتين</p>
+        <p class="text-[13px] mt-2" style="color:var(--soft)">3 jeux d'éveil en bois + livre câlin. Livraison gratuite.</p>
+        <div class="flex items-end gap-3 mt-3">
+          <span class="d text-2xl font-bold">279,00 dh</span>
+          <span class="line-through mb-1 text-[13px]" style="color:var(--soft)">330,00 dh</span>
+        </div>
+        <button class="btn w-full mt-4 text-sm py-3" style="background:var(--teal);color:#fff">J'en profite</button>
+      </div>
+    </div>
+  </div>
+  <p class="text-[12px] mt-3 text-center" style="color:var(--soft)">→ Les packs sont mis en avant par paires ; idéal si vous avez plusieurs offres.</p>
+</section>
+
+<div class="card p-6">
+  <div class="lbl mb-3">Caractéristiques</div>
+  <ul class="text-[13px] space-y-1.5" style="color:var(--soft)">
+    <li>• <b>Confiance :</b> bandeau jaune arrondi façon « ticker » FR + AR, avec une version calme (4 cartes) juste dessous.</li>
+    <li>• <b>Offre :</b> deux cartes côte à côte — utile si vous lancez plusieurs packs en parallèle.</li>
+    <li>• Le plus modulaire : chaque carte est réutilisable plus bas dans la page.</li>
+    <li>• Risque : le ticker défilant peut distraire (animation à désactiver pour l'accessibilité).</li>
+  </ul>
+</div>
+
+<div class="text-center text-[11px] py-4" style="color:var(--soft)">Maquette — rien n'est encore appliqué au site</div>
+</body>
+</html>

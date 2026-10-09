@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catégories C — Mosaïque asymétrique</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito+Sans:wght@400;600;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/fill/style.css">
+<style>
+:root{--bg:#FFFDF7;--ink:#25235B;--soft:#5B5986;--pink:#E8457F;--teal:#1B9A8E;--yellow:#FFD166;--grape:#A78BFA;--line:rgba(37,35,91,.16);}
+*{font-family:'Nunito Sans',sans-serif;}
+body{background:var(--bg);color:var(--ink);}
+.d{font-family:'Baloo 2',cursive;}
+.ar{font-family:'Tajawal',sans-serif;direction:rtl;}
+.btn{font-family:'Baloo 2',cursive;font-weight:600;border-radius:999px;box-shadow:0 5px 0 var(--ink);}
+.lbl{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft);font-weight:700;}
+.card{border:2px solid var(--line);border-radius:20px;background:#fff;}
+h2.sec{font-family:'Baloo 2',cursive;font-size:30px;font-weight:700;line-height:1.1;}
+</style>
+</head>
+<body>
+
+<div class="text-center text-[12px] py-2 font-semibold text-white" style="background:var(--ink)">
+  SECTION 6 · <span style="color:#FFD166">C — mosaïque asymétrique (bento)</span> — 5/10
+</div>
+
+<div class="max-w-6xl mx-auto px-4 py-10 space-y-8">
+
+<section>
+  <div class="flex items-end justify-between mb-5">
+    <div>
+      <h2 class="sec">Nos catégories</h2>
+      <p class="ar text-lg font-bold">تصنيفاتنا</p>
+    </div>
+    <a class="text-[13px] font-bold underline underline-offset-4" style="color:var(--pink)">Tout voir</a>
+  </div>
+
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-4" style="grid-auto-rows:1fr">
+    <!-- grande tuile -->
+    <a class="card overflow-hidden col-span-2 row-span-2 flex flex-col justify-between p-7 relative" style="background:linear-gradient(140deg,#FFE3EE,#FFF3CF)">
+      <div>
+        <span class="text-[10px] font-extrabold px-2.5 py-1 rounded-full bg-white" style="color:var(--pink)">★ LA PLUS VISITÉE</span>
+        <p class="d text-4xl md:text-5xl font-bold leading-[1.02] mt-4">Jouets<br>& éveil</p>
+        <p class="ar text-xl font-bold mt-2">ألعاب وتأهيل</p>
+        <p class="text-[13px] mt-3 max-w-xs" style="color:var(--soft)">Bois, puzzles, cubes et jeux d'éveil pour 0–6 ans.</p>
+      </div>
+      <div class="flex items-center justify-between mt-6">
+        <span class="text-[13px] font-extrabold">24 produits</span>
+        <span class="w-11 h-11 rounded-full flex items-center justify-center text-white" style="background:var(--pink)"><i class="ph-bold ph-arrow-right" style="font-size:20px"></i></span>
+      </div>
+      <div class="absolute -right-6 -bottom-6 opacity-30"><i class="ph-fill ph-baby" style="font-size:150px"></i></div>
+    </a>
+
+    <a class="card overflow-hidden flex flex-col justify-between p-5" style="background:var(--grape);color:#fff;border-color:var(--ink)">
+      <i class="ph-fill ph-book-open" style="font-size:30px"></i>
+      <div class="mt-4">
+        <p class="d text-[17px] font-bold leading-tight">Livres & coloriage</p>
+        <p class="ar text-[13px] opacity-90">كتب وتلوين</p>
+        <p class="text-[11px] mt-1 opacity-80">18 produits</p>
+      </div>
+    </a>
+
+    <a class="card overflow-hidden flex flex-col justify-between p-5" style="background:var(--teal);color:#fff;border-color:var(--ink)">
+      <i class="ph-fill ph-backpack" style="font-size:30px"></i>
+      <div class="mt-4">
+        <p class="d text-[17px] font-bold leading-tight">École & papeterie</p>
+        <p class="ar text-[13px] opacity-90">مدرسة وقرطاسية</p>
+        <p class="text-[11px] mt-1 opacity-80">31 produits</p>
+      </div>
+    </a>
+
+    <a class="card overflow-hidden flex flex-col justify-between p-5" style="background:var(--yellow);border-color:var(--ink)">
+      <i class="ph-fill ph-gift" style="font-size:30px"></i>
+      <div class="mt-4">
+        <p class="d text-[17px] font-bold leading-tight">Coffrets & packs</p>
+        <p class="ar text-[13px]">أطقم وحزم</p>
+        <p class="text-[11px] mt-1" style="color:var(--soft)">9 packs</p>
+      </div>
+    </a>
+
+    <a class="card overflow-hidden flex flex-col justify-between p-5" style="background:#FF6B9D;color:#fff;border-color:var(--ink)">
+      <i class="ph-fill ph-t-shirt" style="font-size:30px"></i>
+      <div class="mt-4">
+        <p class="d text-[17px] font-bold leading-tight">Vêtements bébé</p>
+        <p class="ar text-[13px] opacity-90">ملابس الأطفال</p>
+        <p class="text-[11px] mt-1 opacity-80">12 produits</p>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- MOBILE -->
+<section>
+  <div class="lbl mb-2">Mobile</div>
+  <div class="card p-4">
+    <div class="rounded-2xl border-2 p-4 mb-3 relative overflow-hidden" style="border-color:var(--ink);background:linear-gradient(140deg,#FFE3EE,#FFF3CF)">
+      <span class="text-[10px] font-extrabold px-2.5 py-1 rounded-full bg-white" style="color:var(--pink)">★ LA PLUS VISITÉE</span>
+      <p class="d text-2xl font-bold mt-2">Jouets & éveil</p>
+      <p class="ar text-[14px] font-bold">ألعاب وتأهيل</p>
+      <p class="text-[11px] mt-1" style="color:var(--soft)">24 produits</p>
+    </div>
+    <div class="grid grid-cols-2 gap-3">
+      <div class="rounded-2xl border-2 p-3" style="border-color:var(--ink);background:var(--grape);color:#fff"><i class="ph-fill ph-book-open"></i><p class="d text-[13px] font-bold mt-2">Livres</p></div>
+      <div class="rounded-2xl border-2 p-3" style="border-color:var(--ink);background:var(--teal);color:#fff"><i class="ph-fill ph-backpack"></i><p class="d text-[13px] font-bold mt-2">École</p></div>
+      <div class="rounded-2xl border-2 p-3" style="border-color:var(--ink);background:var(--yellow)"><i class="ph-fill ph-gift"></i><p class="d text-[13px] font-bold mt-2">Packs</p></div>
+      <div class="rounded-2xl border-2 p-3" style="border-color:var(--ink);background:#FF6B9D;color:#fff"><i class="ph-fill ph-t-shirt"></i><p class="d text-[13px] font-bold mt-2">Vêtements</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="card p-6">
+  <div class="lbl mb-3">Caractéristiques</div>
+  <ul class="text-[13px] space-y-1.5" style="color:var(--soft)">
+    <li>• Mosaïque <b>bento</b> : une grande tuile vedette + 4 tuiles secondaires.</li>
+    <li>• Chaque tuile a sa propre couleur → la grille devient une décoration.</li>
+    <li>• Dégradez la hiérarchie : la catégorie la plus vendue occupe 50 % de la zone.</li>
+    <li>• Risque : moins neutre, plus difficile à réorganiser si les catégories changent.</li>
+  </ul>
+</div>
+
+<div class="text-center text-[11px] py-4" style="color:var(--soft)">Maquette — rien n'est encore appliqué au site</div>
+</body>
+</html>

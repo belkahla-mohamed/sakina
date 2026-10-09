@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sakina Stores — Option C : Clean Soft Minimal</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        paper: '#FFFFFF',
+        mist:  '#F5F7F8',
+        ink:   '#12161A',
+        sage:  '#9BB5A0',
+        line:  '#E6E9EC',
+      },
+      fontFamily: {
+        sans: ['Plus Jakarta Sans', 'Tajawal', 'sans-serif'],
+        ar: ['Tajawal', 'sans-serif'],
+      },
+      borderRadius: { sm2: '6px' },
+    }
+  }
+}
+</script>
+<style>
+  body { background:#FFFFFF; color:#12161A; }
+  .rtl { direction: rtl; font-family:'Tajawal', sans-serif; }
+  .swatch { height:72px; border-radius:6px; border:1px solid #E6E9EC; }
+</style>
+</head>
+<body class="font-sans">
+
+<!-- ANNOUNCEMENT -->
+<div class="w-full text-center text-xs py-2 bg-mist text-ink/60 border-b border-line">
+  Livraison gratuite partout au Maroc &nbsp;·&nbsp; <span class="rtl">التوصيل مجاني إلى جميع أنحاء المغرب</span>
+</div>
+
+<!-- HEADER -->
+<header class="border-b border-line sticky top-0 bg-white/95 backdrop-blur">
+  <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+    <div class="text-lg font-extrabold tracking-tight">sakina<span class="text-sage">.</span>stores</div>
+    <nav class="hidden md:flex gap-8 text-sm font-medium text-ink/70">
+      <a href="#" class="hover:text-ink">Accueil</a>
+      <a href="#" class="hover:text-ink">Boutique</a>
+      <a href="#" class="hover:text-ink">Nouveautés</a>
+      <a href="#" class="hover:text-ink">À propos</a>
+      <a href="#" class="hover:text-ink">Contact</a>
+    </nav>
+    <div class="flex items-center gap-4 text-sm text-ink/70">
+      <span class="text-xs border border-line px-2 py-1 rounded-sm2">FR / <span class="rtl">ع</span></span>
+      <span>Recherche</span>
+      <button class="bg-ink text-white font-semibold text-xs px-5 py-2.5 rounded-sm2">Panier (0)</button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="max-w-6xl mx-auto px-4 pt-8">
+  <div class="rounded-sm2 overflow-hidden grid md:grid-cols-2 border border-line">
+    <div class="px-8 py-14 md:py-20 md:px-12 bg-paper">
+      <span class="text-[11px] tracking-[0.2em] uppercase text-ink/40">Nouvelle collection 2026</span>
+      <h1 class="mt-4 text-4xl md:text-5xl font-extrabold leading-[1.08] tracking-tight">Les essentiels de vos enfants.</h1>
+      <p class="mt-4 text-ink/60 text-sm leading-relaxed">Une sélection simple, sûre et pensée pour la maison. Livraison gratuite partout au Maroc.</p>
+      <p class="mt-2 rtl text-sm text-ink/60">اختيارات بسيطة وآمنة لأطفالكم.</p>
+      <div class="mt-8 flex gap-3">
+        <button class="bg-ink text-white font-semibold px-6 py-3 text-xs rounded-sm2">Voir la boutique</button>
+        <button class="border border-line font-semibold px-6 py-3 text-xs rounded-sm2 hover:border-ink">Commander sur WhatsApp</button>
+      </div>
+    </div>
+    <div class="bg-mist min-h-[260px] flex items-center justify-center text-xs text-ink/30">Visuelle hero</div>
+  </div>
+</section>
+
+<main class="max-w-6xl mx-auto px-4 py-12 grid lg:grid-cols-3 gap-6">
+
+  <section class="border border-line rounded-sm2 p-6">
+    <h2 class="text-[11px] font-bold uppercase tracking-[0.2em] text-ink/40 mb-4">1 · Palette</h2>
+    <div class="grid grid-cols-3 gap-3">
+      <div><div class="swatch" style="background:#FFFFFF"></div><p class="text-[11px] mt-1">Paper<br>#FFFFFF</p></div>
+      <div><div class="swatch" style="background:#F5F7F8"></div><p class="text-[11px] mt-1">Mist<br>#F5F7F8</p></div>
+      <div><div class="swatch" style="background:#E6E9EC"></div><p class="text-[11px] mt-1">Line<br>#E6E9EC</p></div>
+      <div><div class="swatch" style="background:#9BB5A0"></div><p class="text-[11px] mt-1">Sage<br>#9BB5A0</p></div>
+      <div><div class="swatch" style="background:#C9B89A"></div><p class="text-[11px] mt-1">Sand<br>#C9B89A</p></div>
+      <div><div class="swatch" style="background:#12161A"></div><p class="text-[11px] mt-1">Ink<br>#12161A</p></div>
+    </div>
+    <p class="text-xs text-ink/50 mt-4">Presque blanc, une seule couleur d'accent, beaucoup d'air.</p>
+  </section>
+
+  <section class="border border-line rounded-sm2 p-6">
+    <h2 class="text-[11px] font-bold uppercase tracking-[0.2em] text-ink/40 mb-4">2 · Typographie</h2>
+    <p class="text-3xl font-extrabold leading-tight tracking-tight">Plus Jakarta Sans</p>
+    <p class="text-sm text-ink/60 mt-1">Regular 400 — texte courant, très lisible.</p>
+    <hr class="my-4 border-line">
+    <p class="text-3xl font-bold leading-tight rtl">خط Tajawal — عنوان عربي</p>
+    <p class="text-sm text-ink/60 mt-1 rtl">نص عربي للقراءة، مضبوط لليسار.</p>
+    <p class="text-[11px] text-ink/40 mt-4">FR: Plus Jakarta Sans · AR: Tajawal</p>
+  </section>
+
+  <section class="border border-line rounded-sm2 p-6">
+    <h2 class="text-[11px] font-bold uppercase tracking-[0.2em] text-ink/40 mb-4">3 · Boutons & cartes</h2>
+    <div class="space-y-3">
+      <button class="w-full bg-ink text-white font-semibold px-4 py-3 text-xs rounded-sm2">Ajouter au panier</button>
+      <button class="w-full bg-sage text-white font-semibold px-4 py-3 text-xs rounded-sm2">Commander sur WhatsApp</button>
+      <button class="w-full border border-line text-ink font-semibold px-4 py-3 text-xs rounded-sm2">Voir tout</button>
+    </div>
+    <div class="mt-5 border border-line rounded-sm2 overflow-hidden">
+      <div class="h-24 bg-mist flex items-center justify-center text-[11px] text-ink/30">Image produit</div>
+      <div class="p-4">
+        <p class="text-sm font-semibold">Coffret créatif enfant</p>
+        <div class="text-[11px] text-ink/50 mt-0.5">★★★★★ (12)</div>
+        <div class="flex items-center gap-2 mt-1"><span class="font-bold text-sm">149,00 dh</span><span class="text-[11px] line-through text-ink/40">199,00 dh</span></div>
+        <span class="inline-block mt-2 text-[10px] border border-line px-2 py-0.5 rounded-sm2 uppercase tracking-wider text-ink/50">Promo</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="border border-line rounded-sm2 p-6 lg:col-span-2">
+    <h2 class="text-[11px] font-bold uppercase tracking-[0.2em] text-ink/40 mb-4">4 · Rythme & sections (comme la référence)</h2>
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-3 text-[11px]">
+      <div class="bg-mist p-3 rounded-sm2 text-center">01<br>Barre d'annonce</div>
+      <div class="bg-mist p-3 rounded-sm2 text-center">02<br>Header</div>
+      <div class="bg-mist p-3 rounded-sm2 text-center">03<br>Hero</div>
+      <div class="bg-mist p-3 rounded-sm2 text-center">04<br>Promo / Pack</div>
+      <div class="bg-mist p-3 rounded-sm2 text-center">05<br>Catégorie 1</div>
+      <div class="bg-mist p-3 rounded-sm2 text-center">06<br>Catégorie 2</div>
+      <div class="bg-mist p-3 rounded-sm2 text-center">07<br>Catégorie 3</div>
+      <div class="bg-mist p-3 rounded-sm2 text-center">08<br>Catégorie 4</div>
+      <div class="bg-mist p-3 rounded-sm2 text-center">09<br>Avis clients</div>
+      <div class="bg-mist p-3 rounded-sm2 text-center">10<br>FAQ</div>
+      <div class="bg-mist p-3 rounded-sm2 text-center">11<br>Footer</div>
+    </div>
+    <p class="text-xs text-ink/50 mt-4">Maquette d'ambiance uniquement — rien n'est encore appliqué.</p>
+  </section>
+
+  <section class="border border-line rounded-sm2 p-6">
+    <h2 class="text-[11px] font-bold uppercase tracking-[0.2em] text-ink/40 mb-4">5 · Ambiance</h2>
+    <div class="flex flex-wrap gap-2 text-xs">
+      <span class="px-3 py-1 bg-mist rounded-sm2 border border-line">Minimal</span>
+      <span class="px-3 py-1 bg-milt rounded-sm2 border border-line" style="background:#F5F7F8">Premium</span>
+      <span class="px-3 py-1 bg-mist rounded-sm2 border border-line">Calme</span>
+      <span class="px-3 py-1 bg-mist rounded-sm2 border border-line">Moderne</span>
+    </div>
+    <p class="text-xs text-ink/50 mt-4">Élégant et intemporel — mais moins "enfantin" que la référence.</p>
+  </section>
+
+</main>
+
+<footer class="bg-ink text-white/60 text-xs">
+  <div class="max-w-6xl mx-auto px-4 py-8 flex flex-wrap justify-between gap-4">
+    <p>© 2026 Sakina Stores — MAQUETTE OPTION C</p>
+    <p class="rtl">متجر سكينة · المغرب</p>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Avis C — Carrousel d'avis clients</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito+Sans:wght@400;600;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/fill/style.css">
+<style>
+:root{--bg:#FFFDF7;--ink:#25235B;--soft:#5B5986;--pink:#E8457F;--teal:#1B9A8E;--yellow:#FFD166;--grape:#A78BFA;--line:rgba(37,35,91,.16);}
+*{font-family:'Nunito Sans',sans-serif;}
+body{background:var(--bg);color:var(--ink);}
+.d{font-family:'Baloo 2',cursive;}
+.ar{font-family:'Tajawal',sans-serif;direction:rtl;}
+.btn{font-family:'Baloo 2',cursive;font-weight:600;border-radius:999px;box-shadow:0 5px 0 var(--ink);}
+.lbl{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft);font-weight:700;}
+.card{border:2px solid var(--line);border-radius:20px;background:#fff;}
+h2.sec{font-family:'Baloo 2',cursive;font-size:30px;font-weight:700;line-height:1.1;}
+.rail{display:flex;gap:16px;overflow-x:auto;padding-bottom:8px;scroll-snap-type:x mandatory;}
+.rail::-webkit-scrollbar{height:8px}
+.rail::-webkit-scrollbar-thumb{background:rgba(37,35,91,.25);border-radius:99px}
+.rail > *{scroll-snap-align:start;flex:0 0 auto;}
+</style>
+</head>
+<body>
+
+<div class="text-center text-[12px] py-2 font-semibold text-white" style="background:var(--ink)">
+  SECTION 9 · <span style="color:#FFD166">C — carrousel d'avis avec photos clients</span> — 5/10
+</div>
+
+<div class="max-w-6xl mx-auto px-4 py-12 space-y-6">
+
+<section>
+  <div class="flex items-end justify-between mb-5">
+    <div>
+      <div class="lbl" style="color:var(--pink)">Avis clients</div>
+      <h2 class="sec mt-1">Ils nous font confiance</h2>
+      <p class="ar text-lg font-bold">يثق بنا عملاؤنا</p>
+    </div>
+    <div class="flex items-center gap-3">
+      <div class="text-right hidden sm:block">
+        <div class="d text-3xl font-bold leading-none">5,00</div>
+        <div class="text-[11px]" style="color:var(--soft)">320 avis vérifiés</div>
+      </div>
+      <button class="w-9 h-9 rounded-full flex items-center justify-center border" style="border-color:var(--line);background:#fff"><i class="ph-bold ph-arrow-left"></i></button>
+      <button class="w-9 h-9 rounded-full flex items-center justify-center text-white" style="background:var(--pink)"><i class="ph-bold ph-arrow-right"></i></button>
+    </div>
+  </div>
+
+  <div class="rail">
+    <div class="card overflow-hidden" style="width:280px">
+      <div class="h-32 flex items-center justify-center text-[11px] text-white" style="background:var(--pink)">Photo du client</div>
+      <div class="p-5">
+        <span class="text-[14px]" style="color:var(--yellow)">★★★★★</span>
+        <p class="text-[14px] mt-2 leading-relaxed">« Livraison en 24h à Casablanca. Ma fille n'a plus lâché son coffret. »</p>
+        <div class="flex items-center gap-2 mt-4 pt-3 border-t" style="border-color:var(--line)">
+          <span class="w-8 h-8 rounded-full flex items-center justify-center text-white text-[12px] font-extrabold" style="background:var(--pink)">S</span>
+          <div><p class="text-[12px] font-extrabold leading-tight">Salma B.</p><p class="text-[10px]" style="color:var(--soft)">Casablanca</p></div>
+          <span class="ml-auto text-[10px] font-extrabold px-2 py-1 rounded-full" style="background:#E9FBF3;color:#0b7a34">✓</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card overflow-hidden" style="width:280px">
+      <div class="h-32 flex items-center justify-center text-[11px] text-white" style="background:var(--teal)">Photo du client</div>
+      <div class="p-5">
+        <span class="text-[14px]" style="color:var(--yellow)">★★★★★</span>
+        <p class="text-[14px] mt-2 leading-relaxed">« Commande via WhatsApp en 2 minutes, paiement à la livraison. Parfait. »</p>
+        <div class="flex items-center gap-2 mt-4 pt-3 border-t" style="border-color:var(--line)">
+          <span class="w-8 h-8 rounded-full flex items-center justify-center text-white text-[12px] font-extrabold" style="background:var(--teal)">Y</span>
+          <div><p class="text-[12px] font-extrabold leading-tight">Youssef R.</p><p class="text-[10px]" style="color:var(--soft)">Rabat</p></div>
+          <span class="ml-auto text-[10px] font-extrabold px-2 py-1 rounded-full" style="background:#E9FBF3;color:#0b7a34">✓</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card overflow-hidden" style="width:280px">
+      <div class="h-32 flex items-center justify-center text-[11px] text-white" style="background:var(--grape)">Photo du client</div>
+      <div class="p-5">
+        <span class="text-[14px]" style="color:var(--yellow)">★★★★★</span>
+        <p class="ar text-[15px] mt-2 leading-relaxed">« التوصيل سريع والجودة ممتازة. ابنتي سعيدة جدًا. »</p>
+        <div class="flex items-center gap-2 mt-4 pt-3 border-t" style="border-color:var(--line)">
+          <span class="w-8 h-8 rounded-full flex items-center justify-center text-white text-[12px] font-extrabold" style="background:var(--grape)">م</span>
+          <div><p class="text-[12px] font-extrabold leading-tight">مريم ل.</p><p class="text-[10px]" style="color:var(--soft)">مراكش</p></div>
+          <span class="ml-auto text-[10px] font-extrabold px-2 py-1 rounded-full" style="background:#E9FBF3;color:#0b7a34">✓</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card overflow-hidden" style="width:280px">
+      <div class="h-32 flex items-center justify-center text-[11px] text-white" style="background:#FF6B9D">Photo du client</div>
+      <div class="p-5">
+        <span class="text-[14px]" style="color:var(--yellow)">★★★★★</span>
+        <p class="text-[14px] mt-2 leading-relaxed">« Emballage soigné, produit conforme à la photo. Je recommande. »</p>
+        <div class="flex items-center gap-2 mt-4 pt-3 border-t" style="border-color:var(--line)">
+          <span class="w-8 h-8 rounded-full flex items-center justify-center text-white text-[12px] font-extrabold" style="background:#FF6B9D">I</span>
+          <div><p class="text-[12px] font-extrabold leading-tight">Imane O.</p><p class="text-[10px]" style="color:var(--soft)">Oujda</p></div>
+          <span class="ml-auto text-[10px] font-extrabold px-2 py-1 rounded-full" style="background:#E9FBF3;color:#0b7a34">✓</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center mt-6"><button class="btn text-white text-sm px-7 py-3" style="background:var(--pink)">Voir les 320 avis</button></div>
+</section>
+
+<div class="card p-6">
+  <div class="lbl mb-3">Caractéristiques</div>
+  <ul class="text-[13px] space-y-1.5" style="color:var(--soft)">
+    <li>• Rail horizontal : chaque avis = photo client + citation + ville + badge ✓.</li>
+    <li>• Photo réelle du client = preuve la plus forte (à demander aux clients).</li>
+    <li>• 4+ avis visibles sans allonger la page.</li>
+    <li>• Risque : les avis supplémentaires sont cachés derrière le défilement.</li>
+  </ul>
+</div>
+
+<div class="text-center text-[11px] py-4" style="color:var(--soft)">Maquette — rien n'est encore appliqué au site</div>
+</body>
+</html>

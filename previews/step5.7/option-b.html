@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catégories B — Carrousel horizontal</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito+Sans:wght@400;600;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/fill/style.css">
+<style>
+:root{--bg:#FFFDF7;--ink:#25235B;--soft:#5B5986;--pink:#E8457F;--teal:#1B9A8E;--yellow:#FFD166;--grape:#A78BFA;--line:rgba(37,35,91,.16);}
+*{font-family:'Nunito Sans',sans-serif;}
+body{background:var(--bg);color:var(--ink);}
+.d{font-family:'Baloo 2',cursive;}
+.ar{font-family:'Tajawal',sans-serif;direction:rtl;}
+.btn{font-family:'Baloo 2',cursive;font-weight:600;border-radius:999px;box-shadow:0 5px 0 var(--ink);}
+.lbl{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft);font-weight:700;}
+.card{border:2px solid var(--line);border-radius:20px;background:#fff;}
+h2.sec{font-family:'Baloo 2',cursive;font-size:30px;font-weight:700;line-height:1.1;}
+.rail{display:flex;gap:16px;overflow-x:auto;padding-bottom:8px;scroll-snap-type:x mandatory;}
+.rail::-webkit-scrollbar{height:8px}
+.rail::-webkit-scrollbar-thumb{background:rgba(37,35,91,.25);border-radius:99px}
+.rail > *{scroll-snap-align:start;flex:0 0 auto;}
+</style>
+</head>
+<body>
+
+<div class="text-center text-[12px] py-2 font-semibold text-white" style="background:var(--ink)">
+  SECTION 6 · <span style="color:#FFD166">B — carrousel horizontal à défilement</span> — 5/10
+</div>
+
+<div class="max-w-6xl mx-auto px-4 py-10 space-y-8">
+
+<section>
+  <div class="flex items-end justify-between mb-5">
+    <div>
+      <h2 class="sec">Nos catégories</h2>
+      <p class="ar text-lg font-bold">تصنيفاتنا</p>
+    </div>
+    <div class="flex gap-2">
+      <button class="w-9 h-9 rounded-full flex items-center justify-center border" style="border-color:var(--line);background:#fff"><i class="ph-bold ph-arrow-left"></i></button>
+      <button class="w-9 h-9 rounded-full flex items-center justify-center text-white" style="background:var(--pink)"><i class="ph-bold ph-arrow-right"></i></button>
+    </div>
+  </div>
+
+  <div class="rail">
+    <a class="card overflow-hidden" style="width:210px">
+      <div class="h-32 flex items-center justify-center" style="background:var(--yellow)"><i class="ph-fill ph-baby" style="font-size:46px"></i></div>
+      <div class="p-4 text-center">
+        <p class="d text-[16px] font-bold leading-tight">Jouets & éveil</p>
+        <p class="ar text-[13px]">ألعاب وتأهيل</p>
+        <p class="text-[11px] mt-1" style="color:var(--soft)">24 produits</p>
+      </div>
+    </a>
+    <a class="card overflow-hidden" style="width:210px">
+      <div class="h-32 flex items-center justify-center" style="background:var(--grape);color:#fff"><i class="ph-fill ph-book-open" style="font-size:46px"></i></div>
+      <div class="p-4 text-center">
+        <p class="d text-[16px] font-bold leading-tight">Livres & coloriage</p>
+        <p class="ar text-[13px]">كتب وتلوين</p>
+        <p class="text-[11px] mt-1" style="color:var(--soft)">18 produits</p>
+      </div>
+    </a>
+    <a class="card overflow-hidden" style="width:210px">
+      <div class="h-32 flex items-center justify-center" style="background:var(--teal);color:#fff"><i class="ph-fill ph-backpack" style="font-size:46px"></i></div>
+      <div class="p-4 text-center">
+        <p class="d text-[16px] font-bold leading-tight">École & papeterie</p>
+        <p class="ar text-[13px]">مدرسة وقرطاسية</p>
+        <p class="text-[11px] mt-1" style="color:var(--soft)">31 produits</p>
+      </div>
+    </a>
+    <a class="card overflow-hidden" style="width:210px">
+      <div class="h-32 flex items-center justify-center" style="background:#FF6B9D;color:#fff"><i class="ph-fill ph-gift" style="font-size:46px"></i></div>
+      <div class="p-4 text-center">
+        <p class="d text-[16px] font-bold leading-tight">Coffrets & packs</p>
+        <p class="ar text-[13px]">أطقم وحزم</p>
+        <p class="text-[11px] mt-1" style="color:var(--soft)">9 packs</p>
+      </div>
+    </a>
+    <a class="card overflow-hidden" style="width:210px">
+      <div class="h-32 flex items-center justify-center" style="background:var(--ink);color:#fff"><i class="ph-fill ph-t-shirt" style="font-size:46px"></i></div>
+      <div class="p-4 text-center">
+        <p class="d text-[16px] font-bold leading-tight">Vêtements bébé</p>
+        <p class="ar text-[13px]">ملابس الأطفال</p>
+        <p class="text-[11px] mt-1" style="color:var(--soft)">12 produits</p>
+      </div>
+    </a>
+    <a class="card overflow-hidden" style="width:210px">
+      <div class="h-32 flex items-center justify-center" style="background:var(--pink);color:#fff"><i class="ph-fill ph-heart" style="font-size:46px"></i></div>
+      <div class="p-4 text-center">
+        <p class="d text-[16px] font-bold leading-tight">Idées cadeaux</p>
+        <p class="ar text-[13px]">أفكار الهدايا</p>
+        <p class="text-[11px] mt-1" style="color:var(--soft)">15 produits</p>
+      </div>
+    </a>
+  </div>
+
+  <p class="text-[11px] mt-2" style="color:var(--soft)">← faites glisser →</p>
+</section>
+
+<!-- MOBILE -->
+<section>
+  <div class="lbl mb-2">Mobile (rail de 2 tuiles visibles)</div>
+  <div class="card p-4">
+    <div class="flex gap-3 overflow-hidden">
+      <div class="rounded-2xl border-2 overflow-hidden" style="border-color:var(--line);width:45%">
+        <div class="h-20 flex items-center justify-center" style="background:var(--yellow)"><i class="ph-fill ph-baby" style="font-size:30px"></i></div>
+        <div class="p-2.5 text-center"><p class="d text-[13px] font-bold">Jouets & éveil</p><p class="ar text-[11px]">ألعاب وتأهيل</p></div>
+      </div>
+      <div class="rounded-2xl border-2 overflow-hidden" style="border-color:var(--line);width:45%">
+        <div class="h-20 flex items-center justify-center" style="background:var(--grape);color:#fff"><i class="ph-fill ph-book-open" style="font-size:30px"></i></div>
+        <div class="p-2.5 text-center"><p class="d text-[13px] font-bold">Livres & coloriage</p><p class="ar text-[11px]">كتب وتلوين</p></div>
+      </div>
+      <div class="rounded-2xl border-2 overflow-hidden opacity-40" style="border-color:var(--line);width:45%">
+        <div class="h-20 flex items-center justify-center" style="background:var(--teal);color:#fff"><i class="ph-fill ph-backpack" style="font-size:30px"></i></div>
+        <div class="p-2.5 text-center"><p class="d text-[13px] font-bold">École</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="card p-6">
+  <div class="lbl mb-3">Caractéristiques</div>
+  <ul class="text-[13px] space-y-1.5" style="color:var(--soft)">
+    <li>• Rail horizontal défilant avec flèches de navigation (bureau) et swipe (mobile).</li>
+    <li>• Tuiles carrées centrées, 6 catégories ou plus sans encombrer la page.</li>
+    <li>• Reprend le comportement des blocs « Collection » de talwine.</li>
+    <li>• Risque : les catégories 5 et 6 sont peu visibles ; certains utilisateurs ne voient pas qu'on peut faire défiler.</li>
+  </ul>
+</div>
+
+<div class="text-center text-[11px] py-4" style="color:var(--soft)">Maquette — rien n'est encore appliqué au site</div>
+</body>
+</html>

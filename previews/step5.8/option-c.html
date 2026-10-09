@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Produits C — Vedette + grille</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito+Sans:wght@400;600;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/fill/style.css">
+<style>
+:root{--bg:#FFFDF7;--ink:#25235B;--soft:#5B5986;--pink:#E8457F;--teal:#1B9A8E;--yellow:#FFD166;--grape:#A78BFA;--line:rgba(37,35,91,.16);}
+*{font-family:'Nunito Sans',sans-serif;}
+body{background:var(--bg);color:var(--ink);}
+.d{font-family:'Baloo 2',cursive;}
+.ar{font-family:'Tajawal',sans-serif;direction:rtl;}
+.btn{font-family:'Baloo 2',cursive;font-weight:600;border-radius:999px;box-shadow:0 5px 0 var(--ink);}
+.lbl{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft);font-weight:700;}
+.card{border:2px solid var(--line);border-radius:20px;background:#fff;}
+h2.sec{font-family:'Baloo 2',cursive;font-size:30px;font-weight:700;line-height:1.1;}
+.pcard{border:2px solid var(--line);border-radius:20px;background:#fff;overflow:hidden;display:flex;flex-direction:column;}
+</style>
+</head>
+<body>
+
+<div class="text-center text-[12px] py-2 font-semibold text-white" style="background:var(--ink)">
+  SECTIONS 7+8 · <span style="color:#FFD166">C — 1 produit vedette en grand + grille en dessous</span> — 5/10
+</div>
+
+<div class="max-w-6xl mx-auto px-4 py-10 space-y-10">
+
+<!-- VEDETTE -->
+<section>
+  <div class="flex items-end justify-between mb-5">
+    <div>
+      <h2 class="sec">Le coup de cœur du mois</h2>
+      <p class="ar text-lg font-bold">اختيار الشهر</p>
+    </div>
+  </div>
+
+  <div class="card overflow-hidden grid lg:grid-cols-[1fr_1.2fr]">
+    <div class="p-8 flex flex-col justify-center" style="background:linear-gradient(140deg,#FFE3EE,#FFF3CF)">
+      <span class="self-start text-[10px] font-extrabold px-3 py-1.5 rounded-full text-white" style="background:var(--pink)">★ BEST-SELLER</span>
+      <h3 class="d text-4xl md:text-5xl font-bold leading-[1.03] mt-4">Coffret créatif enfant — 120 pièces</h3>
+      <p class="ar text-xl font-bold mt-2">طقم إبداعي للأطفال — 120 قطعة</p>
+      <p class="text-[14px] mt-3 max-w-md" style="color:var(--soft)">Feutres, crayons, papiers et modèles. Tout ce qu'il faut pour 20 heures de créativité, dès 4 ans.</p>
+      <p class="text-[12px] font-extrabold mt-3" style="color:var(--teal)">★★★★★ 4,9 · 120 avis vérifiés</p>
+      <div class="flex items-end gap-3 mt-4">
+        <span class="d text-4xl font-bold">149,00 dh</span>
+        <span class="line-through mb-1.5" style="color:var(--soft)">199,00 dh</span>
+        <span class="mb-1.5 text-[11px] font-extrabold px-2.5 py-1 rounded-full" style="background:#1FDA25;color:#0b3d10">ÉCONOMIE 50 dh</span>
+      </div>
+      <div class="flex flex-wrap gap-3 mt-6">
+        <button class="btn text-white text-sm px-7 py-3.5" style="background:var(--teal)">Ajouter au panier</button>
+        <button class="btn text-sm px-7 py-3.5" style="background:#fff">Voir le produit</button>
+      </div>
+    </div>
+    <div class="grid grid-cols-2 gap-px" style="background:var(--ink)">
+      <div class="flex items-center justify-center text-[12px]" style="background:var(--yellow);min-height:170px">Photo 1</div>
+      <div class="flex items-center justify-center text-[12px] text-white" style="background:var(--grape);min-height:170px">Photo 2</div>
+      <div class="flex items-center justify-center text-[12px] text-white" style="background:var(--teal);min-height:170px">Photo 3</div>
+      <div class="flex items-center justify-center text-[12px] text-white" style="background:#FF6B9D;min-height:170px">Photo 4</div>
+    </div>
+  </div>
+</section>
+
+<!-- GRILLE -->
+<section>
+  <div class="flex items-end justify-between mb-5">
+    <div>
+      <h2 class="sec">Nouveautés</h2>
+      <p class="ar text-lg font-bold">جديدنا</p>
+    </div>
+    <a class="text-[13px] font-bold underline underline-offset-4" style="color:var(--pink)">Voir tout</a>
+  </div>
+
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+    <article class="pcard">
+      <div class="h-36" style="background:var(--grape)"></div>
+      <div class="p-4">
+        <h3 class="d text-[15px] font-bold leading-tight">Puzzle bois 60 pièces</h3>
+        <p class="ar text-[13px]">أحجية خشبية</p>
+        <p class="text-[11px] mt-1" style="color:var(--soft)">★★★★☆ (7)</p>
+        <p class="text-[16px] font-extrabold mt-1">89,00 dh</p>
+        <button class="btn w-full mt-3 py-2.5 text-[13px] text-white" style="background:var(--teal)">Ajouter au panier</button>
+      </div>
+    </article>
+    <article class="pcard">
+      <div class="h-36" style="background:var(--teal)"></div>
+      <div class="p-4">
+        <h3 class="d text-[15px] font-bold leading-tight">Set de coloriage</h3>
+        <p class="ar text-[13px]">طقم تلوين</p>
+        <p class="text-[11px] mt-1" style="color:var(--soft)">★★★★★ (4)</p>
+        <p class="text-[16px] font-extrabold mt-1">79,00 dh</p>
+        <button class="btn w-full mt-3 py-2.5 text-[13px] text-white" style="background:var(--teal)">Ajouter au panier</button>
+      </div>
+    </article>
+    <article class="pcard">
+      <div class="h-36" style="background:#FF6B9D"></div>
+      <div class="p-4">
+        <h3 class="d text-[15px] font-bold leading-tight">Cubes empilables</h3>
+        <p class="ar text-[13px]">مكعبات تراص</p>
+        <p class="text-[11px] mt-1" style="color:var(--soft)">★★★★★ (9)</p>
+        <p class="text-[16px] font-extrabold mt-1">119,00 dh</p>
+        <button class="btn w-full mt-3 py-2.5 text-[13px] text-white" style="background:var(--teal)">Ajouter au panier</button>
+      </div>
+    </article>
+    <article class="pcard">
+      <div class="h-36" style="background:var(--yellow)"></div>
+      <div class="p-4">
+        <h3 class="d text-[15px] font-bold leading-tight">Cahier d'activités</h3>
+        <p class="ar text-[13px]">كراسة أنشطة</p>
+        <p class="text-[11px] mt-1" style="color:var(--soft)">★★★★☆ (3)</p>
+        <p class="text-[16px] font-extrabold mt-1">49,00 dh</p>
+        <button class="btn w-full mt-3 py-2.5 text-[13px] text-white" style="background:var(--teal)">Ajouter au panier</button>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- MOBILE -->
+<section>
+  <div class="lbl mb-2">Mobile</div>
+  <div class="card overflow-hidden">
+    <div class="h-32 flex items-center justify-center text-[12px]" style="background:var(--yellow)">Photo vedette</div>
+    <div class="p-5">
+      <span class="text-[10px] font-extrabold px-3 py-1 rounded-full text-white" style="background:var(--pink)">★ BEST-SELLER</span>
+      <h3 class="d text-2xl font-bold leading-tight mt-3">Coffret créatif — 120 pièces</h3>
+      <p class="ar text-[15px] font-bold">طقم إبداعي — 120 قطعة</p>
+      <p class="text-[12px] font-extrabold mt-2" style="color:var(--teal)">★★★★★ 4,9 · 120 avis</p>
+      <div class="flex items-end gap-2 mt-2"><span class="d text-2xl font-bold">149,00 dh</span><span class="line-through mb-1 text-[12px]" style="color:var(--soft)">199,00 dh</span></div>
+      <button class="btn w-full mt-3 text-white text-sm py-3" style="background:var(--teal)">Ajouter au panier</button>
+    </div>
+  </div>
+</section>
+
+<div class="card p-6">
+  <div class="lbl mb-3">Caractéristiques</div>
+  <ul class="text-[13px] space-y-1.5" style="color:var(--soft)">
+    <li>• Un produit <b>vedette</b> en très grand (texte + 4 photos) puis la grille habituelle.</li>
+    <li>• Idéal pour pousser un pack ou un produit à forte marge chaque mois.</li>
+    <li>• La grille reste classique en dessous → pas de perte d'efficacité.</li>
+    <li>• Risque : occupe beaucoup de hauteur ; sur mobile le bloc vedette est long.</li>
+  </ul>
+</div>
+
+<div class="text-center text-[11px] py-4" style="color:var(--soft)">Maquette — rien n'est encore appliqué au site</div>
+</body>
+</html>

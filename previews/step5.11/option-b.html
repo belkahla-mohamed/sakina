@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CTA WhatsApp B — Barre fixe</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito+Sans:wght@400;600;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/fill/style.css">
+<style>
+:root{--bg:#FFFDF7;--ink:#25235B;--soft:#5B5986;--pink:#E8457F;--teal:#1B9A8E;--yellow:#FFD166;--wa:#25D366;--line:rgba(37,35,91,.16);}
+*{font-family:'Nunito Sans',sans-serif;}
+body{background:var(--bg);color:var(--ink);padding-bottom:96px;}
+.d{font-family:'Baloo 2',cursive;}
+.ar{font-family:'Tajawal',sans-serif;direction:rtl;}
+.lbl{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft);font-weight:700;}
+.card{border:2px solid var(--line);border-radius:20px;background:#fff;}
+h2.sec{font-family:'Baloo 2',cursive;font-size:34px;font-weight:700;line-height:1.05;}
+.wa-float{position:fixed;left:50%;transform:translateX(-50%);bottom:16px;z-index:50;width:min(92vw,640px);}
+</style>
+</head>
+<body>
+
+<div class="text-center text-[12px] py-2 font-semibold text-white" style="background:var(--ink)">
+  SECTION 11 · <span style="color:#FFD166">B — barre WhatsApp fixe en bas</span> — 7/10
+</div>
+
+<div class="max-w-6xl mx-auto px-4 py-12 space-y-6">
+
+<div class="card p-6">
+  <div class="lbl mb-3">Comportement</div>
+  <p class="text-[14px] leading-relaxed" style="color:var(--soft)">
+    Pas de section séparée : une <b>barre fixe</b> en bas de l'écran, visible en permanence dès que l'utilisateur a scrollé de 300 px.
+    Sur desktop elle se centre ; sur mobile elle occupe toute la largeur au-dessus de la marge.
+  </p>
+</div>
+
+<section class="rounded-[24px] border-2 p-7 md:p-10 relative overflow-hidden" style="border-color:var(--ink);background:#25235B">
+  <div class="absolute -right-10 -top-10 w-44 h-44 rounded-full opacity-20" style="background:var(--pink)"></div>
+  <div class="absolute -left-8 bottom-0 w-36 h-36 rounded-full opacity-20" style="background:var(--teal)"></div>
+  <div class="relative max-w-2xl">
+    <span class="inline-block px-3 py-1 rounded-full text-[11px] font-extrabold" style="background:var(--yellow);color:var(--ink)">💬 TOUJORS À PORTÉE DE MAIN</span>
+    <h2 class="sec mt-4 text-white">La barre reste en bas :<br>l'utilisateur peut écrire à tout moment.</h2>
+    <p class="ar text-xl font-bold mt-2" style="color:#FFD166">الشريط ثابت أسفل الشاشة — تواصل معنا في أي وقت</p>
+    <div class="flex flex-wrap gap-2 mt-5">
+      <span class="text-[12px] font-bold px-3 py-1.5 rounded-full text-white" style="border:2px solid rgba(255,255,255,.35)">Réponse &lt; 1h</span>
+      <span class="text-[12px] font-bold px-3 py-1.5 rounded-full text-white" style="border:2px solid rgba(255,255,255,.35)">FR / AR</span>
+      <span class="text-[12px] font-bold px-3 py-1.5 rounded-full text-white" style="border:2px solid rgba(255,255,255,.35)">Lun–Sam</span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="lbl mb-2">Ce que voit l'utilisateur (aperçu)</div>
+  <div class="rounded-[22px] border-2 overflow-hidden" style="border-color:var(--line);background:#fff">
+    <div class="h-40 flex items-center justify-center text-[13px]" style="background:repeating-linear-gradient(45deg,#FFFDF7,#FFFDF7 12px,#FFF8EA 12px,#FFF8EA 24px);color:var(--soft)">
+      (contenu de la page qui défile derrière…)
+    </div>
+    <div class="wa-float relative left-auto transform-none mx-4 -mb-3">
+      <div class="flex items-center gap-3 px-4 py-3 rounded-2xl text-white shadow-[5px_5px_0_0_rgba(37,35,91,.9)]" style="background:var(--wa);border:2px solid var(--ink)">
+        <i class="ph-fill ph-whatsapp-logo text-3xl"></i>
+        <span class="leading-tight flex-1">
+          <span class="block d text-[17px] font-bold">Écrire sur WhatsApp</span>
+          <span class="block text-[12px] opacity-90">Réponse en moins d'une heure</span>
+        </span>
+        <i class="ph-bold ph-arrow-right text-xl"></i>
+      </div>
+    </div>
+    <div class="h-16"></div>
+  </div>
+</section>
+
+<div class="card p-6">
+  <div class="lbl mb-3">Caractéristiques</div>
+  <ul class="text-[13px] space-y-1.5" style="color:var(--soft)">
+    <li>• Aucune section supplémentaire : le CTA suit l'utilisateur partout.</li>
+    <li>• Apparaît après 300 px de scroll (ne gêne pas la lecture du haut).</li>
+    <li>• Doit laisser 96 px de marge basse pour ne pas masquer le footer.</li>
+    <li>• Attention au chevauchement avec d'autres boutons flottants (panier, retour haut).</li>
+  </ul>
+</div>
+
+<div class="text-center text-[11px] py-4" style="color:var(--soft)">Maquette — rien n'est encore appliqué au site</div>
+</body>
+</html>

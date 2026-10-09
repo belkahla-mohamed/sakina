@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hero A — Image plein cadre</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito+Sans:wght@400;600;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/fill/style.css">
+<style>
+:root{--bg:#FFFDF7;--ink:#25235B;--soft:#5B5986;--pink:#E8457F;--teal:#1B9A8E;--yellow:#FFD166;--grape:#A78BFA;--line:rgba(37,35,91,.16);}
+*{font-family:'Nunito Sans',sans-serif;}
+body{background:var(--bg);color:var(--ink);}
+.d{font-family:'Baloo 2',cursive;}
+.ar{font-family:'Tajawal',sans-serif;direction:rtl;}
+.btn{font-family:'Baloo 2',cursive;font-weight:600;border-radius:999px;box-shadow:0 5px 0 var(--ink);}
+.lbl{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft);font-weight:700;}
+.card{border:2px solid var(--line);border-radius:20px;background:#fff;}
+.ph{font-size:18px;}
+</style>
+</head>
+<body>
+
+<div class="text-center text-[12px] py-2 font-semibold text-white" style="background:var(--ink)">
+  HERO A · <span style="color:#FFD166">Image plein cadre — overlay sombre, impact maximal</span> — 5/10
+</div>
+
+<!-- announcement + navbar (contexte) -->
+<div class="text-center text-[13px] py-2 font-semibold text-white" style="background:var(--teal)">Livraison gratuite partout au Maroc · <span class="ar inline-block">التوصيل مجاني</span></div>
+<header class="border-b" style="border-color:var(--line);background:rgba(255,253,247,.95)">
+  <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+    <a class="d text-2xl font-bold">Sakina <span style="color:var(--pink)">Stores</span></a>
+    <nav class="hidden lg:flex gap-6 text-[15px] font-semibold"><a style="color:var(--pink)">Accueil</a><a>Boutique</a><a>Nouveautés</a><a>À propos</a><a>Contact</a></nav>
+    <div class="flex items-center gap-2.5">
+      <button class="w-9 h-9 rounded-full flex items-center justify-center border" style="border-color:var(--line)"><i class="ph ph-magnifying-glass"></i></button>
+      <div class="hidden sm:flex items-center gap-1.5 text-[13px] font-bold rounded-full px-2.5 py-1.5 border" style="border-color:var(--line)"><span>FR</span><span class="opacity-30">|</span><span class="ar">عربي</span></div>
+      <button class="w-9 h-9 rounded-full flex items-center justify-center border relative" style="border-color:var(--line)"><i class="ph ph-shopping-cart"></i><span class="absolute -top-1 -right-1 text-[9px] font-extrabold w-4 h-4 rounded-full flex items-center justify-center text-white" style="background:var(--pink)">2</span></button>
+      <button class="btn hidden sm:flex items-center gap-2 text-white text-[13px] px-5 py-2" style="background:var(--pink)"><i class="ph-fill ph-whatsapp-logo" style="font-size:16px"></i> WhatsApp</button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="relative overflow-hidden" style="min-height:520px;background:linear-gradient(120deg,#FFE3EE 0%,#FFF3CF 45%,#D6F5F2 100%)">
+  <!-- zone image (photo réelle à venir) -->
+  <div class="absolute inset-0 flex items-center justify-end pr-0 lg:pr-10">
+    <div class="w-full lg:w-[52%] h-full relative flex items-center justify-center">
+      <div class="absolute inset-0 opacity-90" style="background:radial-gradient(circle at 60% 45%, rgba(255,255,255,.75), transparent 60%)"></div>
+      <div class="relative w-[70%] aspect-square max-w-[420px] rounded-[40%_60%_55%_45%/50%_45%_55%_50%] flex items-center justify-center" style="background:linear-gradient(140deg,#FF6B9D,#A78BFA)">
+        <span class="d text-white text-4xl md:text-5xl font-bold text-center leading-tight px-8">Photo<br>produit</span>
+      </div>
+      <div class="absolute top-8 left-6 lg:left-16 rotate-[-8deg] px-4 py-2 rounded-full border-2" style="background:#fff;border-color:var(--ink)">
+        <span class="text-[12px] font-extrabold">★ 4,9/5 · 320 avis</span>
+      </div>
+      <div class="absolute bottom-10 right-6 rotate-[6deg] px-4 py-2 rounded-full text-white text-[12px] font-extrabold" style="background:var(--teal)">🚚 Livraison 24–48h</div>
+    </div>
+  </div>
+
+  <div class="relative max-w-6xl mx-auto px-4 py-16 md:py-24">
+    <div class="max-w-xl">
+      <span class="inline-block text-xs font-bold bg-white px-4 py-1.5 rounded-full border" style="color:var(--pink);border-color:var(--ink)">★ Nouvelle collection 2026</span>
+      <h1 class="d mt-5 text-5xl md:text-6xl font-bold leading-[1.03]">Un monde <span style="color:var(--pink)">coloré</span> pour vos petits !</h1>
+      <p class="ar mt-4 text-2xl font-bold">عالم مليء بالألوان لطفلكم</p>
+      <p class="mt-4 text-base max-w-md" style="color:var(--soft)">Jouets, livres et accessoires choisis avec soin — livrés chez vous en 24h à 48h, paiement à la livraison.</p>
+      <div class="mt-7 flex flex-wrap gap-3">
+        <button class="btn text-white px-7 py-3.5 text-sm flex items-center gap-2" style="background:var(--pink)">Voir la boutique <i class="ph ph-arrow-right"></i></button>
+        <button class="btn px-7 py-3.5 text-sm flex items-center gap-2" style="background:#fff">Commander sur WhatsApp</button>
+      </div>
+      <div class="mt-7 flex flex-wrap gap-x-6 gap-y-2 text-[13px] font-bold" style="color:var(--soft)">
+        <span class="flex items-center gap-1.5"><i class="ph ph-truck" style="color:var(--teal)"></i> Livraison gratuite</span>
+        <span class="flex items-center gap-1.5"><i class="ph ph-currency-circle-dollar" style="color:var(--teal)"></i> Paiement à la livraison</span>
+        <span class="flex items-center gap-1.5"><i class="ph ph-arrow-counter-clockwise" style="color:var(--teal)"></i> Retours 7 jours</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- trust strip (section 4) -->
+<div class="border-b" style="border-color:var(--line);background:#fff">
+  <div class="max-w-6xl mx-auto px-4 py-4 grid grid-cols-3 text-center text-[13px] font-bold">
+    <span>🚚 Livraison gratuite</span><span>💵 Paiement à la livraison</span><span>↩️ Retours 7 jours</span>
+  </div>
+</div>
+
+<!-- MOBILE -->
+<div class="max-w-6xl mx-auto px-4 pt-8">
+  <div class="lbl mb-2">Mobile</div>
+  <div class="card overflow-hidden">
+    <div class="relative" style="background:linear-gradient(120deg,#FFE3EE 0%,#FFF3CF 45%,#D6F5F2 100%)">
+      <div class="h-44 flex items-center justify-center">
+        <div class="w-36 h-36 rounded-[45%_55%_50%_50%/55%_45%_55%_45%] flex items-center justify-center" style="background:linear-gradient(140deg,#FF6B9D,#A78BFA)"><span class="d text-white text-lg text-center leading-tight">Photo<br>produit</span></div>
+      </div>
+      <div class="px-5 pb-6 -mt-4">
+        <span class="inline-block text-[11px] font-bold bg-white px-3 py-1 rounded-full border" style="color:var(--pink);border-color:var(--ink)">★ Nouvelle collection</span>
+        <h1 class="d mt-3 text-3xl font-bold leading-[1.05]">Un monde <span style="color:var(--pink)">coloré</span> pour vos petits !</h1>
+        <p class="ar mt-2 text-lg font-bold">عالم مليء بالألوان لطفلكم</p>
+        <p class="mt-2 text-[13px]" style="color:var(--soft)">Livraison gratuite · Paiement à la livraison · Retours 7 jours</p>
+        <button class="btn w-full mt-4 text-white text-sm py-3" style="background:var(--pink)">Voir la boutique</button>
+        <button class="btn w-full mt-3 text-sm py-3" style="background:#fff">Commander sur WhatsApp</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="max-w-6xl mx-auto px-4 pt-8">
+  <div class="card p-6">
+    <div class="lbl mb-3">Caractéristiques</div>
+    <ul class="text-[13px] space-y-1.5" style="color:var(--soft)">
+      <li>• Une seule image large en fond → l'effet « billboard », comme la vidéo/hero de talwine.</li>
+      <li>• Texte à gauche sur zone claire (contraste garanti), visuel à droite.</li>
+      <li>• 3 arguments de confiance directement dans le hero.</li>
+      <li>• Mobile : visuel en haut, texte et boutons dessous (jamais de texte sur l'image).</li>
+      <li>• <b>Besoin :</b> 1 belle photo produit / lifestyle. Vous n'avez pas encore de photos → à prévoir (étape 7).</li>
+    </ul>
+  </div>
+</div>
+
+<div class="text-center text-[11px] py-6" style="color:var(--soft)">Maquette — rien n'est encore appliqué au site</div>
+</body>
+</html>

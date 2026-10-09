@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Footer B — Grand mot + newsletter</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito+Sans:wght@400;600;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/fill/style.css">
+<style>
+:root{--bg:#FFFDF7;--ink:#25235B;--soft:#5B5986;--pink:#E8457F;--teal:#1B9A8E;--yellow:#FFD166;--wa:#25D366;--line:rgba(37,35,91,.16);}
+*{font-family:'Nunito Sans',sans-serif;}
+body{background:var(--bg);color:var(--ink);}
+.d{font-family:'Baloo 2',cursive;}
+.ar{font-family:'Tajawal',sans-serif;direction:rtl;}
+.lbl{font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--soft);}
+.foot{background:var(--ink);color:#fff;position:relative;overflow:hidden;}
+.fl{font-size:14px;color:rgba(255,255,255,.75);}
+.fl:hover{color:#fff;}
+</style>
+</head>
+<body>
+
+<div class="text-center text-[12px] py-2 font-semibold text-white" style="background:var(--ink)">
+  SECTION 12 · <span style="color:#FFD166">B — mot géant + newsletter</span> — 8/10
+</div>
+
+<div class="max-w-6xl mx-auto px-4 py-12 space-y-6">
+
+<footer class="foot rounded-[24px] border-2 border-white/10">
+  <div class="absolute -right-16 -top-16 w-56 h-56 rounded-full opacity-15" style="background:var(--pink)"></div>
+  <div class="absolute -left-12 bottom-24 w-44 h-44 rounded-full opacity-15" style="background:var(--teal)"></div>
+
+  <div class="relative p-7 md:p-10">
+    <div class="grid lg:grid-cols-[1.3fr_1fr] gap-9 items-start">
+      <div>
+        <div class="lbl" style="color:var(--yellow)">Newsletter</div>
+        <p class="d text-[30px] font-bold leading-tight mt-2">−10 % sur votre<br>première commande.</p>
+        <p class="ar text-lg mt-1" style="color:var(--yellow)">خصم 10% على أول طلب</p>
+        <form class="flex gap-2 mt-4 max-w-md">
+          <input type="email" placeholder="votre@email.com" class="flex-1 px-4 py-3 rounded-xl text-[15px] text-[#25235B] outline-none border-2 border-white/20 focus:border-white/60">
+          <button class="px-5 rounded-xl font-bold text-[15px]" style="background:var(--yellow);color:var(--ink)">S'inscrire</button>
+        </form>
+        <p class="text-[12px] mt-2" style="color:rgba(255,255,255,.5)">Pas de spam. Désinscription en 1 clic.</p>
+      </div>
+
+      <div class="grid grid-cols-2 gap-7">
+        <div>
+          <div class="d text-[16px] font-bold" style="color:var(--yellow)">Boutique</div>
+          <ul class="mt-3 space-y-2 text-[14px]">
+            <li><a class="fl" href="#">Nouveautés</a></li>
+            <li><a class="fl" href="#">Promotions</a></li>
+            <li><a class="fl" href="#">Best-sellers</a></li>
+            <li><a class="fl" href="#">Tous les produits</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="d text-[16px] font-bold" style="color:var(--yellow)">Aide</div>
+          <ul class="mt-3 space-y-2 text-[14px]">
+            <li><a class="fl" href="#">Livraison</a></li>
+            <li><a class="fl" href="#">Retours</a></li>
+            <li><a class="fl" href="#">FAQ</a></li>
+            <li><a class="fl" href="#">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-wrap items-center gap-4 mt-9 pt-6 border-t border-white/10">
+      <div class="flex gap-2">
+        <a href="#" class="w-10 h-10 rounded-full flex items-center justify-center" style="background:rgba(255,255,255,.12)"><i class="ph-fill ph-instagram-logo"></i></a>
+        <a href="#" class="w-10 h-10 rounded-full flex items-center justify-center" style="background:rgba(255,255,255,.12)"><i class="ph-fill ph-tiktok-logo"></i></a>
+        <a href="#" class="w-10 h-10 rounded-full flex items-center justify-center" style="background:rgba(255,255,255,.12)"><i class="ph-fill ph-facebook-logo"></i></a>
+      </div>
+      <a href="#" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-white text-[14px] font-bold" style="background:var(--wa)"><i class="ph-fill ph-whatsapp-logo"></i> +212 6 00 00 00 00</a>
+      <span class="text-[13px]" style="color:rgba(255,255,255,.6)">Casablanca · Lun–Sam 9h–19h</span>
+    </div>
+
+    <p class="d text-[13vw] lg:text-[150px] font-bold leading-none text-center mt-7 select-none" style="color:rgba(255,255,255,.07)">SAKINA</p>
+  </div>
+
+  <div class="border-t border-white/10 px-7 py-3.5 flex flex-col md:flex-row justify-between items-center gap-2 text-[12.5px]" style="color:rgba(255,255,255,.55)">
+    <span>© 2026 Sakina — Tous droits réservés.</span>
+    <div class="flex gap-4"><a href="#">Mentions légales</a><a href="#">Confidentialité</a><a href="#">CGV</a></div>
+  </div>
+</footer>
+
+<div class="rounded-[20px] border-2 p-6" style="border-color:var(--line);background:#fff">
+  <div class="lbl mb-3">Caractéristiques</div>
+  <ul class="text-[13px] space-y-1.5" style="color:var(--soft)">
+    <li>• La newsletter devient le héros : −10 % = une raison de laisser son email.</li>
+    <li>• Le mot <b>SAKINA</b> en filigrane géant ancre l'identité sans image.</li>
+    <li>• Liens réduits à 2 colonnes (Boutique / Aide) : moins de bruit.</li>
+    <li>• Risque : plus long qu'un footer classique ; newsletter à gérer côté backend.</li>
+  </ul>
+</div>
+
+<div class="text-center text-[11px] py-4" style="color:var(--soft)">Maquette — rien n'est encore appliqué au site</div>
+</body>
+</html>

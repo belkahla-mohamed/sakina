@@ -1,0 +1,38 @@
+import { getCategories, getProducts } from "@/lib/catalog";
+import { Hero } from "@/components/home/Hero";
+import { TrustStrip } from "@/components/home/TrustStrip";
+import { PromoPack } from "@/components/home/PromoPack";
+import { CategoryBento } from "@/components/home/CategoryBento";
+import { ProductGrid } from "@/components/home/ProductGrid";
+import { Testimonials } from "@/components/home/Testimonials";
+import { FaqAccordion } from "@/components/home/FaqAccordion";
+import { CtaSteps } from "@/components/home/CtaSteps";
+
+export default async function HomePage() {
+  const [products, categories] = await Promise.all([getProducts(), getCategories()]);
+
+  const counts: Record<string, number> = {};
+  for (const p of products) counts[p.category] = (counts[p.category] ?? 0) + 1;
+
+  const bestsellers = products
+    .filter((p) => p.is_bestseller)
+    .concat(products.filter((p) => !p.is_bestseller))
+    .slice(0, 8);
+  const news = products.filter((p) => p.is_new).slice(0, 4);
+  const promo = products.find((p) => p.slug === "pack-rentree-scolaire") ?? products[0];
+  const heroSamples = bestsellers.slice(0, 4);
+
+  return (
+    <>
+      <Hero categories={categories} samples={heroSamples} />
+      <TrustStrip />
+      <PromoPack product={promo} />
+      <CategoryBento categories={categories} counts={counts} />
+      <ProductGrid titleKey="home.newTitle" products={news} href="/shop?sort=new" />
+      <ProductGrid titleKey="home.bestTitle" products={bestsellers} href="/shop?sort=best" />
+      <Testimonials />
+      <FaqAccordion />
+      <CtaSteps />
+    </>
+  );
+}

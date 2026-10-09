@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQ A — Accordéon simple</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito+Sans:wght@400;600;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/fill/style.css">
+<style>
+:root{--bg:#FFFDF7;--ink:#25235B;--soft:#5B5986;--pink:#E8457F;--teal:#1B9A8E;--yellow:#FFD166;--line:rgba(37,35,91,.16);}
+*{font-family:'Nunito Sans',sans-serif;}
+body{background:var(--bg);color:var(--ink);}
+.d{font-family:'Baloo 2',cursive;}
+.ar{font-family:'Tajawal',sans-serif;direction:rtl;}
+.lbl{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft);font-weight:700;}
+.card{border:2px solid var(--line);border-radius:20px;background:#fff;}
+h2.sec{font-family:'Baloo 2',cursive;font-size:30px;font-weight:700;line-height:1.1;}
+.q{border-bottom:2px solid var(--line);}
+.q:last-child{border-bottom:none}
+</style>
+</head>
+<body>
+
+<div class="text-center text-[12px] py-2 font-semibold text-white" style="background:var(--ink)">
+  SECTION 10 · <span style="color:#FFD166">A — accordéon simple centré</span> — 5/10
+</div>
+
+<div class="max-w-3xl mx-auto px-4 py-12 space-y-6">
+
+<section class="card p-7 md:p-9">
+  <div class="text-center mb-6">
+    <div class="lbl" style="color:var(--pink)">Questions fréquentes</div>
+    <h2 class="sec mt-2">Comment pouvons-nous vous aider ?</h2>
+    <p class="ar text-lg font-bold mt-1">كيف يمكننا مساعدتك؟</p>
+  </div>
+
+  <div>
+    <div class="q py-4">
+      <div class="flex justify-between items-center gap-4">
+        <div>
+          <p class="d text-[17px] font-bold">Combien de temps prend la livraison ?</p>
+          <p class="ar text-[14px]">كم تستغرق مدة التوصيل؟</p>
+        </div>
+        <span class="w-8 h-8 rounded-full flex items-center justify-center text-white shrink-0" style="background:var(--pink)"><i class="ph-bold ph-minus"></i></span>
+      </div>
+      <p class="text-[14px] mt-3 leading-relaxed" style="color:var(--soft)">La livraison prend généralement entre <b>24h et 48h</b> selon votre ville. Vous recevez un message WhatsApp dès que le colis part.</p>
+      <p class="ar text-[14px] mt-2 leading-relaxed" style="color:var(--soft)">التوصيل يستغرق عادةً بين 24 و48 ساعة حسب مدينتك، وتصلك رسالة واتساب عند إرسال الطلب.</p>
+    </div>
+
+    <div class="q py-4 flex justify-between items-center gap-4 cursor-pointer">
+      <div>
+        <p class="d text-[17px] font-bold">La livraison est-elle gratuite ?</p>
+        <p class="ar text-[14px]">هل التوصيل مجاني؟</p>
+      </div>
+      <span class="w-8 h-8 rounded-full flex items-center justify-center shrink-0" style="border:2px solid var(--line)"><i class="ph-bold ph-plus"></i></span>
+    </div>
+
+    <div class="q py-4 flex justify-between items-center gap-4 cursor-pointer">
+      <div>
+        <p class="d text-[17px] font-bold">Comment puis-je payer ?</p>
+        <p class="ar text-[14px]">كيف يمكنني الدفع؟</p>
+      </div>
+      <span class="w-8 h-8 rounded-full flex items-center justify-center shrink-0" style="border:2px solid var(--line)"><i class="ph-bold ph-plus"></i></span>
+    </div>
+
+    <div class="q py-4 flex justify-between items-center gap-4 cursor-pointer">
+      <div>
+        <p class="d text-[17px] font-bold">Puis-je retourner un article ?</p>
+        <p class="ar text-[14px]">هل يمكنني إرجاع منتج؟</p>
+      </div>
+      <span class="w-8 h-8 rounded-full flex items-center justify-center shrink-0" style="border:2px solid var(--line)"><i class="ph-bold ph-plus"></i></span>
+    </div>
+
+    <div class="q py-4 flex justify-between items-center gap-4 cursor-pointer">
+      <div>
+        <p class="d text-[17px] font-bold">Comment commander via WhatsApp ?</p>
+        <p class="ar text-[14px]">كيف أطلب عبر واتساب؟</p>
+      </div>
+      <span class="w-8 h-8 rounded-full flex items-center justify-center shrink-0" style="border:2px solid var(--line)"><i class="ph-bold ph-plus"></i></span>
+    </div>
+  </div>
+
+  <div class="text-center mt-7 pt-6 border-t-2" style="border-color:var(--line)">
+    <p class="text-[14px]" style="color:var(--soft)">Vous n'avez pas trouvé votre réponse ?</p>
+    <button class="d text-[16px] font-bold mt-2 underline underline-offset-4" style="color:var(--pink)">Écrivez-nous sur WhatsApp →</button>
+  </div>
+</section>
+
+<!-- MOBILE -->
+<section>
+  <div class="lbl mb-2">Mobile</div>
+  <div class="card p-5">
+    <div class="py-3 flex justify-between items-start gap-3 border-b-2" style="border-color:var(--line)">
+      <p class="d text-[15px] font-bold leading-tight">Combien de temps prend la livraison ?</p>
+      <span class="w-7 h-7 rounded-full flex items-center justify-center text-white shrink-0" style="background:var(--pink)"><i class="ph-bold ph-minus"></i></span>
+    </div>
+    <p class="text-[13px] py-3" style="color:var(--soft)">Entre 24h et 48h selon votre ville.</p>
+    <div class="py-3 flex justify-between items-start gap-3 border-t-2" style="border-color:var(--line)">
+      <p class="d text-[15px] font-bold leading-tight">La livraison est-elle gratuite ?</p>
+      <span class="w-7 h-7 rounded-full flex items-center justify-center shrink-0" style="border:2px solid var(--line)"><i class="ph-bold ph-plus"></i></span>
+    </div>
+  </div>
+</section>
+
+<div class="card p-6">
+  <div class="lbl mb-3">Caractéristiques</div>
+  <ul class="text-[13px] space-y-1.5" style="color:var(--soft)">
+    <li>• Une seule colonne, 5 questions, titre <b>FR + AR</b> sur chaque ligne.</li>
+    <li>• Rond +/− en pastille rose : première question ouverte par défaut.</li>
+    <li>• Bloc final « pas de réponse ? → WhatsApp » qui transforme la FAQ en canal de vente.</li>
+    <li>• Le plus rapide à lire et à maintenir.</li>
+  </ul>
+</div>
+
+<div class="text-center text-[11px] py-4" style="color:var(--soft)">Maquette — rien n'est encore appliqué au site</div>
+</body>
+</html>

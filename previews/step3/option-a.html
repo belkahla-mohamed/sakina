@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sakina Stores — Option A : Cozy Chaleureux</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        cream:   '#F6F1EC',
+        sand:    '#FDE7DA',
+        ink:     '#2B2C2D',
+        teal:    '#6BB4AB',
+        peach:   '#F69961',
+        blush:   '#FADADD',
+        leaf:    '#1FDA25',
+      },
+      fontFamily: {
+        sans: ['Inter', 'Cairo', 'sans-serif'],
+        ar:   ['Cairo', 'sans-serif'],
+      },
+      borderRadius: { card: '0.6rem' },
+    }
+  }
+}
+</script>
+<style>
+  body { background:#F6F1EC; color:#2B2C2D; }
+  .rtl { direction: rtl; font-family:'Cairo', sans-serif; }
+  .swatch { height:72px; border-radius:8px; }
+</style>
+</head>
+<body class="font-sans">
+
+<!-- HEADER -->
+<div class="w-full text-center text-xs py-2 bg-teal text-white tracking-wide">
+  Livraison gratuite partout au Maroc &nbsp;·&nbsp; <span class="rtl">التوصيل مجاني إلى جميع أنحاء المغرب</span>
+</div>
+
+<header class="bg-white/80 backdrop-blur border-b border-black/5">
+  <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+    <div class="text-xl font-extrabold tracking-tight">Sakina <span class="text-teal">Stores</span></div>
+    <nav class="hidden md:flex gap-7 text-sm font-medium">
+      <a href="#" class="hover:text-teal">Accueil</a>
+      <a href="#" class="hover:text-teal">Boutique</a>
+      <a href="#" class="hover:text-teal">Nouveautés</a>
+      <a href="#" class="hover:text-teal">À propos</a>
+      <a href="#" class="hover:text-teal">Contact</a>
+    </nav>
+    <div class="flex items-center gap-3 text-sm">
+      <span class="px-2 py-1 rounded border border-black/10 text-xs">FR / <span class="rtl">ع</span></span>
+      <span>🛒</span>
+      <button class="bg-ink text-white text-xs font-semibold px-4 py-2 rounded-md">Commander</button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="max-w-6xl mx-auto px-4 pt-8">
+  <div class="rounded-card overflow-hidden relative" style="background:linear-gradient(135deg,#FDE7DA 0%,#F6F1EC 55%,#FADADD 100%)">
+    <div class="px-8 py-14 md:py-20 md:px-14 max-w-2xl">
+      <span class="inline-block text-xs font-semibold bg-leaf text-white px-3 py-1 rounded-full">★ Nouvelle collection</span>
+      <h1 class="mt-5 text-4xl md:text-5xl font-extrabold leading-[1.1]">Tout ce qu'il faut pour <span class="text-teal">eux</span>, livré chez vous.</h1>
+      <p class="mt-4 text-black/60 text-base">Produits pour enfants choisis avec soin · Livraison gratuite partout au Maroc · Paiement à la livraison.</p>
+      <p class="mt-1 rtl text-base text-black/60">كل ما يحتاجه طفلك، يصل إلى بابك.</p>
+      <div class="mt-7 flex gap-3">
+        <button class="bg-ink text-white font-semibold px-6 py-3 rounded-md text-sm">Voir la boutique</button>
+        <button class="border border-black/15 bg-white font-semibold px-6 py-3 rounded-md text-sm">Commander sur WhatsApp</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTIONS -->
+<main class="max-w-6xl mx-auto px-4 py-12 grid lg:grid-cols-3 gap-8">
+
+  <!-- PALETTE -->
+  <section class="bg-white rounded-card p-6 shadow-sm">
+    <h2 class="text-sm font-bold uppercase tracking-widest text-black/40 mb-4">1 · Palette</h2>
+    <div class="grid grid-cols-3 gap-3">
+      <div><div class="swatch" style="background:#F6F1EC;border:1px solid #e7ddd3"></div><p class="text-[11px] mt-1">Cream<br>#F6F1EC</p></div>
+      <div><div class="swatch" style="background:#FDE7DA"></div><p class="text-[11px] mt-1">Sand<br>#FDE7DA</p></div>
+      <div><div class="swatch" style="background:#FADADD"></div><p class="text-[11px] mt-1">Blush<br>#FADADD</p></div>
+      <div><div class="swatch" style="background:#6BB4AB"></div><p class="text-[11px] mt-1">Teal<br>#6BB4AB</p></div>
+      <div><div class="swatch" style="background:#F69961"></div><p class="text-[11px] mt-1">Peach<br>#F69961</p></div>
+      <div><div class="swatch" style="background:#2B2C2D"></div><p class="text-[11px] mt-1">Ink<br>#2B2C2D</p></div>
+    </div>
+    <p class="text-xs text-black/50 mt-4">Même ADN que le site de référence : crème chaude, pastels, accent turquoise sourd.</p>
+  </section>
+
+  <!-- TYPO -->
+  <section class="bg-white rounded-card p-6 shadow-sm">
+    <h2 class="text-sm font-bold uppercase tracking-widest text-black/40 mb-4">2 · Typographie</h2>
+    <p class="text-3xl font-extrabold leading-tight">Inter Extra Bold</p>
+    <p class="text-sm text-black/60 mt-1">Inter Regular — le texte courant, lisible et neutre.</p>
+    <hr class="my-4 border-black/10">
+    <p class="text-3xl font-extrabold leading-tight rtl">خط Cairo — عنوان عربي</p>
+    <p class="text-sm text-black/60 mt-1 rtl">نص عربي للقراءة، مضبوط للاتجاه من اليمين لليسار.</p>
+    <p class="text-[11px] text-black/40 mt-4">FR: Inter · AR: Cairo · fallback automatique</p>
+  </section>
+
+  <!-- UI KIT -->
+  <section class="bg-white rounded-card p-6 shadow-sm">
+    <h2 class="text-sm font-bold uppercase tracking-widest text-black/40 mb-4">3 · Boutons & cartes</h2>
+    <div class="space-y-3">
+      <button class="w-full bg-ink text-white font-semibold px-4 py-2.5 rounded-md text-sm">Ajouter au panier</button>
+      <button class="w-full bg-teal text-ink font-semibold px-4 py-2.5 rounded-md text-sm">Commander sur WhatsApp</button>
+      <button class="w-full border border-black/15 font-semibold px-4 py-2.5 rounded-md text-sm">Voir tout</button>
+    </div>
+    <div class="mt-5 p-4 bg-cream rounded-card">
+      <div class="h-24 bg-sand rounded flex items-center justify-center text-xs text-black/40">Image produit</div>
+      <p class="text-sm font-semibold mt-3">Coffret créatif enfant</p>
+      <div class="text-xs text-black/50 mt-0.5">★★★★★ (12)</div>
+      <div class="flex items-center gap-2 mt-1"><span class="font-bold text-sm">149,00 dh</span><span class="text-xs line-through text-black/40">199,00 dh</span></div>
+      <span class="inline-block mt-2 text-[10px] bg-leaf text-white px-2 py-0.5 rounded-full">Promo</span>
+    </div>
+  </section>
+
+  <!-- RHYTHM -->
+  <section class="bg-white rounded-card p-6 shadow-sm lg:col-span-2">
+    <h2 class="text-sm font-bold uppercase tracking-widest text-black/40 mb-4">4 · Rythme & sections (comme la référence)</h2>
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-3 text-[11px]">
+      <div class="bg-cream p-3 rounded border border-black/5 text-center">01<br>Barre d'annonce</div>
+      <div class="bg-cream p-3 rounded border border-black/5 text-center">02<br>Header</div>
+      <div class="bg-cream p-3 rounded border border-black/5 text-center">03<br>Hero</div>
+      <div class="bg-cream p-3 rounded border border-black/5 text-center">04<br>Promo / Pack</div>
+      <div class="bg-cream p-3 rounded border border-black/5 text-center">05<br>Catégorie 1</div>
+      <div class="bg-cream p-3 rounded border border-black/5 text-center">06<br>Catégorie 2</div>
+      <div class="bg-cream p-3 rounded border border-black/5 text-center">07<br>Catégorie 3</div>
+      <div class="bg-cream p-3 rounded border border-black/5 text-center">08<br>Catégorie 4</div>
+      <div class="bg-cream p-3 rounded border border-black/5 text-center">09<br>Avis clients</div>
+      <div class="bg-cream p-3 rounded border border-black/5 text-center">10<br>FAQ</div>
+      <div class="bg-cream p-3 rounded border border-black/5 text-center">11<br>Footer</div>
+    </div>
+    <p class="text-xs text-black/50 mt-4">Rien n'est appliqué : cette page est une <b>maquette d'ambiance</b>.</p>
+  </section>
+
+  <!-- VOICE -->
+  <section class="bg-white rounded-card p-6 shadow-sm">
+    <h2 class="text-sm font-bold uppercase tracking-widest text-black/40 mb-4">5 · Ambiance</h2>
+    <div class="flex flex-wrap gap-2 text-xs">
+      <span class="px-3 py-1 bg-cream rounded-full border border-black/10">Chaleureux</span>
+      <span class="px-3 py-1 bg-cream rounded-full border border-black/10">Doux</span>
+      <span class="px-3 py-1 bg-cream rounded-full border border-black/10">Familial</span>
+      <span class="px-3 py-1 bg-cream rounded-full border border-black/10">Fiable</span>
+      <span class="px-3 py-1 bg-cream rounded-full border border-black/10">Proche de la référence</span>
+    </div>
+    <p class="text-xs text-black/50 mt-4">Le plus sûr : même ADN que talwine.com, adapté à une marque enfant.</p>
+  </section>
+
+</main>
+
+<footer class="bg-ink text-white/70 text-xs">
+  <div class="max-w-6xl mx-auto px-4 py-8 flex flex-wrap justify-between gap-4">
+    <p>© 2026 Sakina Stores — MAQUETTE OPTION A</p>
+    <p class="rtl">متجر سكينة · المغرب</p>
+  </div>
+</footer>
+
+</body>
+</html>

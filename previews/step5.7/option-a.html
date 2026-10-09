@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catégories A — Grille de 4 tuiles</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito+Sans:wght@400;600;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/fill/style.css">
+<style>
+:root{--bg:#FFFDF7;--ink:#25235B;--soft:#5B5986;--pink:#E8457F;--teal:#1B9A8E;--yellow:#FFD166;--grape:#A78BFA;--line:rgba(37,35,91,.16);}
+*{font-family:'Nunito Sans',sans-serif;}
+body{background:var(--bg);color:var(--ink);}
+.d{font-family:'Baloo 2',cursive;}
+.ar{font-family:'Tajawal',sans-serif;direction:rtl;}
+.btn{font-family:'Baloo 2',cursive;font-weight:600;border-radius:999px;box-shadow:0 5px 0 var(--ink);}
+.lbl{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft);font-weight:700;}
+.card{border:2px solid var(--line);border-radius:20px;background:#fff;}
+h2.sec{font-family:'Baloo 2',cursive;font-size:30px;font-weight:700;line-height:1.1;}
+</style>
+</head>
+<body>
+
+<div class="text-center text-[12px] py-2 font-semibold text-white" style="background:var(--ink)">
+  SECTION 6 · <span style="color:#FFD166">A — grille simple de 4 grandes tuiles</span> — 5/10
+</div>
+
+<div class="max-w-6xl mx-auto px-4 py-10 space-y-8">
+
+<section>
+  <div class="flex items-end justify-between mb-5">
+    <div>
+      <h2 class="sec">Nos catégories</h2>
+      <p class="ar text-lg font-bold">تصنيفاتنا</p>
+    </div>
+    <a class="text-[13px] font-bold underline underline-offset-4" style="color:var(--pink)">Tout voir</a>
+  </div>
+
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+    <a class="card overflow-hidden group block">
+      <div class="h-36 relative flex items-center justify-center" style="background:var(--yellow)">
+        <i class="ph-fill ph-baby" style="font-size:52px"></i>
+        <span class="absolute top-3 left-3 text-[10px] font-extrabold px-2.5 py-1 rounded-full bg-white">24 produits</span>
+      </div>
+      <div class="p-4 flex items-center justify-between">
+        <div>
+          <p class="d text-[17px] font-bold leading-tight">Jouets & éveil</p>
+          <p class="ar text-[14px]">ألعاب وتأهيل</p>
+        </div>
+        <span class="w-8 h-8 rounded-full flex items-center justify-center text-white" style="background:var(--pink)"><i class="ph-bold ph-arrow-right"></i></span>
+      </div>
+    </a>
+
+    <a class="card overflow-hidden group block">
+      <div class="h-36 relative flex items-center justify-center" style="background:var(--grape);color:#fff">
+        <i class="ph-fill ph-book-open" style="font-size:52px"></i>
+        <span class="absolute top-3 left-3 text-[10px] font-extrabold px-2.5 py-1 rounded-full bg-white" style="color:var(--ink)">18 produits</span>
+      </div>
+      <div class="p-4 flex items-center justify-between">
+        <div>
+          <p class="d text-[17px] font-bold leading-tight">Livres & coloriage</p>
+          <p class="ar text-[14px]">كتب وتلوين</p>
+        </div>
+        <span class="w-8 h-8 rounded-full flex items-center justify-center text-white" style="background:var(--pink)"><i class="ph-bold ph-arrow-right"></i></span>
+      </div>
+    </a>
+
+    <a class="card overflow-hidden group block">
+      <div class="h-36 relative flex items-center justify-center" style="background:var(--teal);color:#fff">
+        <i class="ph-fill ph-backpack" style="font-size:52px"></i>
+        <span class="absolute top-3 left-3 text-[10px] font-extrabold px-2.5 py-1 rounded-full bg-white" style="color:var(--ink)">31 produits</span>
+      </div>
+      <div class="p-4 flex items-center justify-between">
+        <div>
+          <p class="d text-[17px] font-bold leading-tight">École & papeterie</p>
+          <p class="ar text-[14px]">مدرسة وقرطاسية</p>
+        </div>
+        <span class="w-8 h-8 rounded-full flex items-center justify-center text-white" style="background:var(--pink)"><i class="ph-bold ph-arrow-right"></i></span>
+      </div>
+    </a>
+
+    <a class="card overflow-hidden group block">
+      <div class="h-36 relative flex items-center justify-center" style="background:#FF6B9D;color:#fff">
+        <i class="ph-fill ph-gift" style="font-size:52px"></i>
+        <span class="absolute top-3 left-3 text-[10px] font-extrabold px-2.5 py-1 rounded-full bg-white" style="color:var(--ink)">9 packs</span>
+      </div>
+      <div class="p-4 flex items-center justify-between">
+        <div>
+          <p class="d text-[17px] font-bold leading-tight">Coffrets & packs</p>
+          <p class="ar text-[14px]">أطقم وحزم</p>
+        </div>
+        <span class="w-8 h-8 rounded-full flex items-center justify-center text-white" style="background:var(--pink)"><i class="ph-bold ph-arrow-right"></i></span>
+      </div>
+    </a>
+  </div>
+
+  <div class="flex flex-wrap gap-2 mt-5">
+    <span class="text-[12px] font-bold px-3.5 py-2 rounded-full border" style="border-color:var(--line);background:#fff">0–2 ans</span>
+    <span class="text-[12px] font-bold px-3.5 py-2 rounded-full border" style="border-color:var(--line);background:#fff">3–5 ans</span>
+    <span class="text-[12px] font-bold px-3.5 py-2 rounded-full border" style="border-color:var(--line);background:#fff">6–9 ans</span>
+    <span class="text-[12px] font-bold px-3.5 py-2 rounded-full border" style="border-color:var(--line);background:#fff">10 ans et +</span>
+  </div>
+</section>
+
+<!-- MOBILE -->
+<section>
+  <div class="lbl mb-2">Mobile (2 colonnes)</div>
+  <div class="card p-4">
+    <div class="grid grid-cols-2 gap-3">
+      <div class="rounded-2xl border-2 overflow-hidden" style="border-color:var(--line)">
+        <div class="h-24 flex items-center justify-center" style="background:var(--yellow)"><i class="ph-fill ph-baby" style="font-size:34px"></i></div>
+        <div class="p-3"><p class="d text-[14px] font-bold leading-tight">Jouets & éveil</p><p class="ar text-[12px]">ألعاب وتأهيل</p></div>
+      </div>
+      <div class="rounded-2xl border-2 overflow-hidden" style="border-color:var(--line)">
+        <div class="h-24 flex items-center justify-center" style="background:var(--grape);color:#fff"><i class="ph-fill ph-book-open" style="font-size:34px"></i></div>
+        <div class="p-3"><p class="d text-[14px] font-bold leading-tight">Livres & coloriage</p><p class="ar text-[12px]">كتب وتلوين</p></div>
+      </div>
+      <div class="rounded-2xl border-2 overflow-hidden" style="border-color:var(--line)">
+        <div class="h-24 flex items-center justify-center" style="background:var(--teal);color:#fff"><i class="ph-fill ph-backpack" style="font-size:34px"></i></div>
+        <div class="p-3"><p class="d text-[14px] font-bold leading-tight">École & papeterie</p><p class="ar text-[12px]">مدرسة وقرطاسية</p></div>
+      </div>
+      <div class="rounded-2xl border-2 overflow-hidden" style="border-color:var(--line)">
+        <div class="h-24 flex items-center justify-center" style="background:#FF6B9D;color:#fff"><i class="ph-fill ph-gift" style="font-size:34px"></i></div>
+        <div class="p-3"><p class="d text-[14px] font-bold leading-tight">Coffrets & packs</p><p class="ar text-[12px]">أطقم وحزم</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="card p-6">
+  <div class="lbl mb-3">Caractéristiques</div>
+  <ul class="text-[13px] space-y-1.5" style="color:var(--soft)">
+    <li>• 4 tuiles identiques : image/couleur en haut, titre FR + AR, flèche d'action.</li>
+    <li>• Badge « X produits » sur chaque tuile → preuve de catalogue vivant.</li>
+    <li>• Chips d'âge sous la grille → filtre rapide vers la boutique.</li>
+    <li>• Mobile : 2 × 2, tout reste visible sans défilement horizontal.</li>
+    <li>• Le plus simple à maintenir si le nombre de catégories change.</li>
+  </ul>
+</div>
+
+<div class="text-center text-[11px] py-4" style="color:var(--soft)">Maquette — rien n'est encore appliqué au site</div>
+</body>
+</html>

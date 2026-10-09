@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Produits B — Grille avec ajout rapide au survol</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito+Sans:wght@400;600;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/fill/style.css">
+<style>
+:root{--bg:#FFFDF7;--ink:#25235B;--soft:#5B5986;--pink:#E8457F;--teal:#1B9A8E;--yellow:#FFD166;--grape:#A78BFA;--line:rgba(37,35,91,.16);}
+*{font-family:'Nunito Sans',sans-serif;}
+body{background:var(--bg);color:var(--ink);}
+.d{font-family:'Baloo 2',cursive;}
+.ar{font-family:'Tajawal',sans-serif;direction:rtl;}
+.btn{font-family:'Baloo 2',cursive;font-weight:600;border-radius:999px;box-shadow:0 5px 0 var(--ink);}
+.lbl{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft);font-weight:700;}
+.card{border:2px solid var(--line);border-radius:20px;background:#fff;}
+h2.sec{font-family:'Baloo 2',cursive;font-size:30px;font-weight:700;line-height:1.1;}
+.pcard{border:2px solid var(--line);border-radius:20px;background:#fff;overflow:hidden;display:flex;flex-direction:column;position:relative;transition:.15s;}
+.pcard:hover{transform:translateY(-4px);box-shadow:0 6px 0 rgba(37,35,91,.9);border-color:var(--ink);}
+.quick{position:absolute;left:0;right:0;bottom:0;transform:translateY(101%);transition:.18s;padding:10px;background:var(--ink);}
+.pcard:hover .quick{transform:translateY(0);}
+.chip{font-size:12px;font-weight:700;padding:8px 14px;border-radius:999px;border:2px solid var(--line);background:#fff;}
+.chip.on{background:var(--pink);color:#fff;border-color:var(--ink);}
+</style>
+</head>
+<body>
+
+<div class="text-center text-[12px] py-2 font-semibold text-white" style="background:var(--ink)">
+  SECTIONS 7+8 · <span style="color:#FFD166">B — survol « ajout rapide » + filtres</span> — 5/10
+</div>
+
+<div class="max-w-6xl mx-auto px-4 py-10 space-y-8">
+
+<section>
+  <div class="flex flex-wrap items-end justify-between gap-3 mb-4">
+    <div>
+      <h2 class="sec">Nos produits</h2>
+      <p class="ar text-lg font-bold">منتجاتنا</p>
+    </div>
+    <div class="flex items-center gap-2 text-[12px] font-bold">
+      <span style="color:var(--soft)">Trier par</span>
+      <button class="chip on">Populaires</button>
+      <button class="chip">Prix ↑</button>
+      <button class="chip">Nouveautés</button>
+    </div>
+  </div>
+
+  <div class="flex flex-wrap gap-2 mb-5">
+    <button class="chip on">Tout</button>
+    <button class="chip">Jouets & éveil</button>
+    <button class="chip">Livres & coloriage</button>
+    <button class="chip">École & papeterie</button>
+    <button class="chip">Coffrets & packs</button>
+    <button class="chip">0–2 ans</button>
+    <button class="chip">3–5 ans</button>
+    <button class="chip">6–9 ans</button>
+  </div>
+
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+    <article class="pcard">
+      <div class="relative h-40 flex items-center justify-center" style="background:var(--yellow)">
+        <span class="absolute top-3 left-3 text-[10px] font-extrabold px-2.5 py-1 rounded-full text-white" style="background:var(--pink)">PROMO</span>
+        <span class="absolute top-3 right-3 w-7 h-7 rounded-full bg-white flex items-center justify-center"><i class="ph-bold ph-heart"></i></span>
+      </div>
+      <div class="p-4 flex-1">
+        <h3 class="d text-[16px] font-bold leading-tight">Coffret créatif enfant</h3>
+        <p class="ar text-[14px] font-semibold">طقم إبداعي للأطفال</p>
+        <p class="text-[11px] mt-1" style="color:var(--soft)">★★★★★ (12 avis)</p>
+        <div class="flex items-center gap-2 mt-1.5"><span class="text-[17px] font-extrabold">149,00 dh</span><span class="text-[12px] line-through" style="color:var(--soft)">199,00 dh</span></div>
+      </div>
+      <div class="quick"><button class="btn w-full py-2.5 text-[13px] text-white" style="background:var(--teal)">Ajouter au panier</button></div>
+    </article>
+
+    <article class="pcard">
+      <div class="relative h-40 flex items-center justify-center" style="background:var(--grape);color:#fff">
+        <span class="absolute top-3 right-3 w-7 h-7 rounded-full bg-white flex items-center justify-center"><i class="ph-bold ph-heart"></i></span>
+      </div>
+      <div class="p-4 flex-1">
+        <h3 class="d text-[16px] font-bold leading-tight">Puzzle bois 60 pièces</h3>
+        <p class="ar text-[14px] font-semibold">أحجية خشبية 60 قطعة</p>
+        <p class="text-[11px] mt-1" style="color:var(--soft)">★★★★☆ (7 avis)</p>
+        <div class="text-[17px] font-extrabold mt-1.5">89,00 dh</div>
+      </div>
+      <div class="quick"><button class="btn w-full py-2.5 text-[13px] text-white" style="background:var(--teal)">Ajouter au panier</button></div>
+    </article>
+
+    <article class="pcard">
+      <div class="relative h-40 flex items-center justify-center" style="background:var(--teal);color:#fff"></div>
+      <div class="p-4 flex-1">
+        <h3 class="d text-[16px] font-bold leading-tight">Set de coloriage 40 pages</h3>
+        <p class="ar text-[14px] font-semibold">طقم تلوين 40 صفحة</p>
+        <p class="text-[11px] mt-1" style="color:var(--soft)">★★★★★ (4 avis)</p>
+        <div class="text-[17px] font-extrabold mt-1.5">79,00 dh</div>
+      </div>
+      <div class="quick"><button class="btn w-full py-2.5 text-[13px] text-white" style="background:var(--teal)">Ajouter au panier</button></div>
+    </article>
+
+    <article class="pcard opacity-70">
+      <div class="relative h-40 flex items-center justify-center" style="background:#DED9E8">
+        <span class="absolute top-3 left-3 text-[10px] font-extrabold px-2.5 py-1 rounded-full text-white" style="background:var(--ink)">ÉPUISÉ</span>
+      </div>
+      <div class="p-4 flex-1">
+        <h3 class="d text-[16px] font-bold leading-tight">Sac d'école scolaire</h3>
+        <p class="ar text-[14px] font-semibold">حقيبة مدرسية</p>
+        <p class="text-[11px] mt-1" style="color:var(--soft)">★★★★★ (2 avis)</p>
+        <div class="text-[17px] font-extrabold mt-1.5">159,00 dh</div>
+      </div>
+      <div class="quick"><button class="btn w-full py-2.5 text-[13px]" style="background:#fff;color:#fff">Me prévenir</button></div>
+    </article>
+
+    <article class="pcard">
+      <div class="relative h-40 flex items-center justify-center" style="background:#FF6B9D;color:#fff"></div>
+      <div class="p-4 flex-1">
+        <h3 class="d text-[16px] font-bold leading-tight">Cubes empilables</h3>
+        <p class="ar text-[14px] font-semibold">مكعبات تراص</p>
+        <p class="text-[11px] mt-1" style="color:var(--soft)">★★★★★ (9 avis)</p>
+        <div class="text-[17px] font-extrabold mt-1.5">119,00 dh</div>
+      </div>
+      <div class="quick"><button class="btn w-full py-2.5 text-[13px] text-white" style="background:var(--teal)">Ajouter au panier</button></div>
+    </article>
+    <article class="pcard">
+      <div class="relative h-40 flex items-center justify-center" style="background:var(--yellow)"></div>
+      <div class="p-4 flex-1">
+        <h3 class="d text-[16px] font-bold leading-tight">Cahier d'activités 3–5 ans</h3>
+        <p class="ar text-[14px] font-semibold">كراسة أنشطة</p>
+        <p class="text-[11px] mt-1" style="color:var(--soft)">★★★★☆ (3 avis)</p>
+        <div class="text-[17px] font-extrabold mt-1.5">49,00 dh</div>
+      </div>
+      <div class="quick"><button class="btn w-full py-2.5 text-[13px] text-white" style="background:var(--teal)">Ajouter au panier</button></div>
+    </article>
+    <article class="pcard">
+      <div class="relative h-40 flex items-center justify-center" style="background:var(--grape);color:#fff"></div>
+      <div class="p-4 flex-1">
+        <h3 class="d text-[16px] font-bold leading-tight">Peluche lapin 35 cm</h3>
+        <p class="ar text-[14px] font-semibold">دمية أرنب</p>
+        <p class="text-[11px] mt-1" style="color:var(--soft)">★★★★★ (15 avis)</p>
+        <div class="text-[17px] font-extrabold mt-1.5">129,00 dh</div>
+      </div>
+      <div class="quick"><button class="btn w-full py-2.5 text-[13px] text-white" style="background:var(--teal)">Ajouter au panier</button></div>
+    </article>
+    <article class="pcard">
+      <div class="relative h-40 flex items-center justify-center" style="background:var(--teal);color:#fff"></div>
+      <div class="p-4 flex-1">
+        <h3 class="d text-[16px] font-bold leading-tight">Marqueurs 24 couleurs</h3>
+        <p class="ar text-[14px] font-semibold">أقلام تلوين</p>
+        <p class="text-[11px] mt-1" style="color:var(--soft)">★★★★★ (6 avis)</p>
+        <div class="text-[17px] font-extrabold mt-1.5">65,00 dh</div>
+      </div>
+      <div class="quick"><button class="btn w-full py-2.5 text-[13px] text-white" style="background:var(--teal)">Ajouter au panier</button></div>
+    </article>
+  </div>
+
+  <div class="text-center mt-6"><button class="btn text-white text-sm px-8 py-3.5" style="background:var(--pink)">Charger plus de produits</button></div>
+  <p class="text-[11px] text-center mt-2" style="color:var(--soft)">survolez une carte pour afficher « Ajouter au panier »</p>
+</section>
+
+<!-- MOBILE -->
+<section>
+  <div class="lbl mb-2">Mobile (bouton toujours visible)</div>
+  <div class="card p-4">
+    <div class="grid grid-cols-2 gap-3">
+      <article class="pcard">
+        <div class="h-24" style="background:var(--yellow)"></div>
+        <div class="p-3"><h3 class="d text-[13px] font-bold leading-tight">Coffret créatif</h3><p class="text-[14px] font-extrabold">149,00 dh</p><button class="btn w-full mt-2 py-2 text-[11px] text-white" style="background:var(--teal)">Ajouter</button></div>
+      </article>
+      <article class="pcard">
+        <div class="h-24" style="background:var(--grape)"></div>
+        <div class="p-3"><h3 class="d text-[13px] font-bold leading-tight">Puzzle bois</h3><p class="text-[14px] font-extrabold">89,00 dh</p><button class="btn w-full mt-2 py-2 text-[11px] text-white" style="background:var(--teal)">Ajouter</button></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<div class="card p-6">
+  <div class="lbl mb-3">Caractéristiques</div>
+  <ul class="text-[13px] space-y-1.5" style="color:var(--soft)">
+    <li>• Carte qui <b>monte au survol</b> et révèle le bouton « Ajouter » depuis le bas.</li>
+    <li>• Filtres (catégorie + âge) et tri directement au-dessus de la grille.</li>
+    <li>• Bouton « Charger plus » = pagination douce (bon pour le SEO et la vitesse).</li>
+    <li>• Mobile : le bouton reste toujours visible (pas de survol sur tactile).</li>
+  </ul>
+</div>
+
+<div class="text-center text-[11px] py-4" style="color:var(--soft)">Maquette — rien n'est encore appliqué au site</div>
+</body>
+</html>

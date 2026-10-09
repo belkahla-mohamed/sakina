@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300" role="img" aria-label="Encyclopédie illustrée des enfants">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#efeafe"/>
+      <stop offset="100%" stop-color="#cfbffc"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#g)"/>
+  <circle cx="330" cy="55" r="70" fill="#A78BFA" opacity="0.35"/>
+  <circle cx="60" cy="250" r="90" fill="#ffffff" opacity="0.35"/>
+  <circle cx="200" cy="140" r="78" fill="#ffffff" opacity="0.85"/>
+  <circle cx="200" cy="140" r="78" fill="none" stroke="#A78BFA" stroke-width="4"/>
+  <text x="200" y="172" font-size="72" text-anchor="middle">📚</text>
+  <text x="200" y="272" font-size="15" font-weight="700" text-anchor="middle" fill="#25235B" font-family="Arial, sans-serif" opacity="0.75">Sakina</text>
+</svg>

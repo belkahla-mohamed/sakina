@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Footer C — Compact mobile-first</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito+Sans:wght@400;600;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/fill/style.css">
+<style>
+:root{--bg:#FFFDF7;--ink:#25235B;--soft:#5B5986;--pink:#E8457F;--teal:#1B9A8E;--yellow:#FFD166;--wa:#25D366;--line:rgba(37,35,91,.16);}
+*{font-family:'Nunito Sans',sans-serif;}
+body{background:var(--bg);color:var(--ink);}
+.d{font-family:'Baloo 2',cursive;}
+.ar{font-family:'Tajawal',sans-serif;direction:rtl;}
+.lbl{font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--soft);}
+.foot{background:var(--ink);color:#fff;}
+.acc{border-bottom:1.5px solid rgba(255,255,255,.14);}
+.acc:last-child{border-bottom:none}
+.ah{display:flex;justify-content:space-between;align-items:center;padding:14px 0;font-family:'Baloo 2';font-weight:700;font-size:16px;}
+</style>
+</head>
+<body>
+
+<div class="text-center text-[12px] py-2 font-semibold text-white" style="background:var(--ink)">
+  SECTION 12 · <span style="color:#FFD166">C — accordéons compacts</span> — 8/10
+</div>
+
+<div class="max-w-6xl mx-auto px-4 py-12 space-y-6">
+
+<footer class="foot rounded-[24px] overflow-hidden">
+  <div class="p-7 md:p-9">
+    <div class="grid md:grid-cols-[1fr_1.2fr] gap-8">
+      <div>
+        <div class="d text-[30px] font-bold leading-none">Sakina<span style="color:var(--pink)">.</span></div>
+        <p class="ar text-[17px] mt-0.5" style="color:var(--yellow)">ساكينا</p>
+        <p class="text-[13.5px] leading-relaxed mt-3" style="color:rgba(255,255,255,.7)">Livraison 24-48h partout au Maroc · Paiement à la réception · Retour sous 7 jours.</p>
+
+        <div class="flex gap-2 mt-4">
+          <a href="#" class="w-10 h-10 rounded-full flex items-center justify-center" style="background:rgba(255,255,255,.12)"><i class="ph-fill ph-instagram-logo"></i></a>
+          <a href="#" class="w-10 h-10 rounded-full flex items-center justify-center" style="background:rgba(255,255,255,.12)"><i class="ph-fill ph-tiktok-logo"></i></a>
+          <a href="#" class="w-10 h-10 rounded-full flex items-center justify-center" style="background:rgba(255,255,255,.12)"><i class="ph-fill ph-facebook-logo"></i></a>
+        </div>
+
+        <div class="flex flex-wrap gap-1.5 mt-5">
+          <span class="px-2.5 py-1 rounded-lg text-[10.5px] font-bold" style="background:rgba(255,255,255,.1)">CMI</span>
+          <span class="px-2.5 py-1 rounded-lg text-[10.5px] font-bold" style="background:rgba(255,255,255,.1)">Paiement à la livraison</span>
+          <span class="px-2.5 py-1 rounded-lg text-[10.5px] font-bold" style="background:rgba(255,255,255,.1)">Livraison 24-48h</span>
+        </div>
+      </div>
+
+      <div class="md:border-l md:border-white/10 md:pl-8">
+        <div class="acc">
+          <div class="ah">Boutique <i class="ph-bold ph-caret-down"></i></div>
+          <ul class="pb-3 space-y-1.5 text-[14px]" style="color:rgba(255,255,255,.75)">
+            <li><a href="#">Nouveautés</a></li><li><a href="#">Promotions</a></li><li><a href="#">Best-sellers</a></li><li><a href="#">Tous les produits</a></li>
+          </ul>
+        </div>
+        <div class="acc">
+          <div class="ah">Aide &amp; livraison <i class="ph-bold ph-caret-down"></i></div>
+          <ul class="pb-3 space-y-1.5 text-[14px]" style="color:rgba(255,255,255,.75)">
+            <li><a href="#">Livraison &amp; délais</a></li><li><a href="#">Retours</a></li><li><a href="#">FAQ</a></li>
+          </ul>
+        </div>
+        <div class="acc">
+          <div class="ah">Contact <i class="ph-bold ph-caret-down"></i></div>
+          <ul class="pb-3 space-y-1.5 text-[14px]" style="color:rgba(255,255,255,.75)">
+            <li><a href="#">contact@sakina.ma</a></li><li><a href="#">Casablanca, Maroc</a></li><li><a href="#">Lun–Sam 9h–19h</a></li>
+          </ul>
+        </div>
+
+        <a href="#" class="mt-4 inline-flex items-center gap-2 px-5 py-3 rounded-xl text-white text-[15px] font-bold" style="background:var(--wa)">
+          <i class="ph-fill ph-whatsapp-logo text-xl"></i> Écrire sur WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="border-t border-white/10 px-7 py-3.5 flex flex-col md:flex-row justify-between items-center gap-2 text-[12.5px]" style="color:rgba(255,255,255,.55)">
+    <span>© 2026 Sakina — Tous droits réservés.</span>
+    <div class="flex gap-4"><a href="#">Mentions légales</a><a href="#">Confidentialité</a><a href="#">CGV</a></div>
+  </div>
+</footer>
+
+<!-- NOTE: sur desktop les accordéons sont ouverts -->
+<section>
+  <div class="lbl mb-2">Bureau — sections ouvertes par défaut (desktop)</div>
+  <div class="rounded-[20px] border-2 p-5 flex flex-wrap gap-6 text-[13.5px]" style="border-color:var(--line);background:#fff;color:var(--soft)">
+    <span>▸ <b>Boutique</b> · Nouveautés · Promotions · Best-sellers · Tous les produits</span>
+    <span>▸ <b>Aide</b> · Livraison · Retours · FAQ</span>
+    <span>▸ <b>Contact</b> · email · ville · horaires</span>
+  </div>
+</section>
+
+<div class="rounded-[20px] border-2 p-6" style="border-color:var(--line);background:#fff">
+  <div class="lbl mb-3">Caractéristiques</div>
+  <ul class="text-[13px] space-y-1.5" style="color:var(--soft)">
+    <li>• Fond bleu nuit, 2 zones : identité à gauche, accordéons à droite.</li>
+    <li>• <b>Mobile : accordéons repliés</b> (footer court, 1 écran) — <b>desktop : ouverts</b> (tout visible).</li>
+    <li>• Badges de confiance (CMI, paiement, livraison) intégrés au footer.</li>
+    <li>• Bouton WhatsApp dans le bloc Contact.</li>
+  </ul>
+</div>
+
+<div class="text-center text-[11px] py-4" style="color:var(--soft)">Maquette — rien n'est encore appliqué au site</div>
+</body>
+</html>

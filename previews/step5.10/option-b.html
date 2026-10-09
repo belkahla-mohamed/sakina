@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQ B — Image + accordéon</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito+Sans:wght@400;600;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/fill/style.css">
+<style>
+:root{--bg:#FFFDF7;--ink:#25235B;--soft:#5B5986;--pink:#E8457F;--teal:#1B9A8E;--yellow:#FFD166;--line:rgba(37,35,91,.16);}
+*{font-family:'Nunito Sans',sans-serif;}
+body{background:var(--bg);color:var(--ink);}
+.d{font-family:'Baloo 2',cursive;}
+.ar{font-family:'Tajawal',sans-serif;direction:rtl;}
+.lbl{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft);font-weight:700;}
+.card{border:2px solid var(--line);border-radius:20px;background:#fff;}
+h2.sec{font-family:'Baloo 2',cursive;font-size:30px;font-weight:700;line-height:1.1;}
+.q{border-bottom:2px solid var(--line);}
+.q:last-child{border-bottom:none}
+</style>
+</head>
+<body>
+
+<div class="text-center text-[12px] py-2 font-semibold text-white" style="background:var(--ink)">
+  SECTION 10 · <span style="color:#FFD166">B — visuel à gauche + accordéon à droite</span> — 5/10
+</div>
+
+<div class="max-w-6xl mx-auto px-4 py-12 space-y-6">
+
+<section class="card overflow-hidden grid lg:grid-cols-[0.9fr_1.3fr]">
+  <div class="relative min-h-[280px] flex items-center justify-center p-8" style="background:linear-gradient(140deg,#FFE3EE,#D6F5F2)">
+    <div class="text-center">
+      <div class="w-40 h-40 mx-auto rounded-[45%_55%_50%_50%/55%_45%_55%_45%] flex items-center justify-center" style="background:linear-gradient(140deg,#FF6B9D,#A78BFA)">
+        <span class="d text-white text-lg leading-tight">Photo<br>équipe /<br>colis</span>
+      </div>
+      <div class="mt-6 inline-block px-4 py-2 rounded-full border-2 -rotate-3" style="background:#fff;border-color:var(--ink)">
+        <span class="text-[12px] font-extrabold">💬 Réponse en moins de 1h</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="p-7 md:p-9">
+    <div class="lbl" style="color:var(--pink)">Questions fréquentes</div>
+    <h2 class="sec mt-2">Comment pouvons-nous vous aider ?</h2>
+    <p class="ar text-lg font-bold mt-1 mb-5">كيف يمكننا مساعدتك؟</p>
+
+    <div>
+      <div class="q py-4">
+        <div class="flex justify-between items-center gap-4">
+          <div>
+            <p class="d text-[17px] font-bold">Combien de temps prend la livraison ?</p>
+            <p class="ar text-[14px]">كم تستغرق مدة التوصيل؟</p>
+          </div>
+          <span class="w-8 h-8 rounded-full flex items-center justify-center text-white shrink-0" style="background:var(--pink)"><i class="ph-bold ph-minus"></i></span>
+        </div>
+        <p class="text-[14px] mt-3 leading-relaxed" style="color:var(--soft)">Entre <b>24h et 48h</b> selon votre ville, avec suivi par WhatsApp.</p>
+      </div>
+
+      <div class="q py-4 flex justify-between items-center gap-4 cursor-pointer">
+        <div>
+          <p class="d text-[17px] font-bold">La livraison est-elle gratuite ?</p>
+          <p class="ar text-[14px]">هل التوصيل مجاني؟</p>
+        </div>
+        <span class="w-8 h-8 rounded-full flex items-center justify-center shrink-0" style="border:2px solid var(--line)"><i class="ph-bold ph-plus"></i></span>
+      </div>
+
+      <div class="q py-4 flex justify-between items-center gap-4 cursor-pointer">
+        <div>
+          <p class="d text-[17px] font-bold">Comment puis-je payer ?</p>
+          <p class="ar text-[14px]">كيف يمكنني الدفع؟</p>
+        </div>
+        <span class="w-8 h-8 rounded-full flex items-center justify-center shrink-0" style="border:2px solid var(--line)"><i class="ph-bold ph-plus"></i></span>
+      </div>
+
+      <div class="q py-4 flex justify-between items-center gap-4 cursor-pointer">
+        <div>
+          <p class="d text-[17px] font-bold">Puis-je retourner un article ?</p>
+          <p class="ar text-[14px]">هل يمكنني إرجاع منتج؟</p>
+        </div>
+        <span class="w-8 h-8 rounded-full flex items-center justify-center shrink-0" style="border:2px solid var(--line)"><i class="ph-bold ph-plus"></i></span>
+      </div>
+
+      <div class="q py-4 flex justify-between items-center gap-4 cursor-pointer">
+        <div>
+          <p class="d text-[17px] font-bold">Comment commander via WhatsApp ?</p>
+          <p class="ar text-[14px]">كيف أطلب عبر واتساب؟</p>
+        </div>
+        <span class="w-8 h-8 rounded-full flex items-center justify-center shrink-0" style="border:2px solid var(--line)"><i class="ph-bold ph-plus"></i></span>
+      </div>
+    </div>
+
+    <button class="d text-[16px] font-bold mt-5 underline underline-offset-4" style="color:var(--pink)">Une autre question ? Écrivez-nous →</button>
+  </div>
+</section>
+
+<!-- MOBILE -->
+<section>
+  <div class="lbl mb-2">Mobile (visuel réduit au-dessus)</div>
+  <div class="card overflow-hidden">
+    <div class="h-32 flex items-center justify-center" style="background:linear-gradient(140deg,#FFE3EE,#D6F5F2)"><span class="d text-sm">Photo</span></div>
+    <div class="p-5">
+      <p class="d text-[15px] font-bold">Combien de temps prend la livraison ?</p>
+      <p class="text-[13px] mt-1" style="color:var(--soft)">Entre 24h et 48h selon votre ville.</p>
+      <div class="pt-3 mt-3 border-t-2 flex justify-between items-center" style="border-color:var(--line)">
+        <p class="d text-[15px] font-bold">La livraison est-elle gratuite ?</p>
+        <span class="w-7 h-7 rounded-full flex items-center justify-center shrink-0" style="border:2px solid var(--line)"><i class="ph-bold ph-plus"></i></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="card p-6">
+  <div class="lbl mb-3">Caractéristiques</div>
+  <ul class="text-[13px] space-y-1.5" style="color:var(--soft)">
+    <li>• Exactement la structure de talwine : <b>image + accordéon</b> côte à côte.</li>
+    <li>• L'image casse la monotonie et donne de la personnalité à la page.</li>
+    <li>• Nécessite une photo (équipe, colis, atelier) — à prévoir en étape 7.</li>
+    <li>• Mobile : image réduite au-dessus, accordéon dessous.</li>
+  </ul>
+</div>
+
+<div class="text-center text-[11px] py-4" style="color:var(--soft)">Maquette — rien n'est encore appliqué au site</div>
+</body>
+</html>

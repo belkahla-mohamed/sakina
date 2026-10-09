@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Palette A — Bubblegum Pop</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FFFDF7; --ink:#25235B; --ink-soft:#5B5986;
+    --primary:#FF6B9D; --primary-strong:#E8457F;
+    --secondary:#2EC4B6; --secondary-strong:#1B9A8E;
+    --highlight:#FFD166; --tertiary:#A78BFA;
+    --line:rgba(37,35,91,.14);
+    --pop:0 5px 0 var(--ink);
+  }
+  *{font-family:'Fredoka','Cairo',sans-serif;}
+  body{background:var(--bg);color:var(--ink);}
+  .rtl{direction:rtl;font-family:'Cairo',sans-serif;}
+  .sw{height:78px;border-radius:16px;border:1px solid var(--line);}
+  .btn{font-weight:600;font-size:14px;padding:12px 22px;border-radius:999px;box-shadow:var(--pop);}
+</style>
+</head>
+<body>
+
+<div class="text-center text-[12px] py-2 font-semibold text-white" style="background:var(--ink)">
+  <span style="color:var(--highlight)">PALETTE A</span> · Bubblegum Pop — 4/10 · maquette d'ambiance uniquement
+</div>
+
+<!-- ANNOUNCEMENT + HEADER -->
+<div class="text-center text-[13px] py-2 font-semibold text-white" style="background:var(--secondary-strong)">
+  Livraison gratuite partout au Maroc · <span class="rtl">التوصيل مجاني إلى جميع أنحاء المغرب</span>
+</div>
+
+<header class="border-b" style="border-color:var(--line)">
+  <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+    <div class="text-xl font-bold">Sakina <span style="color:var(--primary-strong)">Stores</span> 🎈</div>
+    <nav class="hidden md:flex gap-6 text-sm font-medium">
+      <a>Accueil</a><a>Boutique</a><a>Nouveautés</a><a>À propos</a><a>Contact</a>
+    </nav>
+    <div class="flex items-center gap-3 text-sm">
+      <span class="px-2.5 py-1 rounded-full border text-xs" style="border-color:var(--line)">FR / <span class="rtl">ع</span></span>
+      <button class="font-semibold px-5 py-2.5 rounded-full text-white text-xs" style="background:var(--primary-strong);box-shadow:var(--pop)">Panier 🛒</button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="max-w-6xl mx-auto px-4 pt-8">
+  <div class="rounded-[28px] overflow-hidden border" style="border-color:var(--line);background:linear-gradient(120deg,#FFE3EE 0%,#FFF3CF 50%,#D6F5F2 100%)">
+    <div class="px-8 py-14 md:py-20 md:px-14 max-w-2xl">
+      <span class="inline-block text-xs font-bold bg-white px-4 py-1.5 rounded-full border" style="color:var(--primary-strong);border-color:var(--line)">★ Nouvelle collection</span>
+      <h1 class="mt-5 text-4xl md:text-6xl font-bold leading-[1.05]">Un monde <span style="color:var(--primary-strong)">coloré</span> pour vos petits !</h1>
+      <p class="mt-3 rtl text-base">عالم مليء بالألوان لطفلكم</p>
+      <p class="mt-4 text-sm" style="color:var(--ink-soft)">Livraison gratuite · Paiement à la livraison · Retours faciles</p>
+      <div class="mt-7 flex flex-wrap gap-3">
+        <button class="btn text-white" style="background:var(--primary-strong)">Voir la boutique</button>
+        <button class="btn" style="background:var(--secondary-strong);color:#fff">Commander sur WhatsApp</button>
+        <button class="btn" style="background:#fff;color:var(--ink)">Voir tout</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CARDS -->
+<section class="max-w-6xl mx-auto px-4 pt-10">
+  <h2 class="text-lg font-bold mb-4">Nos catégories <span class="text-sm font-normal" style="color:var(--ink-soft)">— carte produit type</span></h2>
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div class="rounded-[20px] border overflow-hidden" style="border-color:var(--line);background:#fff">
+      <div class="h-32 flex items-center justify-center text-xs" style="background:var(--highlight);color:var(--ink)">Produit</div>
+      <div class="p-4">
+        <p class="text-sm font-semibold">Coffret créatif</p>
+        <p class="text-[11px] mt-0.5" style="color:var(--ink-soft)">★★★★★ (12)</p>
+        <div class="flex items-center gap-2 mt-1"><span class="font-bold text-sm">149,00 dh</span><span class="text-[11px] line-through" style="color:var(--ink-soft)">199,00 dh</span></div>
+        <span class="inline-block mt-2 text-[10px] text-white px-2.5 py-1 rounded-full font-bold" style="background:var(--primary-strong)">PROMO</span>
+      </div>
+    </div>
+    <div class="rounded-[20px] border overflow-hidden" style="border-color:var(--line);background:#fff">
+      <div class="h-32 flex items-center justify-center text-xs" style="background:var(--tertiary);color:#fff">Produit</div>
+      <div class="p-4">
+        <p class="text-sm font-semibold">Puzzle bois</p>
+        <p class="text-[11px] mt-0.5" style="color:var(--ink-soft)">★★★★☆ (7)</p>
+        <div class="flex items-center gap-2 mt-1"><span class="font-bold text-sm">89,00 dh</span></div>
+      </div>
+    </div>
+    <div class="rounded-[20px] border overflow-hidden" style="border-color:var(--line);background:#fff">
+      <div class="h-32 flex items-center justify-center text-xs" style="background:var(--secondary);color:#fff">Produit</div>
+      <div class="p-4">
+        <p class="text-sm font-semibold">Set coloriage</p>
+        <p class="text-[11px] mt-0.5" style="color:var(--ink-soft)">★★★★★ (4)</p>
+        <div class="flex items-center gap-2 mt-1"><span class="font-bold text-sm">79,00 dh</span></div>
+      </div>
+    </div>
+    <div class="rounded-[20px] border overflow-hidden flex flex-col" style="border-color:var(--line);background:var(--ink);color:#fff">
+      <div class="h-32 flex items-center justify-center text-xs" style="background:var(--primary)">Épuisé</div>
+      <div class="p-4">
+        <p class="text-sm font-semibold">Sac d'école</p>
+        <p class="text-[11px] mt-0.5 opacity-70">★★★★★ (2)</p>
+        <span class="inline-block mt-2 text-[10px] px-2.5 py-1 rounded-full font-bold" style="background:var(--highlight);color:var(--ink)">ÉPUISÉ</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PALETTE -->
+<section class="max-w-6xl mx-auto px-4 py-10">
+  <div class="rounded-[24px] border p-6" style="border-color:var(--line);background:#fff">
+    <h2 class="text-sm font-bold uppercase tracking-widest mb-4" style="color:var(--ink-soft)">Palette A — Bubblegum Pop</h2>
+    <div class="grid grid-cols-3 md:grid-cols-7 gap-3">
+      <div><div class="sw" style="background:#FFFDF7"></div><p class="text-[11px] mt-1">bg<br>#FFFDF7</p></div>
+      <div><div class="sw" style="background:#FF6B9D"></div><p class="text-[11px] mt-1">primary<br>#FF6B9D</p></div>
+      <div><div class="sw" style="background:#E8457F"></div><p class="text-[11px] mt-1">primary-strong<br>#E8457F</p></div>
+      <div><div class="sw" style="background:#2EC4B6"></div><p class="text-[11px] mt-1">secondary<br>#2EC4B6</p></div>
+      <div><div class="sw" style="background:#FFD166"></div><p class="text-[11px] mt-1">highlight<br>#FFD166</p></div>
+      <div><div class="sw" style="background:#A78BFA"></div><p class="text-[11px] mt-1">tertiary<br>#A78BFA</p></div>
+      <div><div class="sw" style="background:#25235B"></div><p class="text-[11px] mt-1">ink<br>#25235B</p></div>
+    </div>
+    <div class="mt-5 grid md:grid-cols-3 gap-3 text-[12px]">
+      <div class="p-3 rounded-xl" style="background:var(--bg);border:1px solid var(--line)">Texte ink sur bg — <b>contraste élevé ✓</b></div>
+      <div class="p-3 rounded-xl text-white" style="background:var(--primary-strong)">Blanc sur #E8457F — <b>OK (grand & gras) ✓</b></div>
+      <div class="p-3 rounded-xl text-white" style="background:var(--ink)">Blanc sur ink — <b>excellent ✓</b></div>
+    </div>
+    <p class="text-[12px] mt-4" style="color:var(--ink-soft)">Le même modèle que le mood-board B. Équilibré, très "bonbon", lisible.</p>
+  </div>
+</section>
+
+<footer class="text-white/70 text-xs" style="background:var(--ink)">
+  <div class="max-w-6xl mx-auto px-4 py-8 flex flex-wrap justify-between gap-4">
+    <p>© 2026 Sakina Stores — MAQUETTE PALETTE A</p>
+    <p class="rtl">متجر سكينة · المغرب</p>
+  </div>
+</footer>
+
+</body>
+</html>

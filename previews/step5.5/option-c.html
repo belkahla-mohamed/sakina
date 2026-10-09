@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hero C — Bloc couleur + produits</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito+Sans:wght@400;600;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/fill/style.css">
+<style>
+:root{--bg:#FFFDF7;--ink:#25235B;--soft:#5B5986;--pink:#E8457F;--teal:#1B9A8E;--yellow:#FFD166;--grape:#A78BFA;--line:rgba(37,35,91,.16);}
+*{font-family:'Nunito Sans',sans-serif;}
+body{background:var(--bg);color:var(--ink);}
+.d{font-family:'Baloo 2',cursive;}
+.ar{font-family:'Tajawal',sans-serif;direction:rtl;}
+.btn{font-family:'Baloo 2',cursive;font-weight:600;border-radius:999px;box-shadow:0 5px 0 var(--ink);}
+.lbl{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft);font-weight:700;}
+.card{border:2px solid var(--line);border-radius:20px;background:#fff;}
+.ph{font-size:18px;}
+</style>
+</head>
+<body>
+
+<div class="text-center text-[12px] py-2 font-semibold text-white" style="background:var(--ink)">
+  HERO C · <span style="color:#FFD166">Bloc couleur plein + 3 produits stars intégrés</span> — 5/10
+</div>
+
+<div class="text-center text-[13px] py-2 font-semibold text-white" style="background:var(--teal)">Livraison gratuite partout au Maroc · <span class="ar inline-block">التوصيل مجاني</span></div>
+<header class="border-b" style="border-color:var(--line);background:rgba(255,253,247,.95)">
+  <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+    <a class="d text-2xl font-bold">Sakina <span style="color:var(--pink)">Stores</span></a>
+    <nav class="hidden lg:flex gap-6 text-[15px] font-semibold"><a style="color:var(--pink)">Accueil</a><a>Boutique</a><a>Nouveautés</a><a>À propos</a><a>Contact</a></nav>
+    <div class="flex items-center gap-2.5">
+      <button class="w-9 h-9 rounded-full flex items-center justify-center border" style="border-color:var(--line)"><i class="ph ph-magnifying-glass"></i></button>
+      <div class="hidden sm:flex items-center gap-1.5 text-[13px] font-bold rounded-full px-2.5 py-1.5 border" style="border-color:var(--line)"><span>FR</span><span class="opacity-30">|</span><span class="ar">عربي</span></div>
+      <button class="w-9 h-9 rounded-full flex items-center justify-center border relative" style="border-color:var(--line)"><i class="ph ph-shopping-cart"></i><span class="absolute -top-1 -right-1 text-[9px] font-extrabold w-4 h-4 rounded-full flex items-center justify-center text-white" style="background:var(--pink)">2</span></button>
+      <button class="btn hidden sm:flex items-center gap-2 text-white text-[13px] px-5 py-2" style="background:var(--pink)"><i class="ph-fill ph-whatsapp-logo" style="font-size:16px"></i> WhatsApp</button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="px-4 pt-8">
+  <div class="max-w-6xl mx-auto rounded-[32px] border-2 overflow-hidden" style="border-color:var(--ink);background:var(--pink);box-shadow:0 10px 0 rgba(37,35,91,.9)">
+    <div class="px-7 md:px-12 pt-10 pb-8 text-white">
+      <span class="inline-block text-[11px] font-extrabold px-3.5 py-1.5 rounded-full" style="background:var(--yellow);color:var(--ink)">★ NOUVELLE COLLECTION 2026</span>
+      <h1 class="d mt-5 text-5xl md:text-6xl font-bold leading-[1.02] max-w-2xl">Un monde coloré pour vos petits !</h1>
+      <p class="ar mt-3 text-2xl font-bold opacity-95">عالم مليء بالألوان لطفلكم</p>
+      <p class="mt-4 text-base max-w-lg opacity-95">Jouets, livres et accessoires choisis avec soin — livrés en 24h à 48h, paiement à la livraison.</p>
+      <div class="mt-7 flex flex-wrap gap-3">
+        <button class="btn text-white px-7 py-3.5 text-sm" style="background:var(--ink)">Voir la boutique</button>
+        <button class="btn px-7 py-3.5 text-sm flex items-center gap-2" style="background:#1FDA25;color:#0b3d10"><i class="ph-fill ph-whatsapp-logo" style="font-size:17px"></i> Commander sur WhatsApp</button>
+      </div>
+    </div>
+
+    <!-- 3 produits stars -->
+    <div class="px-5 pb-6 md:px-10 md:pb-9">
+      <div class="grid grid-cols-3 gap-3 md:gap-5">
+        <div class="rounded-2xl border-2 overflow-hidden" style="border-color:var(--ink);background:#fff">
+          <div class="h-20 md:h-28 flex items-center justify-center text-[11px]" style="background:var(--yellow)">Photo</div>
+          <div class="p-3">
+            <p class="d text-[13px] font-semibold leading-tight">Coffret créatif</p>
+            <p class="text-[10px]" style="color:var(--soft)">★★★★★ (12)</p>
+            <p class="text-[14px] font-extrabold mt-0.5">149,00 dh</p>
+          </div>
+        </div>
+        <div class="rounded-2xl border-2 overflow-hidden" style="border-color:var(--ink);background:#fff">
+          <div class="h-20 md:h-28 flex items-center justify-center text-[11px]" style="background:var(--grape);color:#fff">Photo</div>
+          <div class="p-3">
+            <p class="d text-[13px] font-semibold leading-tight">Puzzle bois</p>
+            <p class="text-[10px]" style="color:var(--soft)">★★★★☆ (7)</p>
+            <p class="text-[14px] font-extrabold mt-0.5">89,00 dh</p>
+          </div>
+        </div>
+        <div class="rounded-2xl border-2 overflow-hidden" style="border-color:var(--ink);background:#fff">
+          <div class="h-20 md:h-28 flex items-center justify-center text-[11px]" style="background:var(--teal);color:#fff">Photo</div>
+          <div class="p-3">
+            <p class="d text-[13px] font-semibold leading-tight">Set coloriage</p>
+            <p class="text-[10px]" style="color:var(--soft)">★★★★★ (4)</p>
+            <p class="text-[14px] font-extrabold mt-0.5">79,00 dh</p>
+          </div>
+        </div>
+      </div>
+      <div class="mt-4 flex flex-wrap justify-between items-center gap-3 text-white text-[12px] font-bold">
+        <span>🚚 Livraison gratuite</span><span>💵 Paiement à la livraison</span><span>↩️ Retours 7 jours</span>
+        <a class="underline underline-offset-4">Voir tous les produits →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MOBILE -->
+<div class="max-w-6xl mx-auto px-4 pt-8">
+  <div class="lbl mb-2">Mobile</div>
+  <div class="rounded-[24px] border-2 overflow-hidden" style="border-color:var(--ink);background:var(--pink);box-shadow:0 8px 0 rgba(37,35,91,.9)">
+    <div class="p-5 text-white">
+      <span class="inline-block text-[10px] font-extrabold px-3 py-1 rounded-full" style="background:var(--yellow);color:var(--ink)">★ NOUVELLE COLLECTION</span>
+      <h1 class="d mt-3 text-3xl font-bold leading-[1.05]">Un monde coloré pour vos petits !</h1>
+      <p class="ar mt-2 text-lg font-bold">عالم مليء بالألوان لطفلكم</p>
+      <button class="btn w-full mt-4 text-sm py-3" style="background:var(--ink)">Voir la boutique</button>
+      <button class="btn w-full mt-3 text-sm py-3 flex items-center justify-center gap-2" style="background:#1FDA25;color:#0b3d10"><i class="ph-fill ph-whatsapp-logo" style="font-size:16px"></i> Commander sur WhatsApp</button>
+    </div>
+    <div class="px-4 pb-4 grid grid-cols-3 gap-2">
+      <div class="rounded-xl border-2 overflow-hidden" style="border-color:var(--ink);background:#fff"><div class="h-14 flex items-center justify-center text-[10px]" style="background:var(--yellow)">Photo</div><div class="p-2"><p class="text-[11px] font-extrabold">149 dh</p></div></div>
+      <div class="rounded-xl border-2 overflow-hidden" style="border-color:var(--ink);background:#fff"><div class="h-14 flex items-center justify-center text-[10px]" style="background:var(--grape);color:#fff">Photo</div><div class="p-2"><p class="text-[11px] font-extrabold">89 dh</p></div></div>
+      <div class="rounded-xl border-2 overflow-hidden" style="border-color:var(--ink);background:#fff"><div class="h-14 flex items-center justify-center text-[10px]" style="background:var(--teal);color:#fff">Photo</div><div class="p-2"><p class="text-[11px] font-extrabold">79 dh</p></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="max-w-6xl mx-auto px-4 pt-8">
+  <div class="card p-6">
+    <div class="lbl mb-3">Caractéristiques</div>
+    <ul class="text-[13px] space-y-1.5" style="color:var(--soft)">
+      <li>• Un <b>bloc rose plein</b> bordé d'encre avec ombre portée — signature forte de la marque.</li>
+      <li>• 3 produits stars <b>dans le hero</b> : on vend dès le premier écran.</li>
+      <li>• Arguments de confiance + lien « Voir tous les produits » sous les cartes.</li>
+      <li>• Très fort en identité de marque, moins « photo ».</li>
+      <li>• Risque : sans photo, le haut peut sembler vide sur grand écran.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="text-center text-[11px] py-6" style="color:var(--soft)">Maquette — rien n'est encore appliqué au site</div>
+</body>
+</html>
