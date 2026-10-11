@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Baloo_2, Nunito_Sans, Tajawal } from "next/font/google";
 import { cookies } from "next/headers";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { SITE } from "@/lib/config";
 import { getPublicSettings } from "@/lib/site";
@@ -57,6 +58,7 @@ export default async function RootLayout({
         <Providers initialLang={initialLang} settings={settings}>
           {children}
         </Providers>
+        <Analytics />
       </body>
     </html>
   );
