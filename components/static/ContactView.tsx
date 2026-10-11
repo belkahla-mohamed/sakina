@@ -13,7 +13,7 @@ import {
 import { useLang, useSettings } from "@/components/providers";
 import { WaIcon } from "@/components/WaIcon";
 import { SITE } from "@/lib/config";
-import { whatsappLink } from "@/lib/whatsapp";
+import { openWhatsApp, whatsappLink } from "@/lib/whatsapp";
 
 export function ContactView() {
   const { lang, t } = useLang();
@@ -31,7 +31,7 @@ export function ContactView() {
     const text = lang === "ar"
       ? `مرحبًا ساكينا،\n${message}\n\nالاسم: ${name}\nالهاتف: ${phone}`
       : `Bonjour Sakina,\n${message}\n\nNom : ${name}\nTél : ${phone}`;
-    window.open(whatsappLink(text, settings.whatsapp), "_blank", "noopener,noreferrer");
+    openWhatsApp(text, settings.whatsapp);
   }
 
   const rows = [

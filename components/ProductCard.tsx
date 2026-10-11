@@ -32,7 +32,7 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
 
   return (
     <div
-      className="card overflow-hidden flex flex-col relative group hover:-translate-y-1 anim-fade-up"
+      className="card h-full overflow-hidden flex flex-col relative group hover:-translate-y-1 anim-fade-up"
       style={{ animationDelay: `${Math.min(index, 7) * 60}ms` }}
     >
       <div className="relative aspect-[4/3] overflow-hidden bg-highlight/30">
@@ -75,7 +75,7 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
 
       <div className="p-3.5 flex flex-col flex-1">
         <Link href={`/product/${product.slug}`} className="leading-tight">
-          <p className="font-display font-bold text-[15px] line-clamp-2">
+          <p className="font-display font-bold text-[15px] line-clamp-2 min-h-[2.5em]">
             {lang === "ar" ? product.name_ar : product.name_fr}
           </p>
         </Link>
@@ -95,35 +95,37 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
           )}
         </div>
 
-        <button
-          type="button"
-          onClick={handleAdd}
-          disabled={soldOut}
-          className={`mt-3 w-full inline-flex items-center justify-center gap-1.5 rounded-[10px] py-2.5 font-display font-bold text-[13.5px] transition-colors ${
-            soldOut
-              ? "border border-line text-ink-soft"
-              : added
-                ? "bg-ink text-white"
-                : "bg-primary text-white hover:bg-ink"
-          }`}
-        >
-          {soldOut ? (
-            t("product.out")
-          ) : (
-            <span className={`inline-flex items-center gap-1.5 ${added ? "anim-pop" : ""}`}>
-              {added ? (
-                <>
-                  <Check size={15} weight="bold" /> {t("product.added")}
-                </>
-              ) : (
-                <>
-                  <span className="sm:hidden">{t("product.add_short")}</span>
-                  <span className="hidden sm:inline">{t("product.add")}</span>
-                </>
-              )}
-            </span>
-          )}
-        </button>
+        <div className="mt-auto pt-3">
+          <button
+            type="button"
+            onClick={handleAdd}
+            disabled={soldOut}
+            className={`w-full inline-flex items-center justify-center gap-1.5 rounded-[10px] py-2.5 font-display font-bold text-[13.5px] transition-colors ${
+              soldOut
+                ? "border border-line text-ink-soft"
+                : added
+                  ? "bg-ink text-white"
+                  : "bg-primary text-white hover:bg-ink"
+            }`}
+          >
+            {soldOut ? (
+              t("product.out")
+            ) : (
+              <span className={`inline-flex items-center gap-1.5 ${added ? "anim-pop" : ""}`}>
+                {added ? (
+                  <>
+                    <Check size={15} weight="bold" /> {t("product.added")}
+                  </>
+                ) : (
+                  <>
+                    <span className="sm:hidden">{t("product.add_short")}</span>
+                    <span className="hidden sm:inline">{t("product.add")}</span>
+                  </>
+                )}
+              </span>
+            )}
+          </button>
+        </div>
       </div>
     </div>
   );

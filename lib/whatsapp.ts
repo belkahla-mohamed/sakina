@@ -95,6 +95,15 @@ export function whatsappLink(message?: string, number: string = SITE.whatsapp): 
   return message ? `${base}?text=${encodeURIComponent(message)}` : base;
 }
 
+export function whatsappAppLink(message?: string, number: string = SITE.whatsapp): string {
+  const text = message ? `&text=${encodeURIComponent(message)}` : "";
+  return `whatsapp://send?phone=${number}${text}`;
+}
+
+export function openWhatsApp(message?: string, number: string = SITE.whatsapp): void {
+  window.location.href = whatsappAppLink(message, number);
+}
+
 export interface ReviewInput {
   name: string;
   city: string;

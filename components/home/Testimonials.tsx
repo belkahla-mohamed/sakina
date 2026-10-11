@@ -3,7 +3,7 @@
 import { useMemo, useState, useSyncExternalStore } from "react";
 import { Star, CheckCircle, Plus, PaperPlaneTilt } from "@phosphor-icons/react";
 import { useLang, useSettings } from "@/components/providers";
-import { buildReviewMessage, whatsappLink } from "@/lib/whatsapp";
+import { buildReviewMessage, openWhatsApp } from "@/lib/whatsapp";
 
 const REVIEWS = [
   {
@@ -129,7 +129,7 @@ export function Testimonials() {
     if (Object.values(nextErrors).some(Boolean)) return;
 
     const message = buildReviewMessage({ name, city, rating, text });
-    window.open(whatsappLink(message, settings.whatsapp), "_blank", "noopener,noreferrer");
+    openWhatsApp(message, settings.whatsapp);
 
     const review: LocalReview = {
       name: name.trim(),

@@ -10,6 +10,7 @@ import {
   buildLines,
   buildOrderMessage,
   computeTotals,
+  openWhatsApp,
   whatsappLink,
 } from "@/lib/whatsapp";
 import { WaIcon } from "@/components/WaIcon";
@@ -44,6 +45,7 @@ export function CheckoutView({ products }: { products: Product[] }) {
   const [sent, setSent] = useState(false);
   const [sending, setSending] = useState(false);
   const [orderError, setOrderError] = useState<string | null>(null);
+  const [waWeb, setWaWeb] = useState<string | null>(null);
 
   const lines = buildLines(entries, products);
   const totals = computeTotals(lines, settings.freeShippingFrom);
@@ -87,7 +89,8 @@ export function CheckoutView({ products }: { products: Product[] }) {
 
     const message = buildOrderMessage(lines, totals, { name, phone, city, address });
     const withRef = `${message}\n\nRéf : ${result.reference}`;
-    window.open(whatsappLink(withRef, settings.whatsapp), "_blank", "noopener,noreferrer");
+    setWaWeb(whatsappLink(withRef, settings.whatsapp));
+    openWhatsApp(withRef, settings.whatsapp);
     setSent(true);
   }
 
@@ -140,13 +143,19 @@ export function CheckoutView({ products }: { products: Product[] }) {
                 : "Une fois envoyé, vous pouvez vider le panier et continuer."}
             </p>
           </div>
+          {waWeb && (
+            <a href={waWeb} target="_blank" rel="noopener noreferrer" className="btn btn-wa shrink-0">
+              <WaIcon size={18} />
+              {lang === "ar" ? "إعادة فتح واتساب" : "Rouvrir WhatsApp"}
+            </a>
+          )}
           <button
             type="button"
             onClick={() => {
               clear();
               setSent(false);
             }}
-            className="btn btn-outline"
+            className="btn btn-outline shrink-0"
           >
             {lang === "ar" ? "تفريغ السلة" : "Vider le panier"}
           </button>
