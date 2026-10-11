@@ -100,7 +100,7 @@ export async function updateProfileEmail(
         solution: t("admin.msg.emailTakenSol"),
       };
     }
-    return actionState(e);
+    return actionState(e, t.lang);
   }
   revalidatePath("/admin", "layout");
   return {
@@ -152,7 +152,7 @@ export async function updateProfilePassword(
       admin.id,
     ]);
   } catch (e) {
-    return actionState(e);
+    return actionState(e, t.lang);
   }
   return {
     ok: t("admin.msg.passUpdated"),
@@ -257,7 +257,7 @@ export async function saveProduct(
       }
     }
   } catch (e) {
-    return actionState(e);
+    return actionState(e, t.lang);
   }
 
   revalidateStore();
@@ -282,7 +282,7 @@ export async function deleteProduct(
   try {
     await dbDeleteProduct(slug);
   } catch (e) {
-    return actionState(e);
+    return actionState(e, t.lang);
   }
   revalidateStore();
   return { ok: t("admin.msg.productDeleted"), okSolution: t("admin.msg.productDeletedSol") };
@@ -333,7 +333,7 @@ export async function saveCategory(
   try {
     await dbUpsertCategory(input);
   } catch (e) {
-    return actionState(e);
+    return actionState(e, t.lang);
   }
   revalidateStore();
   await setFlash({
@@ -357,7 +357,7 @@ export async function deleteCategory(
   try {
     await dbDeleteCategory(slug);
   } catch (e) {
-    return actionState(e);
+    return actionState(e, t.lang);
   }
   revalidateStore();
   return { ok: t("admin.msg.categoryDeleted") };
@@ -382,7 +382,7 @@ export async function setOrderStatus(
   try {
     await dbUpdateOrderStatus(id, status);
   } catch (e) {
-    return actionState(e);
+    return actionState(e, t.lang);
   }
   updateTag("orders");
   revalidatePath("/admin/commandes");
@@ -403,7 +403,7 @@ export async function saveOrderNote(
   try {
     await dbUpdateOrderNote(id, note || null);
   } catch (e) {
-    return actionState(e);
+    return actionState(e, t.lang);
   }
   revalidatePath("/admin/commandes");
   return { ok: note ? t("admin.msg.noteSaved") : t("admin.msg.noteCleared") };
@@ -428,7 +428,7 @@ export async function setReviewStatus(
   try {
     await dbSetReviewStatus(id, status);
   } catch (e) {
-    return actionState(e);
+    return actionState(e, t.lang);
   }
   updateTag("reviews");
   revalidatePath("/admin/avis");
@@ -450,7 +450,7 @@ export async function deleteReview(
   try {
     await dbDeleteReview(id);
   } catch (e) {
-    return actionState(e);
+    return actionState(e, t.lang);
   }
   updateTag("reviews");
   revalidatePath("/admin/avis");
@@ -484,7 +484,7 @@ export async function saveSettings(
       await dbUpsertSetting(key, str(fd.get(key)));
     }
   } catch (e) {
-    return actionState(e);
+    return actionState(e, t.lang);
   }
   updateTag("settings");
   revalidatePath("/", "layout");

@@ -45,7 +45,7 @@ export async function login(
       email,
     ]);
   } catch (e) {
-    return actionState(e);
+    return actionState(e, t.lang);
   }
 
   if (!admin || !(await verifyPassword(password, admin.password_hash))) {
@@ -61,7 +61,7 @@ export async function login(
     ]);
     await createSession({ id: admin.id, email: admin.email, name: admin.name });
   } catch (e) {
-    return actionState(e);
+    return actionState(e, t.lang);
   }
 
   // Only allow same-origin relative redirects to avoid open redirects.
