@@ -70,27 +70,39 @@ export function Footer() {
 
         <div className="flex flex-wrap items-center gap-4 mt-9 pt-6 border-t border-white/10">
           <div className="flex gap-2">
-            <a
-              href="#"
-              aria-label="Instagram"
-              className="w-11 h-11 rounded-full flex items-center justify-center bg-white/10 hover:bg-white/20"
-            >
-              <InstagramLogo size={20} />
-            </a>
-            <a
-              href="#"
-              aria-label="TikTok"
-              className="w-11 h-11 rounded-full flex items-center justify-center bg-white/10 hover:bg-white/20"
-            >
-              <TiktokLogo size={20} />
-            </a>
-            <a
-              href="#"
-              aria-label="Facebook"
-              className="w-11 h-11 rounded-full flex items-center justify-center bg-white/10 hover:bg-white/20"
-            >
-              <FacebookLogo size={20} />
-            </a>
+            {settings.social_instagram && (
+              <a
+                href={settings.social_instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                className="w-11 h-11 rounded-full flex items-center justify-center bg-white/10 hover:bg-white/20"
+              >
+                <InstagramLogo size={20} />
+              </a>
+            )}
+            {settings.social_tiktok && (
+              <a
+                href={settings.social_tiktok}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="TikTok"
+                className="w-11 h-11 rounded-full flex items-center justify-center bg-white/10 hover:bg-white/20"
+              >
+                <TiktokLogo size={20} />
+              </a>
+            )}
+            {settings.social_facebook && (
+              <a
+                href={settings.social_facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+                className="w-11 h-11 rounded-full flex items-center justify-center bg-white/10 hover:bg-white/20"
+              >
+                <FacebookLogo size={20} />
+              </a>
+            )}
           </div>
           <a
             href={`https://wa.me/${settings.whatsapp}`}

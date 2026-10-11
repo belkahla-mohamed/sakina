@@ -3,6 +3,8 @@
 import { useRef, useState } from "react";
 import Image from "next/image";
 import { Image as ImageIcon, UploadSimple, X } from "@phosphor-icons/react";
+import { useLang } from "@/components/providers";
+import type { UploadKind } from "@/lib/cloudinary";
 
 const MAX_MB = 8;
 const ACCEPT = "image/jpeg,image/png,image/webp,image/avif,image/gif,image/svg+xml";
@@ -18,12 +20,18 @@ const ACCEPT = "image/jpeg,image/png,image/webp,image/avif,image/gif,image/svg+x
 export function ImageField({
   name = "image",
   value = "",
-  label = "Image",
+  label,
+  kind = "product",
+  onUrlChange,
 }: {
   name?: string;
   value?: string;
   label?: string;
+  kind?: UploadKind;
+  onUrlChange?: (url: string) => void;
 }) {
+  const { t } = useLang();
+  const labelText = label ?? t("admin.form.image");
   const [url, setUrl] = useState(value);
   const [preview, setPreview] = useState(value);
   const [busy, setBusy] = useState(false);
@@ -34,11 +42,11 @@ export function ImageField({
     setError(null);
 
     if (!ACCEPT.split(",").includes(file.type)) {
-      setError("Format non supporté. JPEG, PNG, WebP, AVIF, GIF ou SVG.");
+      setError(t("admin.form.badFormat"));
       return;
     }
     if (file.size > MAX_MB * 1024 * 1024) {
-      setError(`Image trop lourde (${(file.size / 1024 / 1024).toFixed(1)} Mo). Maximum ${MAX_MB} Mo.`);
+      setError(t("admin.form.tooHeavy").replace("{n}", (file.size / 1024 / 1024).toFixed(1)));
       return;
     }
 
@@ -50,22 +58,23 @@ export function ImageField({
     try {
       const fd = new FormData();
       fd.append("file", file);
-      fd.append("kind", "product");
+      fd.append("kind", kind);
 
       const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
       const data: { url?: string; error?: string } = await res.json().catch(() => ({}));
 
       if (!res.ok || !data.url) {
-        throw new Error(data.error || `Échec de l'envoi (HTTP ${res.status}).`);
+        throw new Error(data.error || t("admin.form.httpFail").replace("{n}", String(res.status)));
       }
 
       URL.revokeObjectURL(local);
       setUrl(data.url);
       setPreview(data.url);
+      onUrlChange?.(data.url);
     } catch (e) {
       URL.revokeObjectURL(local);
       setPreview(url);
-      setError(e instanceof Error ? e.message : "Échec de l'envoi.");
+      setError(e instanceof Error ? e.message : t("admin.form.uploadFail"));
     } finally {
       setBusy(false);
       if (inputRef.current) inputRef.current.value = "";
@@ -76,6 +85,7 @@ export function ImageField({
     setUrl("");
     setPreview("");
     setError(null);
+    onUrlChange?.("");
   }
 
   return (
@@ -83,7 +93,7 @@ export function ImageField({
       {/* The form submits this string — same shape saveProduct already expects. */}
       <input type="hidden" name={name} value={url} />
 
-      <span className="block text-[13.5px] font-bold mb-1.5">{label}</span>
+      <span className="block text-[13.5px] font-bold mb-1.5">{labelText}</span>
 
       <div className="flex flex-wrap items-start gap-3">
         <div className="relative w-24 h-24 shrink-0 rounded-[12px] overflow-hidden border-2 border-dashed border-line bg-highlight/20 flex items-center justify-center">
@@ -91,7 +101,7 @@ export function ImageField({
             <>
               <Image
                 src={preview}
-                alt="Aperçu du produit"
+                alt={t("admin.form.previewAlt")}
                 fill
                 sizes="96px"
                 className="object-cover"
@@ -125,9 +135,10 @@ export function ImageField({
             onChange={(e) => {
               setUrl(e.target.value);
               setPreview(e.target.value);
+              onUrlChange?.(e.target.value);
             }}
             placeholder="https://res.cloudinary.com/… ou /img/products/…"
-            aria-label="URL de l'image"
+            aria-label={t("admin.form.imageUrl")}
             className="field w-full px-3.5 py-2.5 text-[13px]"
           />
 
@@ -139,14 +150,14 @@ export function ImageField({
               className="btn btn-outline !px-3 !py-2 text-[12.5px] disabled:opacity-60"
             >
               <UploadSimple size={14} weight="bold" />
-              {busy ? "Envoi vers Cloudinary…" : "Envoyer vers Cloudinary"}
+              {busy ? t("admin.form.uploading") : t("admin.form.upload")}
             </button>
             {url && (
               <button
                 type="button"
                 onClick={clear}
                 disabled={busy}
-                aria-label="Retirer l'image"
+                aria-label={t("admin.form.removeImage")}
                 className="btn !px-2.5 !py-2 text-[12.5px] border-2 border-line text-ink-soft hover:border-primary hover:text-primary"
               >
                 <X size={14} weight="bold" />

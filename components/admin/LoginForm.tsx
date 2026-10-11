@@ -2,12 +2,14 @@
 
 import { useActionState } from "react";
 import { login, type LoginState } from "@/app/admin/login/actions";
+import { useLang } from "@/components/providers";
 
 export function LoginForm({ next }: { next: string }) {
   const [state, formAction, pending] = useActionState<LoginState, FormData>(
     login,
     {}
   );
+  const { t } = useLang();
 
   return (
     <form action={formAction} className="space-y-4" noValidate>
@@ -15,7 +17,7 @@ export function LoginForm({ next }: { next: string }) {
 
       <div>
         <label htmlFor="email" className="block text-[13.5px] font-bold mb-1.5">
-          Email
+          {t("admin.login.email")}
         </label>
         <input
           id="email"
@@ -30,7 +32,7 @@ export function LoginForm({ next }: { next: string }) {
 
       <div>
         <label htmlFor="password" className="block text-[13.5px] font-bold mb-1.5">
-          Mot de passe
+          {t("admin.login.password")}
         </label>
         <input
           id="password"
@@ -57,7 +59,7 @@ export function LoginForm({ next }: { next: string }) {
       )}
 
       <button type="submit" className="btn btn-primary w-full" disabled={pending}>
-        {pending ? "Connexion…" : "Se connecter"}
+        {pending ? t("admin.login.pending") : t("admin.login.submit")}
       </button>
     </form>
   );

@@ -14,6 +14,7 @@ import {
 import { createPortal } from "react-dom";
 import { usePathname } from "next/navigation";
 import { CheckCircle, WarningCircle, WarningOctagon, X } from "@phosphor-icons/react";
+import { useLang } from "@/components/providers";
 
 export interface Toast {
   id: number;
@@ -249,13 +250,16 @@ function ConfirmDialog({
 }) {
   const panelRef = useRef<HTMLDivElement>(null);
   const cancelRef = useRef<HTMLButtonElement>(null);
+  const { t } = useLang();
   const {
     title,
     message,
-    confirmLabel = "Confirmer",
-    cancelLabel = "Annuler",
+    confirmLabel,
+    cancelLabel,
     tone = "danger",
   } = options;
+  const confirmText = confirmLabel ?? t("admin.dialog.confirm");
+  const cancelText = cancelLabel ?? t("admin.form.cancel");
 
   useEffect(() => {
     cancelRef.current?.focus();
@@ -298,7 +302,7 @@ function ConfirmDialog({
       <button
         type="button"
         tabIndex={-1}
-        aria-label="Fermer"
+        aria-label={t("admin.dialog.close")}
         onClick={() => onResolve(false)}
         className="absolute inset-0 cursor-default bg-ink/45 backdrop-blur-[3px]"
       />
@@ -337,7 +341,7 @@ function ConfirmDialog({
             onClick={() => onResolve(false)}
             className="btn btn-outline !px-5 !py-2.5 !text-[14px]"
           >
-            {cancelLabel}
+            {cancelText}
           </button>
           <button
             type="button"
@@ -346,7 +350,7 @@ function ConfirmDialog({
               tone === "danger" ? "btn-primary" : "btn-secondary"
             }`}
           >
-            {confirmLabel}
+            {confirmText}
           </button>
         </div>
       </div>

@@ -2,30 +2,35 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SITE } from "@/lib/config";
+import { adminT } from "@/lib/admin-lang";
 import { LoginForm } from "@/components/admin/LoginForm";
 
-export const metadata: Metadata = {
-  title: "Connexion admin",
-  robots: { index: false, follow: false },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await adminT();
+  return {
+    title: t("admin.login.title"),
+    robots: { index: false, follow: false },
+  };
+}
 
-export default function AdminLoginPage({
+export default async function AdminLoginPage({
   searchParams,
 }: {
   searchParams: Promise<{ next?: string }>;
 }) {
+  const t = await adminT();
   // The page itself never awaits `searchParams` — it hands the promise to a
   // child behind Suspense. Awaiting it here would block the shell and defeat
   // the instant-shell / partial-prerender path Next 16 expects.
   return (
-    <div dir="ltr" className="min-h-screen flex items-center justify-center px-4 py-12">
+    <div className="min-h-screen flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-[420px] anim-fade-up">
         <div className="text-center mb-6">
           <p className="font-display text-[26px] font-bold text-ink">
-            {SITE.name} <span className="text-primary">Admin</span>
+            {SITE.name} <span className="text-primary">{t("admin.nav.brandAdmin")}</span>
           </p>
           <p className="text-[14px] text-ink-soft mt-1">
-            Espace de gestion de la boutique
+            {t("admin.login.sub")}
           </p>
         </div>
 
@@ -37,7 +42,7 @@ export default function AdminLoginPage({
 
         <p className="text-center text-[12.5px] text-ink-soft mt-5">
           <Link href="/" className="underline hover:text-ink">
-            ← Retour à la boutique
+            {t("admin.nav.backShop")}
           </Link>
         </p>
       </div>

@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { q1, q } from "@/lib/db/pool";
 import { verifyPassword } from "@/lib/auth/password";
 import { createSession } from "@/lib/auth/session";
+import { adminT } from "@/lib/admin-lang";
 import { actionState } from "@/lib/admin-errors";
 
 export interface LoginState {
@@ -18,11 +19,12 @@ export async function login(
   const email = String(formData.get("email") ?? "").trim().toLowerCase();
   const password = String(formData.get("password") ?? "");
   const next = String(formData.get("next") ?? "").trim();
+  const t = await adminT();
 
   if (!email || !password) {
     return {
-      error: "Il manque l'email ou le mot de passe.",
-      solution: "Saisissez les deux champs, puis cliquez sur « Se connecter ».",
+      error: t("admin.login.missingError"),
+      solution: t("admin.login.missingSolution"),
     };
   }
 
@@ -48,9 +50,8 @@ export async function login(
 
   if (!admin || !(await verifyPassword(password, admin.password_hash))) {
     return {
-      error: "Email ou mot de passe incorrect.",
-      solution:
-        "Vérifiez l'orthographe de l'email et le verrouillage majuscules de votre clavier, puis réessayez.",
+      error: t("admin.login.invalidError"),
+      solution: t("admin.login.invalidSolution"),
     };
   }
 

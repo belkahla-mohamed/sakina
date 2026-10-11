@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { connection } from "next/server";
 import { Icon } from "@/components/Icon";
+import { adminT } from "@/lib/admin-lang";
 import { dbAdminCategory } from "@/lib/db/store";
 import { CategoryForm } from "@/components/admin/CategoryForm";
 import { AdminSection } from "@/components/admin/AdminSection";
@@ -12,10 +13,11 @@ interface Params {
 }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
+  const t = await adminT();
   const { slug } = await params;
   const category = await dbAdminCategory(slug);
-  if (!category) return { title: "Catégorie introuvable" };
-  return { title: `Modifier · ${category.name_fr}` };
+  if (!category) return { title: t("admin.category.notFound") };
+  return { title: `${t("admin.product.edit")} · ${category.name_fr}` };
 }
 
 export default function EditCategoryPage({ params }: Params) {
@@ -28,6 +30,7 @@ export default function EditCategoryPage({ params }: Params) {
 
 async function EditCategoryContent({ params }: Params) {
   await connection();
+  const t = await adminT();
   const { slug } = await params;
   const category = await dbAdminCategory(slug);
 
@@ -39,10 +42,10 @@ async function EditCategoryContent({ params }: Params) {
         href="/admin/categories"
         className="inline-flex items-center gap-1.5 text-[13.5px] font-bold text-ink-soft hover:text-ink"
       >
-        <Icon name="arrow-left" size={15} weight="bold" />
-        Retour aux catégories
+        <Icon name="arrow-left" size={15} weight="bold" className="rtl:rotate-180" />
+        {t("admin.category.back")}
       </Link>
-      <h1 className="text-[28px] font-bold">Modifier · {category.name_fr}</h1>
+      <h1 className="text-[28px] font-bold">{t("admin.product.edit")} · {category.name_fr}</h1>
       <CategoryForm category={category} />
     </div>
   );

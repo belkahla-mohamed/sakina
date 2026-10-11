@@ -2,9 +2,12 @@
 
 import { useActionState, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Backpack, BookOpen, Gift, PuzzlePiece, TShirt } from "@phosphor-icons/react";
 import { saveCategory, type ActionState } from "@/app/admin/actions";
 import { useActionToast } from "@/components/admin/useActionToast";
+import { ImageField } from "@/components/admin/ImageField";
+import { useLang } from "@/components/providers";
 import type { Category } from "@/lib/types";
 
 const ICONS: Record<string, typeof Gift> = {
@@ -15,24 +18,26 @@ const ICONS: Record<string, typeof Gift> = {
   tshirt: TShirt,
 };
 
-const ICON_OPTIONS = [
-  { value: "gift", label: "Cadeau" },
-  { value: "puzzle", label: "Puzzle" },
-  { value: "book", label: "Livre" },
-  { value: "backpack", label: "Sac à dos" },
-  { value: "tshirt", label: "T-shirt" },
-];
-
 export function CategoryForm({ category }: { category?: Category }) {
   const [state, formAction, pending] = useActionState<ActionState, FormData>(
     saveCategory,
     {}
   );
   useActionToast(state);
+  const { t } = useLang();
   const isEdit = Boolean(category);
   const [color, setColor] = useState(category?.color ?? "#FF6B9D");
   const [icon, setIcon] = useState(category?.icon ?? "gift");
   const [textChoice, setTextChoice] = useState(category?.text ?? "light");
+  const [img, setImg] = useState(category?.image ?? "");
+
+  const ICON_OPTIONS = [
+    { value: "gift", label: t("admin.category.iconGift") },
+    { value: "puzzle", label: t("admin.category.iconPuzzle") },
+    { value: "book", label: t("admin.category.iconBook") },
+    { value: "backpack", label: t("admin.category.iconBackpack") },
+    { value: "tshirt", label: t("admin.category.iconTshirt") },
+  ];
 
   const label = "block text-[13.5px] font-bold mb-1.5";
   const field = "field w-full px-3.5 py-2.5";
@@ -45,24 +50,24 @@ export function CategoryForm({ category }: { category?: Category }) {
 
       {/* Identity */}
       <section className="card p-5 space-y-4">
-        <h2 className="font-display text-[17px] font-bold">Identité</h2>
+        <h2 className="font-display text-[17px] font-bold">{t("admin.form.identity")}</h2>
         <div className="grid sm:grid-cols-2 gap-4">
           <div>
             <label htmlFor="name_fr" className={label}>
-              Nom (FR) <span className="text-primary">*</span>
+              {t("admin.form.nameFr")} <span className="text-primary">*</span>
             </label>
             <input id="name_fr" name="name_fr" defaultValue={category?.name_fr} required className={field} />
           </div>
           <div>
             <label htmlFor="name_ar" className={label}>
-              Nom (AR) <span className="text-primary">*</span>
+              {t("admin.form.nameAr")} <span className="text-primary">*</span>
             </label>
             <input id="name_ar" name="name_ar" dir="rtl" defaultValue={category?.name_ar} required className={`${field} ar`} />
           </div>
         </div>
         <div>
           <label htmlFor="slug" className={label}>
-            Slug {isEdit ? "(inchangé)" : "(vide = généré)"}
+            Slug {isEdit ? t("admin.form.slugUnchanged") : t("admin.form.slugGenerated")}
           </label>
           <input
             id="slug"
@@ -79,13 +84,13 @@ export function CategoryForm({ category }: { category?: Category }) {
         <div className="grid sm:grid-cols-2 gap-4">
           <div>
             <label htmlFor="tagline_fr" className={label}>
-              Accroche (FR)
+              {t("admin.category.taglineFr")}
             </label>
             <input id="tagline_fr" name="tagline_fr" defaultValue={category?.tagline_fr ?? ""} className={field} />
           </div>
           <div>
             <label htmlFor="tagline_ar" className={label}>
-              Accroche (AR)
+              {t("admin.category.taglineAr")}
             </label>
             <input id="tagline_ar" name="tagline_ar" dir="rtl" defaultValue={category?.tagline_ar ?? ""} className={`${field} ar`} />
           </div>
@@ -94,11 +99,11 @@ export function CategoryForm({ category }: { category?: Category }) {
 
       {/* Appearance */}
       <section className="card p-5 space-y-4">
-        <h2 className="font-display text-[17px] font-bold">Apparence</h2>
+        <h2 className="font-display text-[17px] font-bold">{t("admin.category.appearance")}</h2>
         <div className="grid sm:grid-cols-2 gap-4">
           <div>
             <label htmlFor="color" className={label}>
-              Couleur
+              {t("admin.category.color")}
             </label>
             <div className="flex items-center gap-2.5">
               <input
@@ -106,7 +111,7 @@ export function CategoryForm({ category }: { category?: Category }) {
                 type="color"
                 value={color}
                 onChange={(e) => setColor(e.target.value)}
-                aria-label="Choisir la couleur"
+                aria-label={t("admin.category.pickColor")}
                 className="w-12 h-11 rounded-[10px] border-2 border-line bg-white p-1 cursor-pointer"
               />
               <input
@@ -115,14 +120,14 @@ export function CategoryForm({ category }: { category?: Category }) {
                 value={color}
                 onChange={(e) => setColor(e.target.value)}
                 pattern="^#[0-9A-Fa-f]{6}$"
-                aria-label="Code couleur hexadécimal"
+                aria-label={t("admin.category.hexColor")}
                 className={`${field} flex-1 font-mono`}
               />
             </div>
           </div>
           <div>
             <label htmlFor="text" className={label}>
-              Couleur du texte
+              {t("admin.category.textColor")}
             </label>
             <select
               id="text"
@@ -131,14 +136,14 @@ export function CategoryForm({ category }: { category?: Category }) {
               onChange={(e) => setTextChoice(e.target.value as "light" | "dark")}
               className={field}
             >
-              <option value="light">Blanc</option>
-              <option value="dark">Encre</option>
+              <option value="light">{t("admin.category.textLight")}</option>
+              <option value="dark">{t("admin.category.textDark")}</option>
             </select>
           </div>
         </div>
 
         <div>
-          <span className={label}>Icône</span>
+          <span className={label}>{t("admin.category.icon")}</span>
           <input type="hidden" name="icon" value={icon} />
           <div className="flex flex-wrap gap-2.5">
             {ICON_OPTIONS.map((opt) => {
@@ -162,9 +167,19 @@ export function CategoryForm({ category }: { category?: Category }) {
           </div>
         </div>
 
+        <div>
+          <ImageField
+            name="image"
+            value={category?.image ?? ""}
+            kind="category"
+            label={t("admin.category.imageLabel")}
+            onUrlChange={setImg}
+          />
+        </div>
+
         {/* Live preview */}
         <div>
-          <span className={label}>Aperçu</span>
+          <span className={label}>{t("admin.category.preview")}</span>
           <div
             className={`card flex items-center justify-between p-4 border-ink ${
               textChoice === "dark" ? "text-ink" : "text-white"
@@ -172,27 +187,33 @@ export function CategoryForm({ category }: { category?: Category }) {
             style={{ background: color }}
           >
             <div>
-              <p className="font-display text-[16.5px] font-bold leading-tight">Nom de la catégorie</p>
+              <p className="font-display text-[16.5px] font-bold leading-tight">{t("admin.category.previewName")}</p>
               <p className={`text-[11.5px] mt-1 ${textChoice === "dark" ? "text-ink-soft" : "opacity-85"}`}>
-                0 produits
+                {t("admin.category.previewCount")}
               </p>
             </div>
-            <PreviewIcon size={28} />
+            {img ? (
+              <span className="relative block w-14 h-14 shrink-0 rounded-[12px] overflow-hidden border-2 border-ink/20 bg-white">
+                <Image src={img} alt="" fill sizes="56px" className="object-cover" />
+              </span>
+            ) : (
+              <PreviewIcon size={28} />
+            )}
           </div>
         </div>
 
         <label className="flex items-center gap-2 text-[14.5px] font-bold pt-1">
           <input type="checkbox" name="featured" defaultChecked={category?.featured} className="w-4.5 h-4.5 accent-primary" />
-          Mettre en avant sur l&apos;accueil
+          {t("admin.category.featured")}
         </label>
       </section>
 
       <div className="flex items-center gap-3">
         <button type="submit" className="btn btn-primary" disabled={pending}>
-          {pending ? "Enregistrement…" : isEdit ? "Enregistrer" : "Créer la catégorie"}
+          {pending ? t("admin.form.pending") : isEdit ? t("admin.form.save") : t("admin.form.createCategory")}
         </button>
         <Link href="/admin/categories" className="btn btn-outline">
-          Annuler
+          {t("admin.form.cancel")}
         </Link>
       </div>
     </form>

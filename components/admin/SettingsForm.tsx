@@ -4,6 +4,7 @@ import { useActionState } from "react";
 import { Info, WhatsappLogo } from "@phosphor-icons/react";
 import { saveSettings, type ActionState } from "@/app/admin/actions";
 import { useActionToast } from "@/components/admin/useActionToast";
+import { useLang } from "@/components/providers";
 import type { SettingsMap } from "@/lib/db/settings";
 
 export function SettingsForm({ settings }: { settings: SettingsMap }) {
@@ -12,6 +13,7 @@ export function SettingsForm({ settings }: { settings: SettingsMap }) {
     {}
   );
   useActionToast(state);
+  const { t } = useLang();
 
   const label = "block text-[13.5px] font-bold mb-1.5";
   const hint = "text-[12px] text-ink-soft mt-1.5";
@@ -23,12 +25,12 @@ export function SettingsForm({ settings }: { settings: SettingsMap }) {
       <section className="card p-5 space-y-4">
         <h2 className="font-display text-[17px] font-bold flex items-center gap-2">
           <WhatsappLogo size={18} weight="fill" className="text-wa" />
-          Contact & livraison
+          {t("admin.settings.contact")}
         </h2>
 
         <div>
           <label htmlFor="whatsapp" className={label}>
-            Numéro WhatsApp (format international, sans +)
+            {t("admin.settings.whatsappLabel")}
           </label>
           <input
             id="whatsapp"
@@ -39,14 +41,13 @@ export function SettingsForm({ settings }: { settings: SettingsMap }) {
             className={`${field} font-mono`}
           />
           <p className={hint}>
-            Utilisé par tous les boutons &laquo;&nbsp;WhatsApp&nbsp;&raquo; de la
-            boutique et par le lien du pied de page.
+            {t("admin.settings.whatsappHint")}
           </p>
         </div>
 
         <div>
           <label htmlFor="free_shipping_from" className={label}>
-            Livraison offerte à partir de (DH)
+            {t("admin.settings.shipFree")}
           </label>
           <input
             id="free_shipping_from"
@@ -59,17 +60,70 @@ export function SettingsForm({ settings }: { settings: SettingsMap }) {
             className={`${field} max-w-[220px]`}
           />
           <p className={hint}>
-            En dessous de ce montant, les frais de port sont de 30 DH.
+            {t("admin.settings.shipHint")}
           </p>
         </div>
       </section>
 
+      {/* Socials */}
+      <section className="card p-5 space-y-4">
+        <h2 className="font-display text-[17px] font-bold">{t("admin.settings.social")}</h2>
+        <div>
+          <label htmlFor="social_instagram" className={label}>
+            Instagram
+          </label>
+          <input
+            id="social_instagram"
+            name="social_instagram"
+            type="url"
+            inputMode="url"
+            dir="ltr"
+            placeholder="https://instagram.com/…"
+            defaultValue={settings.social_instagram ?? ""}
+            className={field}
+          />
+        </div>
+        <div>
+          <label htmlFor="social_tiktok" className={label}>
+            TikTok
+          </label>
+          <input
+            id="social_tiktok"
+            name="social_tiktok"
+            type="url"
+            inputMode="url"
+            dir="ltr"
+            placeholder="https://tiktok.com/@…"
+            defaultValue={settings.social_tiktok ?? ""}
+            className={field}
+          />
+        </div>
+        <div>
+          <label htmlFor="social_facebook" className={label}>
+            Facebook
+          </label>
+          <input
+            id="social_facebook"
+            name="social_facebook"
+            type="url"
+            inputMode="url"
+            dir="ltr"
+            placeholder="https://facebook.com/…"
+            defaultValue={settings.social_facebook ?? ""}
+            className={field}
+          />
+        </div>
+        <p className={hint}>
+          {t("admin.settings.socialHint")}
+        </p>
+      </section>
+
       {/* Announcement bar */}
       <section className="card p-5 space-y-4">
-        <h2 className="font-display text-[17px] font-bold">Bandeau d&apos;annonce</h2>
+        <h2 className="font-display text-[17px] font-bold">{t("admin.settings.announce")}</h2>
         <div>
           <label htmlFor="announce_fr" className={label}>
-            Texte (FR)
+            {t("admin.settings.textFr")}
           </label>
           <input
             id="announce_fr"
@@ -80,7 +134,7 @@ export function SettingsForm({ settings }: { settings: SettingsMap }) {
         </div>
         <div>
           <label htmlFor="announce_ar" className={label}>
-            Texte (AR)
+            {t("admin.settings.textAr")}
           </label>
           <input
             id="announce_ar"
@@ -94,11 +148,11 @@ export function SettingsForm({ settings }: { settings: SettingsMap }) {
 
       {/* Branding */}
       <section className="card p-5 space-y-4">
-        <h2 className="font-display text-[17px] font-bold">Identité de la boutique</h2>
+        <h2 className="font-display text-[17px] font-bold">{t("admin.settings.branding")}</h2>
         <div className="grid sm:grid-cols-2 gap-4">
           <div>
             <label htmlFor="site_name" className={label}>
-              Nom (FR)
+              {t("admin.form.nameFr")}
             </label>
             <input
               id="site_name"
@@ -109,7 +163,7 @@ export function SettingsForm({ settings }: { settings: SettingsMap }) {
           </div>
           <div>
             <label htmlFor="site_name_ar" className={label}>
-              Nom (AR)
+              {t("admin.form.nameAr")}
             </label>
             <input
               id="site_name_ar"
@@ -125,13 +179,12 @@ export function SettingsForm({ settings }: { settings: SettingsMap }) {
       <div className="flex items-start gap-2.5 text-[13px] text-ink-soft bg-milk border border-line rounded-[12px] px-4 py-3">
         <Info size={17} className="shrink-0 mt-0.5" />
         <p>
-          Laissez un champ vide pour revenir à la valeur par défaut. Les
-          modifications s&apos;appliquent immédiatement à toute la boutique.
+          {t("admin.settings.note")}
         </p>
       </div>
 
       <button type="submit" className="btn btn-primary" disabled={pending}>
-        {pending ? "Enregistrement…" : "Enregistrer les réglages"}
+        {pending ? t("admin.form.pending") : t("admin.settings.save")}
       </button>
     </form>
   );

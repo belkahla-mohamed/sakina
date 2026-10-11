@@ -37,6 +37,7 @@ create table if not exists public.categories (
   color text default '#FF6B9D'::text not null,
   text text default 'light'::text not null,
   icon text default 'gift'::text not null,
+  image text,
   featured boolean default false not null,
   primary key (slug)
 );

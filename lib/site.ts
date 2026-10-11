@@ -14,6 +14,9 @@ export const FALLBACK_SETTINGS: PublicSettings = {
     "التوصيل مجاني ابتداءً من 300 درهم · الدفع عند الاستلام · إرجاع خلال 7 أيام",
   site_name: SITE.name,
   site_name_ar: SITE.name_ar,
+  social_instagram: "",
+  social_tiktok: "",
+  social_facebook: "",
 };
 
 function toInt(value: string | undefined, fallback: number): number {
@@ -39,6 +42,9 @@ export async function getPublicSettings(): Promise<PublicSettings> {
       announce_ar: map.announce_ar || FALLBACK_SETTINGS.announce_ar,
       site_name: map.site_name || FALLBACK_SETTINGS.site_name,
       site_name_ar: map.site_name_ar || FALLBACK_SETTINGS.site_name_ar,
+      social_instagram: map.social_instagram || "",
+      social_tiktok: map.social_tiktok || "",
+      social_facebook: map.social_facebook || "",
     };
   } catch {
     return FALLBACK_SETTINGS;

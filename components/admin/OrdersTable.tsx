@@ -4,29 +4,37 @@ import { useActionState, useMemo, useState } from "react";
 import { MapPin, Note, Phone, WhatsappLogo } from "@phosphor-icons/react";
 import { saveOrderNote, setOrderStatus, type ActionState } from "@/app/admin/actions";
 import { useActionToast } from "@/components/admin/useActionToast";
+import { useLang } from "@/components/providers";
 import type { OrderRow, OrderStatus } from "@/lib/db/orders";
 
-const STATUS_META: Record<OrderStatus, { label: string; cls: string }> = {
-  nouvelle: { label: "Nouvelle", cls: "bg-primary text-white" },
-  en_cours: { label: "En cours", cls: "bg-highlight text-ink" },
-  livree: { label: "Livrée", cls: "bg-teal-deep text-white" },
-  annulee: { label: "Annulée", cls: "bg-line text-ink-soft" },
+const STATUS_CLS: Record<OrderStatus, string> = {
+  nouvelle: "bg-primary text-white",
+  en_cours: "bg-highlight text-ink",
+  livree: "bg-teal-deep text-white",
+  annulee: "bg-line text-ink-soft",
 };
 
-const FILTERS: { value: string; label: string }[] = [
-  { value: "", label: "Toutes" },
-  { value: "nouvelle", label: "Nouvelles" },
-  { value: "en_cours", label: "En cours" },
-  { value: "livree", label: "Livrées" },
-  { value: "annulee", label: "Annulées" },
-];
+const STATUS_KEY = {
+  nouvelle: "admin.order.statusNew",
+  en_cours: "admin.order.statusProgress",
+  livree: "admin.order.statusDone",
+  annulee: "admin.order.statusCancelled",
+} as const;
+
+const FILTER_KEYS = [
+  { value: "", key: "admin.table.all" },
+  { value: "nouvelle", key: "admin.order.filterNew" },
+  { value: "en_cours", key: "admin.order.statusProgress" },
+  { value: "livree", key: "admin.order.filterDone" },
+  { value: "annulee", key: "admin.order.filterCancelled" },
+] as const;
 
 function formatPrice(n: number): string {
   return `${n.toFixed(2).replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, " ")} dh`;
 }
 
-function formatDate(iso: string): string {
-  return new Date(iso).toLocaleString("fr-FR", {
+function formatDate(iso: string, lang: "fr" | "ar"): string {
+  return new Date(iso).toLocaleString(lang === "ar" ? "ar-MA" : "fr-FR", {
     day: "2-digit",
     month: "short",
     hour: "2-digit",
@@ -42,6 +50,7 @@ function waLink(phone: string): string {
 export function OrdersTable({ orders }: { orders: OrderRow[] }) {
   const [filter, setFilter] = useState("");
   const [open, setOpen] = useState<Set<number>>(() => new Set(orders.slice(0, 3).map((o) => o.id)));
+  const { t, lang } = useLang();
   const [statusState, statusAction] = useActionState<ActionState, FormData>(
     setOrderStatus,
     {}
@@ -76,9 +85,9 @@ export function OrdersTable({ orders }: { orders: OrderRow[] }) {
   if (orders.length === 0) {
     return (
       <div className="card p-12 text-center text-[14.5px] text-ink-soft">
-        Aucune commande pour le moment.
+        {t("admin.dash.noOrders")}
         <p className="mt-2 text-[13px]">
-          Les commandes passées via WhatsApp apparaîtront ici.
+          {t("admin.order.noneSub")}
         </p>
       </div>
     );
@@ -88,7 +97,7 @@ export function OrdersTable({ orders }: { orders: OrderRow[] }) {
     <div className="space-y-4">
       {/* Status tabs */}
       <div className="flex flex-wrap gap-2">
-        {FILTERS.map((f) => {
+        {FILTER_KEYS.map((f) => {
           const active = filter === f.value;
           return (
             <button
@@ -100,7 +109,7 @@ export function OrdersTable({ orders }: { orders: OrderRow[] }) {
                 active ? "bg-ink text-white border-ink" : "border-line hover:border-ink/40"
               }`}
             >
-              {f.label}
+              {t(f.key)}
               <span className={`ms-1.5 ${active ? "opacity-70" : "text-ink-soft"}`}>
                 {counts[f.value] ?? 0}
               </span>
@@ -111,12 +120,13 @@ export function OrdersTable({ orders }: { orders: OrderRow[] }) {
 
       {rows.length === 0 ? (
         <div className="card p-10 text-center text-[14.5px] text-ink-soft">
-          Aucune commande dans ce filtre.
+          {t("admin.order.noFilter")}
         </div>
       ) : (
         <ul className="space-y-3">
           {rows.map((o) => {
-            const meta = STATUS_META[o.status] ?? STATUS_META.nouvelle;
+            const cls = STATUS_CLS[o.status] ?? STATUS_CLS.nouvelle;
+            const sk = STATUS_KEY[o.status as keyof typeof STATUS_KEY];
             const expanded = open.has(o.id);
             return (
               <li key={o.id} className="card p-4 space-y-3.5">
@@ -125,13 +135,13 @@ export function OrdersTable({ orders }: { orders: OrderRow[] }) {
                   <div>
                     <p className="font-mono font-bold text-[15px]">{o.reference}</p>
                     <p className="text-[12.5px] text-ink-soft mt-0.5">
-                      {formatDate(o.created_at)} ·{" "}
-                      {(o.items ?? []).reduce((s, it) => s + it.qty, 0)} article(s)
+                      {formatDate(o.created_at, lang)} ·{" "}
+                      {(o.items ?? []).reduce((s, it) => s + it.qty, 0)} {t("admin.order.items")}
                     </p>
                   </div>
                   <div className="flex items-center gap-2.5">
-                    <span className={`rounded-full px-2.5 py-1 text-[11.5px] font-bold ${meta.cls}`}>
-                      {meta.label}
+                    <span className={`rounded-full px-2.5 py-1 text-[11.5px] font-bold ${cls}`}>
+                      {sk ? t(sk) : o.status}
                     </span>
                     <span className="price text-[16px]">{formatPrice(Number(o.total))}</span>
                   </div>
@@ -175,7 +185,7 @@ export function OrdersTable({ orders }: { orders: OrderRow[] }) {
                 >
                   <span className="flex items-center gap-1.5">
                     <Note size={15} weight="bold" />
-                    Détail de la commande
+                    {t("admin.order.detail")}
                   </span>
                   <span aria-hidden>{expanded ? "−" : "+"}</span>
                 </button>
@@ -186,7 +196,7 @@ export function OrdersTable({ orders }: { orders: OrderRow[] }) {
                       {(o.items ?? []).map((it) => (
                         <li key={it.id} className="py-2 flex items-center justify-between gap-3">
                           <span className="min-w-0 truncate">
-                            <span className="font-bold">{it.qty}×</span> {it.name_fr}
+                            <span className="font-bold">{it.qty}×</span> {lang === "ar" ? it.name_ar : it.name_fr}
                           </span>
                           <span className="price text-[13.5px] shrink-0">
                             {formatPrice(Number(it.price) * it.qty)}
@@ -197,15 +207,15 @@ export function OrdersTable({ orders }: { orders: OrderRow[] }) {
 
                     <dl className="text-[13.5px] space-y-1">
                       <div className="flex justify-between">
-                        <dt className="text-ink-soft">Sous-total</dt>
+                        <dt className="text-ink-soft">{t("cart.subtotal")}</dt>
                         <dd>{formatPrice(Number(o.subtotal))}</dd>
                       </div>
                       <div className="flex justify-between">
-                        <dt className="text-ink-soft">Livraison</dt>
-                        <dd>{Number(o.shipping) === 0 ? "Offerte" : formatPrice(Number(o.shipping))}</dd>
+                        <dt className="text-ink-soft">{t("cart.shipping")}</dt>
+                        <dd>{Number(o.shipping) === 0 ? t("admin.order.freeShip") : formatPrice(Number(o.shipping))}</dd>
                       </div>
                       <div className="flex justify-between font-bold border-t border-line pt-1.5">
-                        <dt>Total</dt>
+                        <dt>{t("cart.total")}</dt>
                         <dd className="price">{formatPrice(Number(o.total))}</dd>
                       </div>
                     </dl>
@@ -215,7 +225,7 @@ export function OrdersTable({ orders }: { orders: OrderRow[] }) {
                       <form action={statusAction} className="space-y-1.5">
                         <input type="hidden" name="id" value={o.id} />
                         <label htmlFor={`status-${o.id}`} className="block text-[12.5px] font-bold">
-                          Statut
+                          {t("admin.order.status")}
                         </label>
                         <div className="flex gap-2">
                           <select
@@ -224,9 +234,9 @@ export function OrdersTable({ orders }: { orders: OrderRow[] }) {
                             defaultValue={o.status}
                             className="field flex-1 px-3 py-2 text-[13.5px]"
                           >
-                            {(Object.keys(STATUS_META) as OrderStatus[]).map((s) => (
+                            {(Object.keys(STATUS_CLS) as OrderStatus[]).map((s) => (
                               <option key={s} value={s}>
-                                {STATUS_META[s].label}
+                                {t(STATUS_KEY[s])}
                               </option>
                             ))}
                           </select>
@@ -239,14 +249,14 @@ export function OrdersTable({ orders }: { orders: OrderRow[] }) {
                       <form action={noteAction} className="space-y-1.5">
                         <input type="hidden" name="id" value={o.id} />
                         <label htmlFor={`note-${o.id}`} className="block text-[12.5px] font-bold">
-                          Note interne
+                          {t("admin.order.noteLabel")}
                         </label>
                         <div className="flex gap-2">
                           <input
                             id={`note-${o.id}`}
                             name="note"
                             defaultValue={o.note ?? ""}
-                            placeholder="Ex. appelé, en attente…"
+                            placeholder={t("admin.order.notePh")}
                             className="field flex-1 px-3 py-2 text-[13.5px]"
                           />
                           <button type="submit" className="btn btn-outline !px-3 !py-2 text-[13px]">
@@ -258,7 +268,7 @@ export function OrdersTable({ orders }: { orders: OrderRow[] }) {
 
                     {o.note && (
                       <p className="text-[12.5px] text-ink-soft bg-milk rounded-[10px] border border-line px-3 py-2">
-                        <span className="font-bold">Note :</span> {o.note}
+                        <span className="font-bold">{t("admin.order.noteIs")}</span> {o.note}
                       </p>
                     )}
                   </div>

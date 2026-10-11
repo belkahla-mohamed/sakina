@@ -5,23 +5,30 @@ import { Check, Star, Trash, X } from "@phosphor-icons/react";
 import { deleteReview, setReviewStatus, type ActionState } from "@/app/admin/actions";
 import { useConfirm } from "@/components/admin/Toast";
 import { useActionToast } from "@/components/admin/useActionToast";
+import { useLang } from "@/components/providers";
 import type { ReviewRow, ReviewStatus } from "@/lib/db/reviews";
 
-const STATUS_META: Record<ReviewStatus, { label: string; cls: string }> = {
-  pending: { label: "En attente", cls: "bg-highlight text-ink" },
-  approved: { label: "Approuvé", cls: "bg-teal-deep text-white" },
-  rejected: { label: "Rejeté", cls: "bg-line text-ink-soft" },
+const STATUS_CLS: Record<ReviewStatus, string> = {
+  pending: "bg-highlight text-ink",
+  approved: "bg-teal-deep text-white",
+  rejected: "bg-line text-ink-soft",
 };
 
-const FILTERS: { value: string; label: string }[] = [
-  { value: "", label: "Toutes" },
-  { value: "pending", label: "En attente" },
-  { value: "approved", label: "Approuvés" },
-  { value: "rejected", label: "Rejetés" },
-];
+const STATUS_KEY = {
+  pending: "admin.dash.pending",
+  approved: "admin.review.approved",
+  rejected: "admin.review.rejected",
+} as const;
 
-function formatDate(iso: string): string {
-  return new Date(iso).toLocaleDateString("fr-FR", {
+const FILTER_KEYS = [
+  { value: "", key: "admin.table.all" },
+  { value: "pending", key: "admin.dash.pending" },
+  { value: "approved", key: "admin.review.approvedPl" },
+  { value: "rejected", key: "admin.review.rejectedPl" },
+] as const;
+
+function formatDate(iso: string, lang: "fr" | "ar"): string {
+  return new Date(iso).toLocaleDateString(lang === "ar" ? "ar-MA" : "fr-FR", {
     day: "2-digit",
     month: "short",
     year: "numeric",
@@ -41,6 +48,7 @@ export function ReviewsTable({ reviews }: { reviews: ReviewRow[] }) {
   useActionToast(statusState);
   useActionToast(deleteState);
   const askConfirm = useConfirm();
+  const { t, lang } = useLang();
 
   const counts = useMemo(() => {
     const m: Record<string, number> = { "": reviews.length };
@@ -56,7 +64,7 @@ export function ReviewsTable({ reviews }: { reviews: ReviewRow[] }) {
   if (reviews.length === 0) {
     return (
       <div className="card p-12 text-center text-[14.5px] text-ink-soft">
-        Aucun avis pour le moment.
+        {t("admin.review.none")}
       </div>
     );
   }
@@ -64,7 +72,7 @@ export function ReviewsTable({ reviews }: { reviews: ReviewRow[] }) {
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap gap-2">
-        {FILTERS.map((f) => {
+        {FILTER_KEYS.map((f) => {
           const active = filter === f.value;
           return (
             <button
@@ -76,7 +84,7 @@ export function ReviewsTable({ reviews }: { reviews: ReviewRow[] }) {
                 active ? "bg-ink text-white border-ink" : "border-line hover:border-ink/40"
               }`}
             >
-              {f.label}
+              {t(f.key)}
               <span className={`ms-1.5 ${active ? "opacity-70" : "text-ink-soft"}`}>
                 {counts[f.value] ?? 0}
               </span>
@@ -87,12 +95,13 @@ export function ReviewsTable({ reviews }: { reviews: ReviewRow[] }) {
 
       {rows.length === 0 ? (
         <div className="card p-10 text-center text-[14.5px] text-ink-soft">
-          Aucun avis dans ce filtre.
+          {t("admin.review.noFilter")}
         </div>
       ) : (
         <ul className="space-y-3">
           {rows.map((r) => {
-            const meta = STATUS_META[r.status] ?? STATUS_META.pending;
+            const cls = STATUS_CLS[r.status] ?? STATUS_CLS.pending;
+            const sk = STATUS_KEY[r.status as keyof typeof STATUS_KEY];
             return (
               <li key={r.id} className="card p-4 space-y-3">
                 <div className="flex flex-wrap items-start justify-between gap-3">
@@ -104,12 +113,12 @@ export function ReviewsTable({ reviews }: { reviews: ReviewRow[] }) {
                       <p className="font-bold text-[14.5px] leading-tight">{r.name}</p>
                       <p className="text-[12.5px] text-ink-soft">
                         {r.city ? `${r.city} · ` : ""}
-                        {formatDate(r.created_at)}
+                        {formatDate(r.created_at, lang)}
                       </p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2.5">
-                    <span className="flex items-center gap-0.5" aria-label={`${r.rating} sur 5`}>
+                    <span className="flex items-center gap-0.5" aria-label={`${r.rating} ${t("admin.review.ofFive")}`}>
                       {[1, 2, 3, 4, 5].map((i) => (
                         <Star
                           key={i}
@@ -119,8 +128,8 @@ export function ReviewsTable({ reviews }: { reviews: ReviewRow[] }) {
                         />
                       ))}
                     </span>
-                    <span className={`rounded-full px-2.5 py-1 text-[11.5px] font-bold ${meta.cls}`}>
-                      {meta.label}
+                    <span className={`rounded-full px-2.5 py-1 text-[11.5px] font-bold ${cls}`}>
+                      {sk ? t(sk) : r.status}
                     </span>
                   </div>
                 </div>
@@ -139,7 +148,7 @@ export function ReviewsTable({ reviews }: { reviews: ReviewRow[] }) {
                         className="btn !px-3 !py-2 text-[13px] bg-teal-deep text-white hover:opacity-90"
                       >
                         <Check size={15} weight="bold" />
-                        Approuver
+                        {t("admin.review.approve")}
                       </button>
                     </form>
                   )}
@@ -152,7 +161,7 @@ export function ReviewsTable({ reviews }: { reviews: ReviewRow[] }) {
                         className="btn !px-3 !py-2 text-[13px] border-2 border-line hover:border-ink"
                       >
                         <X size={15} weight="bold" />
-                        Rejeter
+                        {t("admin.review.reject")}
                       </button>
                     </form>
                   )}
@@ -163,9 +172,9 @@ export function ReviewsTable({ reviews }: { reviews: ReviewRow[] }) {
                       e.preventDefault();
                       const form = e.currentTarget;
                       void askConfirm({
-                        title: "Supprimer cet avis ?",
-                        message: `L'avis de ${r.name} sera définitivement effacé.`,
-                        confirmLabel: "Supprimer",
+                        title: t("admin.review.delTitle"),
+                        message: t("admin.review.delMsg").replace("{n}", r.name),
+                        confirmLabel: t("admin.table.delete"),
                         tone: "danger",
                       }).then((ok) => {
                         if (ok) form.requestSubmit();
@@ -175,7 +184,7 @@ export function ReviewsTable({ reviews }: { reviews: ReviewRow[] }) {
                     <input type="hidden" name="id" value={r.id} />
                     <button
                       type="submit"
-                      aria-label={`Supprimer l'avis de ${r.name}`}
+                      aria-label={t("admin.review.delAria").replace("{n}", r.name)}
                       className="btn !px-3 !py-2 text-[13px] border-2 border-line text-primary hover:border-primary"
                     >
                       <Trash size={15} weight="bold" />

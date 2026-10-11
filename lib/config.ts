@@ -1,6 +1,7 @@
 export const SITE = {
   name: "Sakina",
   name_ar: "ساكينا",
+  url: "https://www.sakinastores.com",
   tagline: "Le quotidien des mamans et des enfants, livré en 24-48h.",
   tagline_ar: "يوميات الأمهات والأطفال، تصلك خلال 24-48 ساعة.",
   city: "Casablanca, Maroc",
@@ -25,4 +26,7 @@ export interface PublicSettings {
   announce_ar: string;
   site_name: string;
   site_name_ar: string;
+  social_instagram: string;
+  social_tiktok: string;
+  social_facebook: string;
 }

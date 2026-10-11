@@ -15,6 +15,9 @@ export const DEFAULT_SETTINGS: SettingsMap = {
     "التوصيل مجاني ابتداءً من 300 درهم · الدفع عند الاستلام · إرجاع خلال 7 أيام",
   site_name: "Sakina",
   site_name_ar: "ساكينا",
+  social_instagram: "",
+  social_tiktok: "",
+  social_facebook: "",
 };
 
 /** Cached settings map. Falls back to defaults if the DB is unreachable. */

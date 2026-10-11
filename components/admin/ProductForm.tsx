@@ -5,14 +5,8 @@ import Link from "next/link";
 import { saveProduct, type ActionState } from "@/app/admin/actions";
 import { ImageField } from "@/components/admin/ImageField";
 import { useActionToast } from "@/components/admin/useActionToast";
+import { useLang } from "@/components/providers";
 import type { Category, Product } from "@/lib/types";
-
-const BADGES = [
-  { value: "", label: "Aucun" },
-  { value: "nouveau", label: "Nouveau" },
-  { value: "promo", label: "Promo" },
-  { value: "epuise", label: "Épuisé" },
-];
 
 export function ProductForm({
   product,
@@ -26,7 +20,15 @@ export function ProductForm({
     {}
   );
   useActionToast(state);
+  const { t, lang } = useLang();
   const isEdit = Boolean(product);
+
+  const BADGES = [
+    { value: "", label: t("admin.form.badgeNone") },
+    { value: "nouveau", label: t("admin.form.badgeNew") },
+    { value: "promo", label: t("admin.form.badgePromo") },
+    { value: "epuise", label: t("admin.form.badgeOut") },
+  ];
 
   const label = "block text-[13.5px] font-bold mb-1.5";
   const field = "field w-full px-3.5 py-2.5";
@@ -37,17 +39,17 @@ export function ProductForm({
 
       {/* Identity */}
       <section className="card p-5 space-y-4">
-        <h2 className="font-display text-[17px] font-bold">Identité</h2>
+        <h2 className="font-display text-[17px] font-bold">{t("admin.form.identity")}</h2>
         <div className="grid sm:grid-cols-2 gap-4">
           <div>
             <label htmlFor="name_fr" className={label}>
-              Nom (FR) <span className="text-primary">*</span>
+              {t("admin.form.nameFr")} <span className="text-primary">*</span>
             </label>
             <input id="name_fr" name="name_fr" defaultValue={product?.name_fr} required className={field} />
           </div>
           <div>
             <label htmlFor="name_ar" className={label}>
-              Nom (AR) <span className="text-primary">*</span>
+              {t("admin.form.nameAr")} <span className="text-primary">*</span>
             </label>
             <input id="name_ar" name="name_ar" dir="rtl" defaultValue={product?.name_ar} required className={`${field} ar`} />
           </div>
@@ -55,7 +57,7 @@ export function ProductForm({
         <div className="grid sm:grid-cols-2 gap-4">
           <div>
             <label htmlFor="slug" className={label}>
-              Slug {isEdit ? "(inchangé)" : "(vide = généré)"}
+              Slug {isEdit ? t("admin.form.slugUnchanged") : t("admin.form.slugGenerated")}
             </label>
             <input
               id="slug"
@@ -71,7 +73,7 @@ export function ProductForm({
           </div>
           <div>
             <label htmlFor="category" className={label}>
-              Catégorie <span className="text-primary">*</span>
+              {t("admin.form.category")} <span className="text-primary">*</span>
             </label>
             <select
               id="category"
@@ -81,11 +83,11 @@ export function ProductForm({
               className={field}
             >
               <option value="" disabled>
-                Choisir…
+                {t("admin.form.choose")}
               </option>
               {categories.map((c) => (
                 <option key={c.slug} value={c.slug}>
-                  {c.name_fr}
+                  {lang === "ar" ? c.name_ar : c.name_fr}
                 </option>
               ))}
             </select>
@@ -95,23 +97,23 @@ export function ProductForm({
 
       {/* Pricing & stock */}
       <section className="card p-5 space-y-4">
-        <h2 className="font-display text-[17px] font-bold">Prix & stock</h2>
+        <h2 className="font-display text-[17px] font-bold">{t("admin.product.pricing")}</h2>
         <div className="grid sm:grid-cols-3 gap-4">
           <div>
             <label htmlFor="price" className={label}>
-              Prix (DH) <span className="text-primary">*</span>
+              {t("admin.form.price")} <span className="text-primary">*</span>
             </label>
             <input id="price" name="price" type="number" min="0" step="0.01" defaultValue={product?.price ?? ""} required className={field} />
           </div>
           <div>
             <label htmlFor="old_price" className={label}>
-              Ancien prix (promo)
+              {t("admin.form.oldPrice")}
             </label>
             <input id="old_price" name="old_price" type="number" min="0" step="0.01" defaultValue={product?.old_price ?? ""} className={field} />
           </div>
           <div>
             <label htmlFor="stock" className={label}>
-              Stock
+              {t("admin.form.stock")}
             </label>
             <input id="stock" name="stock" type="number" min="0" defaultValue={product?.stock ?? 0} className={field} />
           </div>
@@ -119,7 +121,7 @@ export function ProductForm({
         <div className="grid sm:grid-cols-3 gap-4">
           <div>
             <label htmlFor="badge" className={label}>
-              Badge
+              {t("admin.form.badge")}
             </label>
             <select id="badge" name="badge" defaultValue={product?.badge ?? ""} className={field}>
               {BADGES.map((b) => (
@@ -131,13 +133,13 @@ export function ProductForm({
           </div>
           <div>
             <label htmlFor="rating" className={label}>
-              Note (0–5)
+              {t("admin.form.rating")}
             </label>
             <input id="rating" name="rating" type="number" min="0" max="5" step="0.1" defaultValue={product?.rating ?? 5} className={field} />
           </div>
           <div>
             <label htmlFor="reviews" className={label}>
-              Nb. avis
+              {t("admin.form.reviews")}
             </label>
             <input id="reviews" name="reviews" type="number" min="0" defaultValue={product?.reviews ?? 0} className={field} />
           </div>
@@ -145,27 +147,27 @@ export function ProductForm({
         <div className="flex flex-wrap gap-5 pt-1">
           <label className="flex items-center gap-2 text-[14.5px] font-bold">
             <input type="checkbox" name="is_new" defaultChecked={product?.is_new} className="w-4.5 h-4.5 accent-primary" />
-            Nouveauté
+            {t("admin.form.isNew")}
           </label>
           <label className="flex items-center gap-2 text-[14.5px] font-bold">
             <input type="checkbox" name="is_bestseller" defaultChecked={product?.is_bestseller} className="w-4.5 h-4.5 accent-primary" />
-            Meilleure vente
+            {t("admin.form.bestseller")}
           </label>
         </div>
       </section>
 
       {/* Descriptions */}
       <section className="card p-5 space-y-4">
-        <h2 className="font-display text-[17px] font-bold">Descriptions</h2>
+        <h2 className="font-display text-[17px] font-bold">{t("admin.form.descriptions")}</h2>
         <div>
           <label htmlFor="desc_fr" className={label}>
-            Description (FR)
+            {t("admin.form.descFr")}
           </label>
           <textarea id="desc_fr" name="desc_fr" rows={3} defaultValue={product?.desc_fr} className={`${field} resize-y`} />
         </div>
         <div>
           <label htmlFor="desc_ar" className={label}>
-            Description (AR)
+            {t("admin.form.descAr")}
           </label>
           <textarea id="desc_ar" name="desc_ar" dir="rtl" rows={3} defaultValue={product?.desc_ar} className={`${field} ar resize-y`} />
         </div>
@@ -176,10 +178,10 @@ export function ProductForm({
 
       <div className="flex items-center gap-3">
         <button type="submit" className="btn btn-primary" disabled={pending}>
-          {pending ? "Enregistrement…" : isEdit ? "Enregistrer" : "Créer le produit"}
+          {pending ? t("admin.form.pending") : isEdit ? t("admin.form.save") : t("admin.form.createProduct")}
         </button>
         <Link href="/admin/produits" className="btn btn-outline">
-          Annuler
+          {t("admin.form.cancel")}
         </Link>
       </div>
     </form>

@@ -37,6 +37,7 @@ create table if not exists public.categories (
   color text not null default '#FF6B9D',
   text text not null default 'light',
   icon text not null default 'gift',
+  image text,
   featured boolean not null default false
 );
 
@@ -130,7 +131,10 @@ insert into public.settings (key, value) values
   ('announce_fr', 'Livraison gratuite dès 300 DH · Paiement à la livraison · Retour sous 7 jours'),
   ('announce_ar', 'التوصيل مجاني ابتداءً من 300 درهم · الدفع عند الاستلام · إرجاع خلال 7 أيام'),
   ('site_name', 'Sakina'),
-  ('site_name_ar', 'ساكينا')
+  ('site_name_ar', 'ساكينا'),
+  ('social_instagram', ''),
+  ('social_tiktok', ''),
+  ('social_facebook', '')
 on conflict (key) do nothing;
 
 -- ============================================================

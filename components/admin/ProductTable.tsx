@@ -7,18 +7,13 @@ import { MagnifyingGlass, PencilSimple, Trash } from "@phosphor-icons/react";
 import { deleteProduct, type ActionState } from "@/app/admin/actions";
 import { useConfirm } from "@/components/admin/Toast";
 import { useActionToast } from "@/components/admin/useActionToast";
+import { useLang } from "@/components/providers";
 import type { Category, Product } from "@/lib/types";
 
 const BADGE_STYLE: Record<string, string> = {
   promo: "bg-primary text-white",
   nouveau: "bg-highlight text-ink",
   epuise: "bg-ink text-white",
-};
-
-const BADGE_LABEL: Record<string, string> = {
-  promo: "Promo",
-  nouveau: "Nouveau",
-  epuise: "Épuisé",
 };
 
 function formatPrice(n: number): string {
@@ -42,11 +37,19 @@ export function ProductTable({
   );
   useActionToast(deleteState);
   const askConfirm = useConfirm();
+  const { t, lang } = useLang();
+
+  const BADGE_LABEL: Record<string, string> = {
+    promo: t("admin.form.badgePromo"),
+    nouveau: t("admin.form.badgeNew"),
+    epuise: t("admin.form.badgeOut"),
+  };
+  const pname = (p: Product) => (lang === "ar" ? p.name_ar : p.name_fr);
 
   const catName = useMemo(() => {
-    const m = new Map(categories.map((c) => [c.slug, c.name_fr]));
+    const m = new Map(categories.map((c) => [c.slug, lang === "ar" ? c.name_ar : c.name_fr]));
     return (slug: string) => m.get(slug) ?? slug;
-  }, [categories]);
+  }, [categories, lang]);
 
   const rows = useMemo(() => {
     const needle = query.trim().toLowerCase();
@@ -74,21 +77,21 @@ export function ProductTable({
             type="search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Rechercher par nom ou slug…"
-            aria-label="Rechercher un produit"
+            placeholder={t("admin.table.searchProducts")}
+            aria-label={t("admin.table.searchProductAria")}
             className="field w-full ps-10 pe-3.5 py-2.5"
           />
         </div>
         <select
           value={cat}
           onChange={(e) => setCat(e.target.value)}
-          aria-label="Filtrer par catégorie"
+          aria-label={t("admin.table.filterCategory")}
           className="field px-3.5 py-2.5 min-w-[190px]"
         >
-          <option value="">Toutes les catégories</option>
+          <option value="">{t("admin.table.allCategories")}</option>
           {categories.map((c) => (
             <option key={c.slug} value={c.slug}>
-              {c.name_fr}
+              {lang === "ar" ? c.name_ar : c.name_fr}
             </option>
           ))}
         </select>
@@ -101,16 +104,16 @@ export function ProductTable({
       <div
         className={`hidden md:grid ${COLS} gap-4 px-4 pb-2 text-[11.5px] font-bold uppercase tracking-[0.07em] text-ink-soft`}
       >
-        <span>Produit</span>
-        <span>Catégorie</span>
-        <span>Prix</span>
-        <span>Stock</span>
-        <span className="text-end">Actions</span>
+        <span>{t("admin.table.product")}</span>
+        <span>{t("admin.form.category")}</span>
+        <span>{t("admin.table.price")}</span>
+        <span>{t("admin.form.stock")}</span>
+        <span className="text-end">{t("admin.table.actions")}</span>
       </div>
 
       {rows.length === 0 ? (
         <div className="card p-10 text-center text-[14.5px] text-ink-soft">
-          Aucun produit ne correspond.
+          {t("admin.table.noProductMatch")}
         </div>
       ) : (
         <ul className="space-y-2.5">
@@ -127,7 +130,7 @@ export function ProductTable({
                   <div className="relative w-14 h-14 shrink-0 rounded-[10px] overflow-hidden border border-line bg-highlight/30">
                     <Image
                       src={p.image}
-                      alt={p.name_fr}
+                      alt={pname(p)}
                       fill
                       sizes="56px"
                       className="object-cover"
@@ -135,7 +138,7 @@ export function ProductTable({
                   </div>
                   <div className="min-w-0">
                     <p className="font-display font-bold text-[14.5px] leading-tight line-clamp-1">
-                      {p.name_fr}
+                      {pname(p)}
                     </p>
                     <p className="text-[12px] text-ink-soft truncate">{p.slug}</p>
                   </div>
@@ -143,7 +146,7 @@ export function ProductTable({
 
                 {/* Category */}
                 <div className="mt-2.5 md:mt-0 text-[13.5px]">
-                  <span className="md:hidden font-bold text-ink-soft me-1.5">Catégorie :</span>
+                  <span className="md:hidden font-bold text-ink-soft me-1.5">{t("admin.table.categoryIs")}</span>
                   {catName(p.category)}
                 </div>
 
@@ -168,12 +171,12 @@ export function ProductTable({
                   </span>
                   {out && (
                     <span className="rounded-full bg-ink text-white text-[10.5px] font-bold px-2 py-0.5">
-                      Épuisé
+                      {t("admin.table.out")}
                     </span>
                   )}
                   {low && !out && (
                     <span className="rounded-full bg-highlight text-ink text-[10.5px] font-bold px-2 py-0.5">
-                      Bas
+                      {t("admin.table.low")}
                     </span>
                   )}
                   {p.badge && !out && BADGE_STYLE[p.badge] && (
@@ -190,10 +193,10 @@ export function ProductTable({
                   <Link
                     href={`/admin/produits/${p.slug}`}
                     className="btn btn-outline !px-3 !py-2 text-[13px]"
-                    aria-label={`Modifier ${p.name_fr}`}
+                    aria-label={`${t("admin.table.edit")} ${pname(p)}`}
                   >
                     <PencilSimple size={15} weight="bold" />
-                    <span className="hidden sm:inline">Modifier</span>
+                    <span className="hidden sm:inline">{t("admin.table.edit")}</span>
                   </Link>
                   <form
                     action={deleteAction}
@@ -202,9 +205,9 @@ export function ProductTable({
                       e.preventDefault();
                       const form = e.currentTarget;
                       void askConfirm({
-                        title: "Supprimer ce produit ?",
-                        message: `« ${p.name_fr} » disparaîtra de la boutique. Cette action est définitive.`,
-                        confirmLabel: "Supprimer",
+                        title: t("admin.table.delProductTitle"),
+                        message: `« ${pname(p)} » ${t("admin.table.delProductMsg")}`,
+                        confirmLabel: t("admin.table.delete"),
                         tone: "danger",
                       }).then((ok) => {
                         if (ok) form.requestSubmit();
@@ -214,7 +217,7 @@ export function ProductTable({
                     <input type="hidden" name="slug" value={p.slug} />
                     <button
                       type="submit"
-                      aria-label={`Supprimer ${p.name_fr}`}
+                      aria-label={`${t("admin.table.delete")} ${pname(p)}`}
                       className="btn !px-3 !py-2 text-[13px] border-2 border-line text-primary hover:border-primary"
                     >
                       <Trash size={15} weight="bold" />

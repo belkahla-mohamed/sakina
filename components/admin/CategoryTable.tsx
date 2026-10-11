@@ -7,6 +7,7 @@ import { Backpack, BookOpen, Gift, MagnifyingGlass, PencilSimple, PuzzlePiece, S
 import { deleteCategory, type ActionState } from "@/app/admin/actions";
 import { useConfirm } from "@/components/admin/Toast";
 import { useActionToast } from "@/components/admin/useActionToast";
+import { useLang } from "@/components/providers";
 import type { Category, Product } from "@/lib/types";
 
 const ICONS: Record<string, typeof Gift> = {
@@ -35,6 +36,8 @@ export function CategoryTable({
   );
   useActionToast(deleteState);
   const askConfirm = useConfirm();
+  const { t, lang } = useLang();
+  const cname = (c: Category) => (lang === "ar" ? c.name_ar : c.name_fr);
 
   const cover = useMemo(() => {
     const m = new Map<string, Product>();
@@ -65,8 +68,8 @@ export function CategoryTable({
             type="search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Rechercher une catégorie…"
-            aria-label="Rechercher une catégorie"
+            placeholder={t("admin.table.searchCategory")}
+            aria-label={t("admin.table.searchCategoryAria")}
             className="field w-full ps-10 pe-3.5 py-2.5"
           />
         </div>
@@ -78,16 +81,16 @@ export function CategoryTable({
       <div
         className={`hidden md:grid ${COLS} gap-4 px-4 pb-2 text-[11.5px] font-bold uppercase tracking-[0.07em] text-ink-soft`}
       >
-        <span>Catégorie</span>
-        <span>Couverture</span>
-        <span>Produits</span>
-        <span>Texte</span>
-        <span className="text-end">Actions</span>
+        <span>{t("admin.form.category")}</span>
+        <span>{t("admin.table.cover")}</span>
+        <span>{t("admin.nav.products")}</span>
+        <span>{t("admin.table.text")}</span>
+        <span className="text-end">{t("admin.table.actions")}</span>
       </div>
 
       {rows.length === 0 ? (
         <div className="card p-10 text-center text-[14.5px] text-ink-soft">
-          Aucune catégorie ne correspond.
+          {t("admin.table.noCategoryMatch")}
         </div>
       ) : (
         <ul className="space-y-2.5">
@@ -99,19 +102,25 @@ export function CategoryTable({
               <li key={c.slug} className={`card p-3.5 md:grid ${COLS} md:items-center gap-4`}>
                 {/* Category */}
                 <div className="flex items-center gap-3 min-w-0">
-                  <span
-                    className={`w-11 h-11 shrink-0 rounded-[10px] flex items-center justify-center border border-ink/20 ${
-                      c.text === "dark" ? "text-ink" : "text-white"
-                    }`}
-                    style={{ background: c.color }}
-                  >
-                    <Icon size={20} />
-                  </span>
+                  {c.image ? (
+                    <span className="relative block w-11 h-11 shrink-0 rounded-[10px] overflow-hidden border border-ink/20 bg-white">
+                      <Image src={c.image} alt={cname(c)} fill sizes="44px" className="object-cover" />
+                    </span>
+                  ) : (
+                    <span
+                      className={`w-11 h-11 shrink-0 rounded-[10px] flex items-center justify-center border border-ink/20 ${
+                        c.text === "dark" ? "text-ink" : "text-white"
+                      }`}
+                      style={{ background: c.color }}
+                    >
+                      <Icon size={20} />
+                    </span>
+                  )}
                   <div className="min-w-0">
                     <p className="font-display font-bold text-[14.5px] leading-tight flex items-center gap-1.5">
-                      {c.name_fr}
+                      {cname(c)}
                       {c.featured && (
-                        <Star size={13} weight="fill" className="text-highlight shrink-0" aria-label="En avant" />
+                        <Star size={13} weight="fill" className="text-highlight shrink-0" aria-label={t("admin.table.starred")} />
                       )}
                     </p>
                     <p className="text-[12px] text-ink-soft truncate">{c.slug}</p>
@@ -134,7 +143,7 @@ export function CategoryTable({
 
                 {/* Text mode */}
                 <div className="mt-1.5 md:mt-0 text-[13px] text-ink-soft">
-                  {c.text === "dark" ? "Encre" : "Blanc"}
+                  {c.text === "dark" ? t("admin.category.textDark") : t("admin.category.textLight")}
                 </div>
 
                 {/* Actions */}
@@ -142,10 +151,10 @@ export function CategoryTable({
                   <Link
                     href={`/admin/categories/${c.slug}`}
                     className="btn btn-outline !px-3 !py-2 text-[13px]"
-                    aria-label={`Modifier ${c.name_fr}`}
+                    aria-label={`${t("admin.table.edit")} ${cname(c)}`}
                   >
                     <PencilSimple size={15} weight="bold" />
-                    <span className="hidden sm:inline">Modifier</span>
+                    <span className="hidden sm:inline">{t("admin.table.edit")}</span>
                   </Link>
                   <form
                     action={deleteAction}
@@ -154,12 +163,12 @@ export function CategoryTable({
                       e.preventDefault();
                       const form = e.currentTarget;
                       void askConfirm({
-                        title: "Supprimer cette catégorie ?",
+                        title: t("admin.table.delCategoryTitle"),
                         message:
                           n > 0
-                            ? `« ${c.name_fr} » sera supprimée, ainsi que ${n} produit${n > 1 ? "s" : ""} qu'elle contient. Cette action est définitive.`
-                            : `« ${c.name_fr} » disparaîtra de la boutique. Cette action est définitive.`,
-                        confirmLabel: "Supprimer",
+                            ? t("admin.table.delCategoryMsg").replace("{name}", cname(c)).replace("{n}", String(n))
+                            : t("admin.table.delCategoryMsgEmpty").replace("{name}", cname(c)),
+                        confirmLabel: t("admin.table.delete"),
                         tone: "danger",
                       }).then((ok) => {
                         if (ok) form.requestSubmit();
@@ -169,7 +178,7 @@ export function CategoryTable({
                     <input type="hidden" name="slug" value={c.slug} />
                     <button
                       type="submit"
-                      aria-label={`Supprimer ${c.name_fr}`}
+                      aria-label={`${t("admin.table.delete")} ${cname(c)}`}
                       className="btn !px-3 !py-2 text-[13px] border-2 border-line text-primary hover:border-primary"
                     >
                       <Trash size={15} weight="bold" />

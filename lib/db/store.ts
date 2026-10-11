@@ -136,11 +136,12 @@ export interface CategoryInput {
   name_ar: string;
   tagline_fr: string;
   tagline_ar: string;
-  color: string;
-  text: string;
-  icon: string;
-  featured: boolean;
-}
+    color: string;
+    text: string;
+    icon: string;
+    image: string | null;
+    featured: boolean;
+  }
 
 const CATEGORY_COLS = [
   "slug",
@@ -148,11 +149,12 @@ const CATEGORY_COLS = [
   "name_ar",
   "tagline_fr",
   "tagline_ar",
-  "color",
-  "text",
-  "icon",
-  "featured",
-] as const;
+    "color",
+    "text",
+    "icon",
+    "image",
+    "featured",
+  ] as const;
 
 export async function dbUpsertCategory(c: CategoryInput): Promise<void> {
   const placeholders = CATEGORY_COLS.map((_, i) => `$${i + 1}`).join(", ");

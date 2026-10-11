@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { connection } from "next/server";
 import { Icon } from "@/components/Icon";
+import { adminT } from "@/lib/admin-lang";
 import { dbAdminProduct, dbAdminCategories } from "@/lib/db/store";
 import { ProductForm } from "@/components/admin/ProductForm";
 import { AdminSection } from "@/components/admin/AdminSection";
@@ -12,10 +13,11 @@ interface Params {
 }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
+  const t = await adminT();
   const { slug } = await params;
   const product = await dbAdminProduct(slug);
-  if (!product) return { title: "Produit introuvable" };
-  return { title: `Modifier · ${product.name_fr}` };
+  if (!product) return { title: t("admin.product.notFound") };
+  return { title: `${t("admin.product.edit")} · ${product.name_fr}` };
 }
 
 export default function EditProductPage({ params }: Params) {
@@ -28,6 +30,7 @@ export default function EditProductPage({ params }: Params) {
 
 async function EditProductContent({ params }: Params) {
   await connection();
+  const t = await adminT();
   const { slug } = await params;
   const [product, categories] = await Promise.all([
     dbAdminProduct(slug),
@@ -42,10 +45,10 @@ async function EditProductContent({ params }: Params) {
         href="/admin/produits"
         className="inline-flex items-center gap-1.5 text-[13.5px] font-bold text-ink-soft hover:text-ink"
       >
-        <Icon name="arrow-left" size={15} weight="bold" />
-        Retour aux produits
+        <Icon name="arrow-left" size={15} weight="bold" className="rtl:rotate-180" />
+        {t("admin.product.back")}
       </Link>
-      <h1 className="text-[28px] font-bold">Modifier · {product.name_fr}</h1>
+      <h1 className="text-[28px] font-bold">{t("admin.product.edit")} · {product.name_fr}</h1>
       <ProductForm product={product} categories={categories} />
     </div>
   );

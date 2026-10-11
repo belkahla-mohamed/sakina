@@ -49,8 +49,8 @@ export function ContactView() {
       <h1 className="text-[32px] md:text-[44px] font-bold mt-2">{t("contact.title")}</h1>
       <p className="text-[17px] text-ink-soft mt-3 max-w-2xl">{t("contact.lead")}</p>
 
-      <div className="grid md:grid-cols-[1fr_1.2fr] gap-6 mt-8 items-start">
-        <div className="space-y-4">
+      <div className="grid md:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] gap-6 mt-8 items-start">
+        <div className="space-y-4 min-w-0">
           <div className="card p-5 space-y-4">
             {rows.map((r) => {
               const Icon = r.icon;
@@ -63,7 +63,7 @@ export function ContactView() {
                     <p className="text-[12px] text-ink-soft font-bold uppercase tracking-wide">
                       {r.label}
                     </p>
-                    <p className="text-[15px] font-bold truncate">
+                    <p className="text-[15px] font-bold break-words">
                       {r.ltr ? <span dir="ltr">{r.value}</span> : r.value}
                     </p>
                   </div>
@@ -84,16 +84,29 @@ export function ContactView() {
               {t("wa.cta")}
             </a>
             <div className="flex gap-2 mt-4">
-              {[InstagramLogo, TiktokLogo, FacebookLogo].map((Icon, i) => (
-                <span key={i} className="w-9 h-9 rounded-full bg-white/15 flex items-center justify-center">
-                  <Icon size={18} />
-                </span>
-              ))}
+              {[
+                { url: settings.social_instagram, label: "Instagram", Icon: InstagramLogo },
+                { url: settings.social_tiktok, label: "TikTok", Icon: TiktokLogo },
+                { url: settings.social_facebook, label: "Facebook", Icon: FacebookLogo },
+              ]
+                .filter((s) => s.url)
+                .map((s) => (
+                  <a
+                    key={s.label}
+                    href={s.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={s.label}
+                    className="w-9 h-9 rounded-full bg-white/15 flex items-center justify-center hover:bg-white/25"
+                  >
+                    <s.Icon size={18} />
+                  </a>
+                ))}
             </div>
           </div>
         </div>
 
-        <form onSubmit={submit} className="card p-5 md:p-6 space-y-4" noValidate>
+        <form onSubmit={submit} className="card min-w-0 p-5 md:p-6 space-y-4" noValidate>
           <div>
             <label htmlFor="c-name" className="block text-[13.5px] font-bold mb-1.5">
               {t("form.name")} <span className="text-primary">*</span>

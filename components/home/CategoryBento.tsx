@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import {
   ArrowRight,
   Backpack,
@@ -75,7 +76,19 @@ export function CategoryBento({ categories, counts }: { categories: Category[]; 
               className={`card flex flex-col justify-between p-5 border-ink overflow-hidden ${textColor(c)}`}
               style={{ background: c.color }}
             >
-              <Icon size={30} />
+              {c.image ? (
+                <span className="relative block w-14 h-14 rounded-[14px] overflow-hidden border-2 border-ink/20 bg-white/60">
+                  <Image
+                    src={c.image}
+                    alt={lang === "ar" ? c.name_ar : c.name_fr}
+                    fill
+                    sizes="56px"
+                    className="object-cover"
+                  />
+                </span>
+              ) : (
+                <Icon size={30} />
+              )}
               <div className="mt-4">
                 <p className="font-display text-[16.5px] font-bold leading-tight">
                   {lang === "ar" ? c.name_ar : c.name_fr}

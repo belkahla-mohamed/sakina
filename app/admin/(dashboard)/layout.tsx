@@ -8,7 +8,7 @@ export default function AdminDashboardLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <ToastProvider>
-      <div dir="ltr" className="min-h-screen bg-milk">
+      <div className="min-h-screen bg-milk">
         {/* Session read must sit behind a boundary (Cache Components rule). */}
         <Suspense
           fallback={

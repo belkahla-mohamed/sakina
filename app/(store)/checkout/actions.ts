@@ -47,7 +47,13 @@ export async function placeOrder(input: PlaceOrderInput): Promise<PlaceOrderResu
   }
   if (wanted.size === 0) return { ok: false, error: "Votre panier est vide." };
 
-  const products = await dbProductsBySlugs([...wanted.keys()]);
+  let products;
+  try {
+    products = await dbProductsBySlugs([...wanted.keys()]);
+  } catch (e) {
+    console.error("[placeOrder] products lookup failed:", e);
+    return { ok: false, error: "Service momentanément indisponible. Réessayez dans un instant." };
+  }
   const items: CreateOrderInput["items"] = [];
   let subtotal = 0;
   for (const p of products) {
@@ -73,9 +79,7 @@ export async function placeOrder(input: PlaceOrderInput): Promise<PlaceOrderResu
     });
     return { ok: true, reference };
   } catch (e) {
-    return {
-      ok: false,
-      error: e instanceof Error ? e.message : "Échec de l'enregistrement de la commande.",
-    };
+    console.error("[placeOrder] order insert failed:", e);
+    return { ok: false, error: "Échec de l'enregistrement de la commande. Réessayez dans un instant." };
   }
 }

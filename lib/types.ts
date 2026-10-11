@@ -9,6 +9,7 @@ export interface Category {
   color: string;
   text: CategoryText;
   icon: string;
+  image: string | null;
   featured: boolean;
 }
 

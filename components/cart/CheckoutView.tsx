@@ -162,8 +162,8 @@ export function CheckoutView({ products }: { products: Product[] }) {
         </div>
       )}
 
-      <div className="grid lg:grid-cols-[1.3fr_1fr] gap-6 mt-6 items-start">
-        <form onSubmit={submit} className="card p-5 md:p-6 space-y-4" noValidate>
+      <div className="grid lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] gap-6 mt-6 items-start">
+        <form onSubmit={submit} className="card min-w-0 p-5 md:p-6 space-y-4" noValidate>
           <p className="font-display text-[19px] font-bold">
             {lang === "ar" ? "معلوماتك" : "Vos coordonnées"}
           </p>
@@ -217,7 +217,7 @@ export function CheckoutView({ products }: { products: Product[] }) {
           <p className="text-[13px] text-ink-soft text-center">{t("order.needInfo")}</p>
         </form>
 
-        <div className="card p-5 sticky top-24">
+        <div className="card min-w-0 p-5 sticky top-24">
           <p className="font-display text-[19px] font-bold">{t("order.recap")}</p>
 
           <ul className="mt-4 space-y-3">

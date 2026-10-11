@@ -64,11 +64,14 @@ insert into public.products (slug, name_fr, name_ar, category, price, old_price,
 
 -- reviews: (no rows)
 
--- settings (6 rows)
+-- settings (9 rows)
 insert into public.settings (key, value, updated_at) values ('announce_ar', 'التوصيل مجاني ابتداءً من 300 درهم · الدفع عند الاستلام · إرجاع خلال 7 أيام', '2026-10-10T07:01:17.542Z') on conflict (key) do update set value = excluded.value, updated_at = excluded.updated_at;
 insert into public.settings (key, value, updated_at) values ('announce_fr', 'Livraison gratuite dès 300 DH · Paiement à la livraison · Retour sous 7 jours', '2026-10-10T07:01:17.542Z') on conflict (key) do update set value = excluded.value, updated_at = excluded.updated_at;
 insert into public.settings (key, value, updated_at) values ('free_shipping_from', '300', '2026-10-10T07:01:17.542Z') on conflict (key) do update set value = excluded.value, updated_at = excluded.updated_at;
 insert into public.settings (key, value, updated_at) values ('site_name', 'Sakina', '2026-10-10T07:01:17.542Z') on conflict (key) do update set value = excluded.value, updated_at = excluded.updated_at;
 insert into public.settings (key, value, updated_at) values ('site_name_ar', 'ساكينا', '2026-10-10T07:01:17.542Z') on conflict (key) do update set value = excluded.value, updated_at = excluded.updated_at;
 insert into public.settings (key, value, updated_at) values ('whatsapp', '212608308484', '2026-10-10T07:01:17.542Z') on conflict (key) do update set value = excluded.value, updated_at = excluded.updated_at;
+insert into public.settings (key, value, updated_at) values ('social_instagram', '', '2026-10-10T07:01:17.542Z') on conflict (key) do nothing;
+insert into public.settings (key, value, updated_at) values ('social_tiktok', '', '2026-10-10T07:01:17.542Z') on conflict (key) do nothing;
+insert into public.settings (key, value, updated_at) values ('social_facebook', '', '2026-10-10T07:01:17.542Z') on conflict (key) do nothing;
 

@@ -2,11 +2,15 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { connection } from "next/server";
 import { Icon } from "@/components/Icon";
+import { adminT } from "@/lib/admin-lang";
 import { dbAdminCategories } from "@/lib/db/store";
 import { ProductForm } from "@/components/admin/ProductForm";
 import { AdminSection } from "@/components/admin/AdminSection";
 
-export const metadata: Metadata = { title: "Nouveau produit" };
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await adminT();
+  return { title: t("admin.product.new") };
+}
 
 export default function NewProductPage() {
   return (
@@ -18,6 +22,7 @@ export default function NewProductPage() {
 
 async function NewProductContent() {
   await connection();
+  const t = await adminT();
   const categories = await dbAdminCategories();
 
   return (
@@ -26,10 +31,10 @@ async function NewProductContent() {
         href="/admin/produits"
         className="inline-flex items-center gap-1.5 text-[13.5px] font-bold text-ink-soft hover:text-ink"
       >
-        <Icon name="arrow-left" size={15} weight="bold" />
-        Retour aux produits
+        <Icon name="arrow-left" size={15} weight="bold" className="rtl:rotate-180" />
+        {t("admin.product.back")}
       </Link>
-      <h1 className="text-[28px] font-bold">Nouveau produit</h1>
+      <h1 className="text-[28px] font-bold">{t("admin.product.new")}</h1>
       <ProductForm categories={categories} />
     </div>
   );

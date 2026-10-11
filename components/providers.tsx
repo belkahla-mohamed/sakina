@@ -123,6 +123,9 @@ const DEFAULT_SETTINGS: PublicSettings = {
     "التوصيل مجاني ابتداءً من 300 درهم · الدفع عند الاستلام · إرجاع خلال 7 أيام",
   site_name: SITE.name,
   site_name_ar: SITE.name_ar,
+  social_instagram: "",
+  social_tiktok: "",
+  social_facebook: "",
 };
 
 const SettingsContext = createContext<PublicSettings | null>(null);

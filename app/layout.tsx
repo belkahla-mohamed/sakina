@@ -30,12 +30,30 @@ const tajawal = Tajawal({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE.url),
   title: {
     default: `${SITE.name} — Jouets, éveil & école | Livraison 24-48h au Maroc`,
     template: `%s | ${SITE.name}`,
   },
   description:
     "Jouets d'éveil, livres, fournitures scolaires et vêtements bébé. Paiement à la livraison, retours sous 7 jours, livraison 24-48h partout au Maroc.",
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    locale: "fr_MA",
+    alternateLocale: ["ar_MA"],
+    siteName: SITE.name,
+    title: `${SITE.name} — Jouets, éveil & école`,
+    description:
+      "Jouets d'éveil, livres, fournitures scolaires et vêtements bébé. Paiement à la livraison partout au Maroc.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${SITE.name} — Jouets, éveil & école`,
+    description:
+      "Jouets d'éveil, livres, fournitures scolaires et vêtements bébé. Paiement à la livraison partout au Maroc.",
+  },
+  robots: { index: true, follow: true },
 };
 
 export const instant = false;

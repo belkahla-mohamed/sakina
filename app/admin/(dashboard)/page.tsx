@@ -2,22 +2,27 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { connection } from "next/server";
 import { Icon } from "@/components/Icon";
+import { adminT } from "@/lib/admin-lang";
+import type { TKey } from "@/lib/i18n";
 import { dbOrderStats, dbAdminOrders } from "@/lib/db/orders";
 import { dbAdminProducts } from "@/lib/db/store";
 import { dbAdminReviews } from "@/lib/db/reviews";
 import { AdminSection } from "@/components/admin/AdminSection";
 
-export const metadata: Metadata = { title: "Tableau de bord" };
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await adminT();
+  return { title: t("admin.nav.dashboard") };
+}
 
 function formatPrice(n: number): string {
   return `${n.toFixed(2).replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, " ")} dh`;
 }
 
-const STATUS_LABEL: Record<string, string> = {
-  nouvelle: "Nouvelle",
-  en_cours: "En cours",
-  livree: "Livrée",
-  annulee: "Annulée",
+const STATUS_KEY: Record<string, TKey> = {
+  nouvelle: "admin.order.statusNew",
+  en_cours: "admin.order.statusProgress",
+  livree: "admin.order.statusDone",
+  annulee: "admin.order.statusCancelled",
 };
 
 export default function AdminDashboardPage() {
@@ -30,6 +35,7 @@ export default function AdminDashboardPage() {
 
 async function DashboardContent() {
   await connection();
+  const t = await adminT();
   const [stats, products, reviews, recentOrders] = await Promise.all([
     dbOrderStats(),
     dbAdminProducts(),
@@ -43,23 +49,23 @@ async function DashboardContent() {
   const totalProducts = products.length;
 
   const cards = [
-    { label: "Commandes", value: String(stats.totalOrders), sub: `${stats.today} aujourd'hui`, icon: "shopping-cart" as const, tone: "text-teal-deep" },
-    { label: "En attente", value: String(stats.pending), sub: "à traiter", icon: "clock" as const, tone: "text-primary" },
-    { label: "Chiffre d'affaires", value: formatPrice(stats.revenue), sub: "hors annulées", icon: "trend" as const, tone: "text-teal-deep" },
-    { label: "Produits", value: String(totalProducts), sub: `${lowStock.length} en stock bas`, icon: "package" as const, tone: "text-ink" },
+    { label: t("admin.nav.orders"), value: String(stats.totalOrders), sub: `${stats.today} ${t("admin.dash.today")}`, icon: "shopping-cart" as const, tone: "text-teal-deep" },
+    { label: t("admin.dash.pending"), value: String(stats.pending), sub: t("admin.dash.toProcess"), icon: "clock" as const, tone: "text-primary" },
+    { label: t("admin.dash.revenue"), value: formatPrice(stats.revenue), sub: t("admin.dash.exclCancelled"), icon: "trend" as const, tone: "text-teal-deep" },
+    { label: t("admin.nav.products"), value: String(totalProducts), sub: `${lowStock.length} ${t("admin.dash.lowStock")}`, icon: "package" as const, tone: "text-ink" },
   ];
 
   return (
     <div className="space-y-6 anim-fade-up">
       <header className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-[28px] font-bold">Tableau de bord</h1>
+          <h1 className="text-[28px] font-bold">{t("admin.nav.dashboard")}</h1>
           <p className="text-[14px] text-ink-soft">
-            Vue d&apos;ensemble de votre boutique Sakina.
+            {t("admin.dash.sub")}
           </p>
         </div>
         <Link href="/admin/produits/new" className="btn btn-primary">
-          + Nouveau produit
+          {t("admin.dash.newProduct")}
         </Link>
       </header>
 
@@ -83,14 +89,14 @@ async function DashboardContent() {
         {/* Recent orders */}
         <section className="card p-5">
           <div className="flex items-center justify-between mb-3">
-            <h2 className="font-display text-[18px] font-bold">Dernières commandes</h2>
+            <h2 className="font-display text-[18px] font-bold">{t("admin.dash.recentOrders")}</h2>
             <Link href="/admin/commandes" className="text-[13.5px] font-bold text-primary underline">
-              Tout voir
+              {t("admin.dash.seeAll")}
             </Link>
           </div>
           {recent.length === 0 ? (
             <p className="text-[14px] text-ink-soft py-6 text-center">
-              Aucune commande pour le moment.
+              {t("admin.dash.noOrders")}
             </p>
           ) : (
             <ul className="divide-y divide-line">
@@ -105,7 +111,7 @@ async function DashboardContent() {
                   <div className="text-right shrink-0">
                     <p className="price text-[14.5px]">{formatPrice(Number(o.total))}</p>
                     <span className="inline-block mt-1 text-[11.5px] font-bold px-2 py-0.5 rounded-full bg-milk border border-line">
-                      {STATUS_LABEL[o.status] ?? o.status}
+                      {STATUS_KEY[o.status] ? t(STATUS_KEY[o.status]) : o.status}
                     </span>
                   </div>
                 </li>
@@ -118,25 +124,25 @@ async function DashboardContent() {
         <section className="space-y-5">
           <div className="card p-5">
             <h2 className="font-display text-[18px] font-bold flex items-center gap-2">
-              <Icon name="warning" size={18} className="text-highlight" /> À faire
+              <Icon name="warning" size={18} className="text-highlight" /> {t("admin.dash.todo")}
             </h2>
             <ul className="mt-3 space-y-2.5 text-[14px]">
               <li className="flex items-center justify-between">
-                <span>Avis en attente</span>
+                <span>{t("admin.dash.pendingReviews")}</span>
                 <Link href="/admin/avis" className="font-bold text-primary">
-                  {pendingReviews.length} →
+                  {pendingReviews.length} <span className="inline-block rtl:rotate-180">→</span>
                 </Link>
               </li>
               <li className="flex items-center justify-between">
-                <span>Produits en stock bas (≤5)</span>
+                <span>{t("admin.dash.lowStockLabel")}</span>
                 <Link href="/admin/produits" className="font-bold text-primary">
-                  {lowStock.length} →
+                  {lowStock.length} <span className="inline-block rtl:rotate-180">→</span>
                 </Link>
               </li>
               <li className="flex items-center justify-between">
-                <span>Commandes à traiter</span>
+                <span>{t("admin.dash.ordersToProcess")}</span>
                 <Link href="/admin/commandes" className="font-bold text-primary">
-                  {stats.pending} →
+                  {stats.pending} <span className="inline-block rtl:rotate-180">→</span>
                 </Link>
               </li>
             </ul>
@@ -144,10 +150,10 @@ async function DashboardContent() {
 
           <div className="card p-5">
             <h2 className="font-display text-[18px] font-bold flex items-center gap-2">
-              <Icon name="star" size={18} className="text-primary" /> Avis récents
+              <Icon name="star" size={18} className="text-primary" /> {t("admin.dash.recentReviews")}
             </h2>
             {reviews.length === 0 ? (
-              <p className="text-[14px] text-ink-soft mt-2">Aucun avis pour l&apos;instant.</p>
+              <p className="text-[14px] text-ink-soft mt-2">{t("admin.dash.noReviews")}</p>
             ) : (
               <ul className="mt-3 space-y-2.5">
                 {reviews.slice(0, 3).map((r) => (
