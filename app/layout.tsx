@@ -3,12 +3,9 @@ import { Baloo_2, Nunito_Sans, Tajawal } from "next/font/google";
 import { cookies } from "next/headers";
 import "./globals.css";
 import { SITE } from "@/lib/config";
+import { getPublicSettings } from "@/lib/site";
 import { LANG_COOKIE } from "@/lib/i18n";
-import { getCategories, getProducts } from "@/lib/catalog";
 import { Providers } from "@/components/providers";
-import { AnnouncementBar } from "@/components/AnnouncementBar";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
 
 const baloo = Baloo_2({
   subsets: ["latin"],
@@ -47,8 +44,7 @@ export default async function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   const cookieStore = await cookies();
   const initialLang = cookieStore.get(LANG_COOKIE)?.value === "ar" ? "ar" : "fr";
-  const categories = await getCategories();
-  const products = await getProducts();
+  const settings = await getPublicSettings();
 
   return (
     <html
@@ -58,13 +54,8 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <body suppressHydrationWarning>
-        <Providers initialLang={initialLang}>
-          <AnnouncementBar />
-          <Navbar categories={categories} products={products} />
-          <main id="main" tabIndex={-1}>
-            {children}
-          </main>
-          <Footer />
+        <Providers initialLang={initialLang} settings={settings}>
+          {children}
         </Providers>
       </body>
     </html>

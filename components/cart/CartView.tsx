@@ -2,19 +2,20 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useCart, useLang } from "@/components/providers";
+import { useCart, useLang, useSettings } from "@/components/providers";
 import { formatPrice } from "@/lib/i18n";
-import { buildLines, computeTotals, FREE_SHIPPING_FROM } from "@/lib/whatsapp";
+import { buildLines, computeTotals } from "@/lib/whatsapp";
 import { WaIcon } from "@/components/WaIcon";
 import type { Product } from "@/lib/types";
 
 export function CartView({ products }: { products: Product[] }) {
   const { lang, t } = useLang();
+  const settings = useSettings();
   const { entries, setQty, remove, count } = useCart();
 
   const lines = buildLines(entries, products);
-  const totals = computeTotals(lines);
-  const missingForFree = Math.max(0, FREE_SHIPPING_FROM - totals.subtotal);
+  const totals = computeTotals(lines, settings.freeShippingFrom);
+  const missingForFree = Math.max(0, settings.freeShippingFrom - totals.subtotal);
 
   if (lines.length === 0) {
     return (

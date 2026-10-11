@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { CheckCircle } from "@phosphor-icons/react";
-import { useCart, useLang } from "@/components/providers";
+import { useCart, useLang, useSettings } from "@/components/providers";
 import { formatPrice } from "@/lib/i18n";
 import {
   buildLines,
@@ -13,6 +13,7 @@ import {
   whatsappLink,
 } from "@/lib/whatsapp";
 import { WaIcon } from "@/components/WaIcon";
+import { placeOrder } from "@/app/(store)/checkout/actions";
 import type { Product } from "@/lib/types";
 
 const CITIES = [
@@ -32,6 +33,7 @@ const CITIES = [
 
 export function CheckoutView({ products }: { products: Product[] }) {
   const { lang, t } = useLang();
+  const settings = useSettings();
   const { entries, clear } = useCart();
 
   const [name, setName] = useState("");
@@ -40,9 +42,11 @@ export function CheckoutView({ products }: { products: Product[] }) {
   const [address, setAddress] = useState("");
   const [errors, setErrors] = useState<Record<string, boolean>>({});
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [orderError, setOrderError] = useState<string | null>(null);
 
   const lines = buildLines(entries, products);
-  const totals = computeTotals(lines);
+  const totals = computeTotals(lines, settings.freeShippingFrom);
 
   if (lines.length === 0) {
     return (
@@ -57,7 +61,7 @@ export function CheckoutView({ products }: { products: Product[] }) {
     );
   }
 
-  function submit(e: React.FormEvent) {
+  async function submit(e: React.FormEvent) {
     e.preventDefault();
     const nextErrors = {
       name: !name.trim(),
@@ -68,8 +72,22 @@ export function CheckoutView({ products }: { products: Product[] }) {
     setErrors(nextErrors);
     if (Object.values(nextErrors).some(Boolean)) return;
 
+    setSending(true);
+    const result = await placeOrder({
+      customer: { name, phone, city, address },
+      items: lines.map((l) => ({ slug: l.product.slug, qty: l.qty })),
+    });
+    setSending(false);
+
+    if (!result.ok) {
+      setOrderError(result.error ?? "Une erreur est survenue.");
+      return;
+    }
+    setOrderError(null);
+
     const message = buildOrderMessage(lines, totals, { name, phone, city, address });
-    window.open(whatsappLink(message), "_blank", "noopener,noreferrer");
+    const withRef = `${message}\n\nRéf : ${result.reference}`;
+    window.open(whatsappLink(withRef, settings.whatsapp), "_blank", "noopener,noreferrer");
     setSent(true);
   }
 
@@ -170,9 +188,22 @@ export function CheckoutView({ products }: { products: Product[] }) {
 
           {field("address", t("form.address"), address, setAddress, "text", "street-address")}
 
-          <button type="submit" className="btn btn-wa w-full">
+          {orderError && (
+            <p
+              role="alert"
+              className="text-[13.5px] font-bold text-primary bg-primary/10 border-2 border-primary rounded-[12px] px-3.5 py-2.5"
+            >
+              {orderError}
+            </p>
+          )}
+
+          <button type="submit" className="btn btn-wa w-full" disabled={sending}>
             <WaIcon size={21} />
-            {t("order.send")}
+            {sending
+              ? lang === "ar"
+                ? "جارٍ التسجيل…"
+                : "Enregistrement…"
+              : t("order.send")}
           </button>
           <p className="text-[13px] text-ink-soft text-center">{t("order.needInfo")}</p>
         </form>

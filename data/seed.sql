@@ -1,48 +1,8 @@
--- Sakina — schema + seed (generated from data/catalog.json)
--- Run in the Supabase SQL editor. Safe to re-run (upserts).
-
-create table if not exists public.categories (
-  slug text primary key,
-  name_fr text not null,
-  name_ar text not null,
-  tagline_fr text,
-  tagline_ar text,
-  color text not null default '#FF6B9D',
-  text text not null default 'light',
-  icon text not null default 'gift',
-  featured boolean not null default false
-);
-
-create table if not exists public.products (
-  slug text primary key,
-  name_fr text not null,
-  name_ar text not null,
-  category text not null references public.categories(slug) on delete cascade,
-  price numeric(10,2) not null,
-  old_price numeric(10,2),
-  badge text check (badge in ('nouveau','promo','epuise')),
-  rating numeric(2,1) not null default 5.0,
-  reviews int not null default 0,
-  stock int not null default 0,
-  is_new boolean not null default false,
-  is_bestseller boolean not null default false,
-  desc_fr text,
-  desc_ar text,
-  image text,
-  created_at timestamptz not null default now()
-);
-
-create index if not exists products_category_idx on public.products (category);
-create index if not exists products_bestseller_idx on public.products (is_bestseller desc);
-
-alter table public.categories enable row level security;
-alter table public.products enable row level security;
-
-drop policy if exists "anon read categories" on public.categories;
-create policy "anon read categories" on public.categories for select to anon using (true);
-
-drop policy if exists "anon read products" on public.products;
-create policy "anon read products" on public.products for select to anon using (true);
+-- ============================================================
+-- Sakina — catalog seed (categories + products) for the `sakina` schema
+-- Run AFTER data/schema.sql. Idempotent (upserts on conflict).
+-- Generated from data/catalog.json.
+-- ============================================================
 
 insert into public.categories (slug, name_fr, name_ar, tagline_fr, tagline_ar, color, text, icon, featured) values
   ('jouets-eveil', 'Jouets & éveil', 'ألعاب وتأهيل', 'Bois, puzzles, cubes et jeux d''éveil pour 0–6 ans.', 'ألعاب خشبية وألغاز وأنشطة تأهيلية من 0 إلى 6 سنوات.', '#FF6B9D', 'light', 'puzzle', true),
@@ -65,7 +25,7 @@ values
   ('tapis-deveil-musical', 'Tapis d''éveil musical', 'سجادة تأهيلية موسيقية', 'jouets-eveil', 249, 299, 'promo', 4.6, 27, 15, false, false, 'Tapis moelleux avec arches, miroir et 20 mélodies. Parfait dès les premiers mois.', 'سجادة ناعمة مع أقواس ومرآة و20 لحنًا. مثالية من الأشهر الأولى.', '/img/products/tapis-deveil-musical.svg'),
   ('blocs-construction-50-pieces', 'Blocs de construction 50 pièces', 'مكعبات بناء 50 قطعة', 'jouets-eveil', 179, NULL, 'nouveau', 4.5, 12, 22, true, false, '50 gros blocs de construction compatibles, livrés dans un sac de rangement.', '50 مكعب بناء كبير متوافق، مع كيس تخزين.', '/img/products/blocs-construction-50-pieces.svg'),
   ('cheval-a-bascule-bois', 'Cheval à bascule en bois', 'حصان متأرجح خشبي', 'jouets-eveil', 349, NULL, NULL, 4.9, 19, 8, false, false, 'Le classique indémodable, en bois massif, avec poignées et siège confortable.', 'الحصان الكلاسيكي الخالد من الخشب الصلب، بمقبضين ومقعد مريح.', '/img/products/cheval-a-bascule-bois.svg'),
-  ('livre-activites-3-6-ans', 'Livre d''activités 3-6 ans', 'كتاب أنشطة 3-6 سنوات', 'livres-coloriage', 59, NULL, NULL, 4.7, 36, 50, false, true, 'Labyrinthes, calculs doux et coloriage : 96 pages d''activités pour apprendre en jouant.', 'متاهات وألوان وتمارين بسيطة: 96 صفحة من الأنشطة لتعلّم أثناء اللعب.', '/img/products/livre-activites-3-6-ans.svg'),
+  ('livre-activites-3-6-ans', 'Livre d''activités 3-6 ans', 'كتاب أنشطة 3-6 سنوات', 'livres-coloriage', 59, NULL, NULL, 4.7, 36, 50, false, true, 'Labyrinthes, calculs doux et coloriage : 96 pages d''activités pour apprendre en jouant.', 'متاهات وألوان وتمارين بسيطة: 96 صفحة من الأنشطة تعلّم أثناء اللعب.', '/img/products/livre-activites-3-6-ans.svg'),
   ('encyclopedie-enfants', 'Encyclopédie illustrée des enfants', 'الموسوعة المصورة للأطفال', 'livres-coloriage', 119, NULL, 'nouveau', 4.8, 14, 20, true, false, 'Animaux, planètes et corps humain expliqués simplement, avec 400 illustrations.', 'الحيوانات والكواكب والجسم البشري بشرح مبسّط مع 400 رسمة.', '/img/products/encyclopedie-enfants.svg'),
   ('cahier-coloriage-animaux', 'Cahier de coloriage animaux', 'كراسة تلوين الحيوانات', 'livres-coloriage', 35, NULL, NULL, 4.4, 52, 60, false, false, '40 pages d''animaux à colorier, papier épais qui n''absorbe pas les feutres.', '40 صفحة من الحيوانات المراد تلوينها، ورق سميك لا يمتص الحبر.', '/img/products/cahier-coloriage-animaux.svg'),
   ('histoires-du-soir-lot-3', 'Histoires du soir (lot de 3)', 'قصص قبل النوم (طقم 3)', 'livres-coloriage', 99, 120, 'promo', 4.9, 45, 25, false, true, 'Trois histoires courtes à lire avant de dormir, avec voix douce et fins heureuses.', 'ثلاث قصص قصيرة تُقرأ قبل النوم، بلغة ناعمة ونهايات سعيدة.', '/img/products/histoires-du-soir-lot-3.svg'),

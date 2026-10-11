@@ -10,13 +10,14 @@ import {
   FacebookLogo,
   TiktokLogo,
 } from "@phosphor-icons/react";
-import { useLang } from "@/components/providers";
+import { useLang, useSettings } from "@/components/providers";
 import { WaIcon } from "@/components/WaIcon";
 import { SITE } from "@/lib/config";
 import { whatsappLink } from "@/lib/whatsapp";
 
 export function ContactView() {
   const { lang, t } = useLang();
+  const settings = useSettings();
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
@@ -30,13 +31,13 @@ export function ContactView() {
     const text = lang === "ar"
       ? `مرحبًا ساكينا،\n${message}\n\nالاسم: ${name}\nالهاتف: ${phone}`
       : `Bonjour Sakina,\n${message}\n\nNom : ${name}\nTél : ${phone}`;
-    window.open(whatsappLink(text), "_blank", "noopener,noreferrer");
+    window.open(whatsappLink(text, settings.whatsapp), "_blank", "noopener,noreferrer");
   }
 
   const rows = [
     { icon: Clock, label: t("contact.hours"), value: lang === "ar" ? SITE.hours_ar : SITE.hours, ltr: false },
     { icon: MapPin, label: lang === "ar" ? "المدينة" : "Ville", value: lang === "ar" ? SITE.city_ar : SITE.city, ltr: false },
-    { icon: Phone, label: lang === "ar" ? "الهاتف" : "Téléphone", value: `+${SITE.whatsapp}`, ltr: true },
+    { icon: Phone, label: lang === "ar" ? "الهاتف" : "Téléphone", value: `+${settings.whatsapp}`, ltr: true },
     { icon: EnvelopeSimple, label: "Email", value: SITE.email, ltr: true },
   ];
 
@@ -74,7 +75,7 @@ export function ContactView() {
           <div className="card p-5" style={{ background: "var(--color-teal)", borderColor: "var(--color-ink)", color: "#fff" }}>
             <p className="font-display font-bold text-[17px]">{t("contact.or")}</p>
             <a
-              href={whatsappLink()}
+              href={whatsappLink(undefined, settings.whatsapp)}
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn-wa w-full mt-3"

@@ -2,7 +2,7 @@
 
 import { useMemo, useState, useSyncExternalStore } from "react";
 import { Star, CheckCircle, Plus, PaperPlaneTilt } from "@phosphor-icons/react";
-import { useLang } from "@/components/providers";
+import { useLang, useSettings } from "@/components/providers";
 import { buildReviewMessage, whatsappLink } from "@/lib/whatsapp";
 
 const REVIEWS = [
@@ -106,6 +106,7 @@ function Stars({ count }: { count: number }) {
 
 export function Testimonials() {
   const { lang, t } = useLang();
+  const settings = useSettings();
 
   const storedReviews = useSyncExternalStore(subscribeReviews, readReviewsRaw, () => null);
   const mine = useMemo(() => parseReviews(storedReviews), [storedReviews]);
@@ -128,7 +129,7 @@ export function Testimonials() {
     if (Object.values(nextErrors).some(Boolean)) return;
 
     const message = buildReviewMessage({ name, city, rating, text });
-    window.open(whatsappLink(message), "_blank", "noopener,noreferrer");
+    window.open(whatsappLink(message, settings.whatsapp), "_blank", "noopener,noreferrer");
 
     const review: LocalReview = {
       name: name.trim(),

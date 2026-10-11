@@ -26,9 +26,12 @@ export function buildLines(entries: CartEntry[], products: Product[]): Line[] {
   return lines;
 }
 
-export function computeTotals(lines: Line[]): Totals {
+export function computeTotals(
+  lines: Line[],
+  freeShippingFrom: number = FREE_SHIPPING_FROM
+): Totals {
   const subtotal = lines.reduce((sum, l) => sum + l.product.price * l.qty, 0);
-  const shipping = subtotal === 0 || subtotal >= FREE_SHIPPING_FROM ? 0 : SHIPPING_COST;
+  const shipping = subtotal === 0 || subtotal >= freeShippingFrom ? 0 : SHIPPING_COST;
   return { subtotal, shipping, total: subtotal + shipping };
 }
 

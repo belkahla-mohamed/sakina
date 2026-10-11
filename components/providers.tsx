@@ -10,6 +10,7 @@ import {
   type ReactNode,
 } from "react";
 import { dict, formatPrice, translate, LANG_COOKIE, type Lang, type TKey } from "@/lib/i18n";
+import { SITE, type PublicSettings } from "@/lib/config";
 
 const CART_KEY = "sakina_cart_v1";
 const FAVS_KEY = "sakina_favs_v1";
@@ -110,12 +111,30 @@ interface FavsValue {
 
 const FavsContext = createContext<FavsValue | null>(null);
 
+/* ---------------- Store settings (DB-backed, injected by the root layout) --- */
+
+/** Client-side fallback used if the layout could not resolve DB settings. */
+const DEFAULT_SETTINGS: PublicSettings = {
+  whatsapp: SITE.whatsapp,
+  freeShippingFrom: SITE.freeShippingFrom,
+  announce_fr:
+    "Livraison gratuite dès 300 DH · Paiement à la livraison · Retour sous 7 jours",
+  announce_ar:
+    "التوصيل مجاني ابتداءً من 300 درهم · الدفع عند الاستلام · إرجاع خلال 7 أيام",
+  site_name: SITE.name,
+  site_name_ar: SITE.name_ar,
+};
+
+const SettingsContext = createContext<PublicSettings | null>(null);
+
 export function Providers({
   children,
   initialLang,
+  settings,
 }: {
   children: ReactNode;
   initialLang?: Lang;
+  settings?: PublicSettings;
 }) {
   const storedLang = useSyncExternalStore(
     subscribe,
@@ -225,11 +244,13 @@ export function Providers({
   );
 
   return (
-    <LangContext.Provider value={langValue}>
-      <CartContext.Provider value={cartValue}>
-        <FavsContext.Provider value={favsValue}>{children}</FavsContext.Provider>
-      </CartContext.Provider>
-    </LangContext.Provider>
+    <SettingsContext.Provider value={settings ?? DEFAULT_SETTINGS}>
+      <LangContext.Provider value={langValue}>
+        <CartContext.Provider value={cartValue}>
+          <FavsContext.Provider value={favsValue}>{children}</FavsContext.Provider>
+        </CartContext.Provider>
+      </LangContext.Provider>
+    </SettingsContext.Provider>
   );
 }
 
@@ -249,6 +270,10 @@ export function useFavs(): FavsValue {
   const ctx = useContext(FavsContext);
   if (!ctx) throw new Error("useFavs must be used inside <Providers>");
   return ctx;
+}
+
+export function useSettings(): PublicSettings {
+  return useContext(SettingsContext) ?? DEFAULT_SETTINGS;
 }
 
 export function useDict() {

@@ -5,8 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { CaretDown, Heart, List, MagnifyingGlass, X } from "@phosphor-icons/react";
-import { useCart, useFavs, useLang } from "@/components/providers";
-import { SITE } from "@/lib/config";
+import { useCart, useFavs, useLang, useSettings } from "@/components/providers";
 import { formatPrice } from "@/lib/i18n";
 import { countMatches, searchProducts } from "@/lib/search";
 import type { Category, Product } from "@/lib/types";
@@ -27,6 +26,7 @@ export function Navbar({
   products: Product[];
 }) {
   const { lang, setLang, t } = useLang();
+  const settings = useSettings();
   const { count } = useCart();
   const { count: favCount } = useFavs();
   const router = useRouter();
@@ -162,7 +162,7 @@ export function Navbar({
           </Link>
 
           <a
-            href={`https://wa.me/${SITE.whatsapp}`}
+            href={`https://wa.me/${settings.whatsapp}`}
             target="_blank"
             rel="noopener noreferrer"
             className="hidden lg:inline-flex items-center gap-2 rounded-full bg-wa text-white border-2 border-ink px-4 h-10 text-[13.5px] font-bold shadow-pop-sm hover:opacity-95"
@@ -398,7 +398,7 @@ export function Navbar({
                 {lang === "fr" ? "العربية" : "Français"}
               </button>
               <a
-                href={`https://wa.me/${SITE.whatsapp}`}
+                href={`https://wa.me/${settings.whatsapp}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-wa w-full"

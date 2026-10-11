@@ -1,9 +1,8 @@
 "use client";
 
 import { ChatCircleDots, MapPin, Package } from "@phosphor-icons/react";
-import { useLang } from "@/components/providers";
+import { useLang, useSettings } from "@/components/providers";
 import { WaIcon } from "@/components/WaIcon";
-import { SITE } from "@/lib/config";
 
 const STEPS = [
   { icon: ChatCircleDots, n: "1", title: "home.ctaStep1", sub: "home.ctaStep1s", color: "#E8457F", numBg: "#E8457F" },
@@ -13,6 +12,7 @@ const STEPS = [
 
 export function CtaSteps() {
   const { t } = useLang();
+  const settings = useSettings();
 
   return (
     <section className="mx-auto max-w-6xl px-4 lg:px-6 py-10 md:py-14 anim-reveal">
@@ -49,7 +49,7 @@ export function CtaSteps() {
 
         <div className="text-center mt-8">
           <a
-            href={`https://wa.me/${SITE.whatsapp}`}
+            href={`https://wa.me/${settings.whatsapp}`}
             target="_blank"
             rel="noopener noreferrer"
             className="btn btn-wa"

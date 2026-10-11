@@ -15,6 +15,8 @@ const nextConfig: NextConfig = {
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     remotePatterns: [
+      // Cloudinary — admin uploads land here and are served through next/image.
+      { protocol: "https", hostname: "res.cloudinary.com" },
       { protocol: "https", hostname: "images.unsplash.com" },
       { protocol: "https", hostname: "live.staticflickr.com" },
       { protocol: "https", hostname: "images.rawpixel.com" },

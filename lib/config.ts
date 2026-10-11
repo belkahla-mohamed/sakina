@@ -12,3 +12,17 @@ export const SITE = {
   whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "212608308484",
   freeShippingFrom: 300,
 } as const;
+
+/**
+ * Store settings that can be overridden from the admin panel.
+ * Lives here (not in the server-only lib/site.ts) so client components can
+ * import the type safely.
+ */
+export interface PublicSettings {
+  whatsapp: string;
+  freeShippingFrom: number;
+  announce_fr: string;
+  announce_ar: string;
+  site_name: string;
+  site_name_ar: string;
+}

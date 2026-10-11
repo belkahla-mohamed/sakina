@@ -60,10 +60,13 @@ export function Hero({ categories, samples }: { categories: Category[]; samples:
               >
                 <Image
                   src={p.image}
-                   alt={lang === "ar" ? p.name_ar : p.name_fr}
+                  alt={lang === "ar" ? p.name_ar : p.name_fr}
                   fill
                   sizes="(max-width: 768px) 50vw, 25vw"
                   className="object-cover"
+                  // First card sits above the fold: preload it to kill CLS.
+                  // The rest stay lazy (next/image default).
+                  priority={i === 0}
                 />
               </Link>
             ))}
