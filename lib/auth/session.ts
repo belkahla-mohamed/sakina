@@ -2,9 +2,9 @@ import "server-only";
 import { cookies } from "next/headers";
 import { randomBytes } from "node:crypto";
 import { q1, q } from "@/lib/db/pool";
+import { SESSION_COOKIE, SESSION_TTL_DAYS } from "./constants";
 
-export const SESSION_COOKIE = "sakina_admin";
-export const SESSION_TTL_DAYS = 7;
+export { SESSION_COOKIE };
 
 export interface AdminUser {
   id: number;

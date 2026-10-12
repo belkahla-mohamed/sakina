@@ -1,12 +1,12 @@
 import "server-only";
 import { redirect } from "next/navigation";
 import { getSessionAdmin, type AdminUser } from "./session";
+import { ADMIN_LOGIN_PATH } from "./constants";
 
 export type { AdminUser };
 export { createSession, destroySession, getSessionAdmin, SESSION_COOKIE } from "./session";
 export { hashPassword, verifyPassword } from "./password";
-
-export const ADMIN_LOGIN_PATH = "/admin/login";
+export { ADMIN_LOGIN_PATH };
 
 /**
  * Resolve the signed-in admin for the current request.

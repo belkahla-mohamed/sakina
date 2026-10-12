@@ -25,7 +25,6 @@ export function LoginForm({ next }: { next: string }) {
           type="email"
           autoComplete="username"
           required
-          defaultValue="admin@sakina.ma"
           className="field w-full px-4 py-3 outline-none focus:border-ink"
         />
       </div>

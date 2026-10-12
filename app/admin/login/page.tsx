@@ -1,8 +1,10 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { SITE } from "@/lib/config";
 import { adminT } from "@/lib/admin-lang";
+import { getSessionAdmin } from "@/lib/auth";
 import { LoginForm } from "@/components/admin/LoginForm";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -56,6 +58,10 @@ async function LoginFormFromUrl({
   searchParams: Promise<{ next?: string }>;
 }) {
   const { next } = await searchParams;
+  // Belt-and-braces: the proxy already bounces signed-in sessions off this
+  // page, but re-verify here so a misconfigured matcher can never serve the
+  // form to someone who is already authenticated.
+  if (await getSessionAdmin()) redirect("/admin");
   // Only same-origin relative paths — `//evil.com` and absolute URLs are
   // rejected so a crafted ?next= can never bounce the admin off-site.
   const safeNext =
