@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { CaretDown, Heart, List, MagnifyingGlass, X } from "@phosphor-icons/react";
 import { useCart, useFavs, useLang, useSettings } from "@/components/providers";
+import { BrandMark } from "@/components/BrandMark";
 import { formatPrice } from "@/lib/i18n";
 import { countMatches, searchProducts } from "@/lib/search";
 import type { Category, Product } from "@/lib/types";
@@ -85,11 +86,14 @@ export function Navbar({
         </button>
 
         {/* logo */}
-        <Link href="/" className="flex items-baseline gap-1.5 shrink-0 py-1.5">
-          <span className="font-display text-[26px] md:text-[30px] font-extrabold leading-none tracking-tight">
-            Sakina<span className="text-primary">.</span>
+        <Link href="/" className="flex items-center gap-2 shrink-0 py-1.5">
+          <BrandMark className="w-8 h-8 md:w-9 md:h-9 shrink-0" />
+          <span className="flex items-baseline gap-1.5">
+            <span className="font-display text-[26px] md:text-[30px] font-extrabold leading-none tracking-tight">
+              Sakina<span className="text-primary">.</span>
+            </span>
+            <span className="ar hidden sm:inline text-[13px] font-bold text-highlight">ساكينا</span>
           </span>
-          <span className="ar hidden sm:inline text-[13px] font-bold text-highlight">ساكينا</span>
         </Link>
 
         {/* desktop nav */}
@@ -304,8 +308,11 @@ export function Navbar({
               }`}
               style={drawer ? { animationDelay: "50ms" } : undefined}
             >
-              <span className="font-display text-[22px] font-extrabold">
-                Sakina<span className="text-primary">.</span>
+              <span className="flex items-center gap-2">
+                <BrandMark className="w-7 h-7 shrink-0" />
+                <span className="font-display text-[22px] font-extrabold">
+                  Sakina<span className="text-primary">.</span>
+                </span>
               </span>
               <button
                 type="button"
