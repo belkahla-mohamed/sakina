@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useActionState, useMemo, useState } from "react";
 import { MagnifyingGlass, PencilSimple, Trash } from "@phosphor-icons/react";
-import { deleteProduct, type ActionState } from "@/app/admin/actions";
+import { deleteProduct, deleteProducts, type ActionState } from "@/app/admin/actions";
 import { useConfirm } from "@/components/admin/Toast";
 import { useActionToast } from "@/components/admin/useActionToast";
 import { useLang } from "@/components/providers";
@@ -20,7 +20,7 @@ function formatPrice(n: number): string {
   return `${n.toFixed(2).replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, " ")} dh`;
 }
 
-const COLS = "md:grid-cols-[minmax(0,2.4fr)_1.1fr_0.9fr_0.7fr_auto]";
+const COLS = "md:grid-cols-[24px_minmax(0,2.6fr)_minmax(0,1.15fr)_minmax(0,1fr)_minmax(0,0.9fr)_190px]";
 
 export function ProductTable({
   products,
@@ -31,13 +31,25 @@ export function ProductTable({
 }) {
   const [query, setQuery] = useState("");
   const [cat, setCat] = useState("");
+  const [selected, setSelected] = useState<Set<string>>(new Set());
   const [deleteState, deleteAction] = useActionState<ActionState, FormData>(
     deleteProduct,
     {}
   );
+  const [bulkState, bulkAction, bulkPending] = useActionState<ActionState, FormData>(
+    deleteProducts,
+    {}
+  );
   useActionToast(deleteState);
+  useActionToast(bulkState);
   const askConfirm = useConfirm();
   const { t, lang } = useLang();
+
+  const allSlugs = useMemo(() => new Set(products.map((p) => p.slug)), [products]);
+  const bulkSlugs = useMemo(
+    () => [...selected].filter((s) => allSlugs.has(s)),
+    [selected, allSlugs]
+  );
 
   const BADGE_LABEL: Record<string, string> = {
     promo: t("admin.form.badgePromo"),
@@ -63,6 +75,30 @@ export function ProductTable({
       );
     });
   }, [products, query, cat]);
+
+  const allVisible = rows.length > 0 && rows.every((p) => selected.has(p.slug));
+  const someVisible = rows.some((p) => selected.has(p.slug));
+
+  function toggleOne(slug: string) {
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (next.has(slug)) next.delete(slug);
+      else next.add(slug);
+      return next;
+    });
+  }
+
+  function toggleAll() {
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (rows.length > 0 && rows.every((p) => next.has(p.slug))) {
+        for (const p of rows) next.delete(p.slug);
+      } else {
+        for (const p of rows) next.add(p.slug);
+      }
+      return next;
+    });
+  }
 
   return (
     <div className="space-y-4">
@@ -100,14 +136,59 @@ export function ProductTable({
         </span>
       </div>
 
+      {/* Bulk bar */}
+      {bulkSlugs.length > 0 && (
+        <form
+          action={bulkAction}
+          onSubmit={(e) => {
+            e.preventDefault();
+            const form = e.currentTarget;
+            void askConfirm({
+              title: t("admin.table.delProductsTitle"),
+              message: t("admin.table.delProductsMsg").replace("{n}", String(bulkSlugs.length)),
+              confirmLabel: t("admin.table.delete"),
+              tone: "danger",
+            }).then((ok) => {
+              if (ok) form.requestSubmit();
+            });
+          }}
+          className="card px-4 py-3 flex flex-wrap items-center gap-3 border-primary"
+        >
+          {bulkSlugs.map((s) => (
+            <input key={s} type="hidden" name="slugs" value={s} />
+          ))}
+          <span className="text-[13.5px] font-bold">
+            {t("admin.table.selCount").replace("{n}", String(bulkSlugs.length))}
+          </span>
+          <button
+            type="submit"
+            disabled={bulkPending}
+            className="btn !px-3 !py-2 text-[13px] border-2 border-line text-primary hover:border-primary ms-auto disabled:opacity-60"
+          >
+            <Trash size={15} weight="bold" />
+            {t("admin.table.deleteSelected")}
+          </button>
+        </form>
+      )}
+
       {/* Header (desktop) */}
       <div
-        className={`hidden md:grid ${COLS} gap-4 px-4 pb-2 text-[11.5px] font-bold uppercase tracking-[0.07em] text-ink-soft`}
+        className={`hidden md:grid ${COLS} gap-4 border border-transparent px-3.5 pb-2 text-[11.5px] font-bold uppercase tracking-[0.07em] text-ink-soft`}
       >
-        <span>{t("admin.table.product")}</span>
-        <span>{t("admin.form.category")}</span>
-        <span>{t("admin.table.price")}</span>
-        <span>{t("admin.form.stock")}</span>
+        <input
+          type="checkbox"
+          checked={allVisible}
+          ref={(el) => {
+            if (el) el.indeterminate = someVisible && !allVisible;
+          }}
+          onChange={toggleAll}
+          aria-label={t("admin.table.selectAll")}
+          className="w-4.5 h-4.5 accent-primary self-center"
+        />
+        <span className="text-start">{t("admin.table.product")}</span>
+        <span className="text-start">{t("admin.form.category")}</span>
+        <span className="text-start">{t("admin.table.price")}</span>
+        <span className="text-start">{t("admin.form.stock")}</span>
         <span className="text-end">{t("admin.table.actions")}</span>
       </div>
 
@@ -125,8 +206,15 @@ export function ProductTable({
                 key={p.slug}
                 className={`card p-3.5 md:grid ${COLS} md:items-center gap-4`}
               >
+                <input
+                  type="checkbox"
+                  checked={selected.has(p.slug)}
+                  onChange={() => toggleOne(p.slug)}
+                  aria-label={t("admin.table.selectItem").replace("{n}", pname(p))}
+                  className="w-4.5 h-4.5 accent-primary shrink-0 md:self-center"
+                />
                 {/* Product */}
-                <div className="flex items-center gap-3 min-w-0">
+                <div className="flex items-start gap-3 min-w-0">
                   <div className="relative w-14 h-14 shrink-0 rounded-[10px] overflow-hidden border border-line bg-highlight/30">
                     <Image
                       src={p.image}
@@ -145,23 +233,23 @@ export function ProductTable({
                 </div>
 
                 {/* Category */}
-                <div className="mt-2.5 md:mt-0 text-[13.5px]">
+                <div className="mt-2.5 md:mt-0 text-[13.5px] md:text-start">
                   <span className="md:hidden font-bold text-ink-soft me-1.5">{t("admin.table.categoryIs")}</span>
                   {catName(p.category)}
                 </div>
 
                 {/* Price */}
-                <div className="mt-1.5 md:mt-0">
+                <div className="mt-1.5 md:mt-0 md:flex md:items-baseline md:justify-start md:gap-1.5">
                   <span className="price text-[15px]">{formatPrice(p.price)}</span>
                   {p.old_price != null && (
-                    <span className="ms-1.5 text-[12.5px] line-through text-ink-soft">
+                    <span className="ms-1.5 md:ms-0 text-[12.5px] line-through text-ink-soft">
                       {formatPrice(p.old_price)}
                     </span>
                   )}
                 </div>
 
                 {/* Stock */}
-                <div className="mt-1.5 md:mt-0 flex items-center gap-2">
+                <div className="mt-1.5 md:mt-0 flex items-start gap-2 md:justify-start">
                   <span
                     className={`text-[14px] font-bold ${
                       out ? "text-primary" : low ? "text-ink" : "text-teal-deep"

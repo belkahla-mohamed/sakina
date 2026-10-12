@@ -1,6 +1,6 @@
 import "server-only";
 import { cacheLife, cacheTag } from "next/cache";
-import { getPool, q, q1 } from "./pool";
+import { getPool, q, q1, withTx } from "./pool";
 import type { Product, Category } from "@/lib/types";
 
 /* ---------------- Categories ---------------- */
@@ -128,6 +128,15 @@ export async function dbDeleteProduct(slug: string): Promise<void> {
   await q("delete from public.products where slug = $1", [slug]);
 }
 
+export async function dbDeleteProducts(slugs: string[]): Promise<number> {
+  if (slugs.length === 0) return 0;
+  const rows = await q<{ one: number }>(
+    "delete from public.products where slug = any($1::text[]) returning 1",
+    [slugs]
+  );
+  return rows.length;
+}
+
 /* ---------------- Category mutations ---------------- */
 
 export interface CategoryInput {
@@ -167,5 +176,20 @@ export async function dbUpsertCategory(c: CategoryInput): Promise<void> {
 }
 
 export async function dbDeleteCategory(slug: string): Promise<void> {
-  await q("delete from public.categories where slug = $1", [slug]);
+  await withTx(async (c) => {
+    await c.query("delete from public.products where category = $1", [slug]);
+    await c.query("delete from public.categories where slug = $1", [slug]);
+  });
+}
+
+export async function dbDeleteCategories(slugs: string[]): Promise<number> {
+  if (slugs.length === 0) return 0;
+  return withTx(async (c) => {
+    await c.query("delete from public.products where category = any($1::text[])", [slugs]);
+    const res = await c.query(
+      "delete from public.categories where slug = any($1::text[]) returning 1",
+      [slugs]
+    );
+    return res.rowCount ?? 0;
+  });
 }

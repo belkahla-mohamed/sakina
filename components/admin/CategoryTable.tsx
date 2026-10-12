@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useActionState, useMemo, useState } from "react";
 import { Backpack, BookOpen, Gift, MagnifyingGlass, PencilSimple, PuzzlePiece, Star, Trash, TShirt } from "@phosphor-icons/react";
-import { deleteCategory, type ActionState } from "@/app/admin/actions";
+import { deleteCategory, deleteCategories, type ActionState } from "@/app/admin/actions";
 import { useConfirm } from "@/components/admin/Toast";
 import { useActionToast } from "@/components/admin/useActionToast";
 import { useLang } from "@/components/providers";
@@ -18,7 +18,7 @@ const ICONS: Record<string, typeof Gift> = {
   tshirt: TShirt,
 };
 
-const COLS = "md:grid-cols-[minmax(0,1.6fr)_1fr_0.7fr_0.7fr_auto]";
+const COLS = "md:grid-cols-[24px_minmax(0,1.7fr)_minmax(0,0.8fr)_minmax(0,0.55fr)_minmax(0,0.85fr)_190px]";
 
 export function CategoryTable({
   categories,
@@ -30,14 +30,26 @@ export function CategoryTable({
   products: Product[];
 }) {
   const [query, setQuery] = useState("");
+  const [selected, setSelected] = useState<Set<string>>(new Set());
   const [deleteState, deleteAction] = useActionState<ActionState, FormData>(
     deleteCategory,
     {}
   );
+  const [bulkState, bulkAction, bulkPending] = useActionState<ActionState, FormData>(
+    deleteCategories,
+    {}
+  );
   useActionToast(deleteState);
+  useActionToast(bulkState);
   const askConfirm = useConfirm();
   const { t, lang } = useLang();
   const cname = (c: Category) => (lang === "ar" ? c.name_ar : c.name_fr);
+
+  const allSlugs = useMemo(() => new Set(categories.map((c) => c.slug)), [categories]);
+  const bulkSlugs = useMemo(
+    () => [...selected].filter((s) => allSlugs.has(s)),
+    [selected, allSlugs]
+  );
 
   const cover = useMemo(() => {
     const m = new Map<string, Product>();
@@ -55,6 +67,30 @@ export function CategoryTable({
         c.slug.toLowerCase().includes(needle)
     );
   }, [categories, query]);
+
+  const allVisible = rows.length > 0 && rows.every((c) => selected.has(c.slug));
+  const someVisible = rows.some((c) => selected.has(c.slug));
+
+  function toggleOne(slug: string) {
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (next.has(slug)) next.delete(slug);
+      else next.add(slug);
+      return next;
+    });
+  }
+
+  function toggleAll() {
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (rows.length > 0 && rows.every((c) => next.has(c.slug))) {
+        for (const c of rows) next.delete(c.slug);
+      } else {
+        for (const c of rows) next.add(c.slug);
+      }
+      return next;
+    });
+  }
 
   return (
     <div className="space-y-4">
@@ -78,13 +114,58 @@ export function CategoryTable({
         </span>
       </div>
 
+      {/* Bulk bar */}
+      {bulkSlugs.length > 0 && (
+        <form
+          action={bulkAction}
+          onSubmit={(e) => {
+            e.preventDefault();
+            const form = e.currentTarget;
+            void askConfirm({
+              title: t("admin.table.delCategoriesTitle"),
+              message: t("admin.table.delCategoriesMsg").replace("{n}", String(bulkSlugs.length)),
+              confirmLabel: t("admin.table.delete"),
+              tone: "danger",
+            }).then((ok) => {
+              if (ok) form.requestSubmit();
+            });
+          }}
+          className="card px-4 py-3 flex flex-wrap items-center gap-3 border-primary"
+        >
+          {bulkSlugs.map((s) => (
+            <input key={s} type="hidden" name="slugs" value={s} />
+          ))}
+          <span className="text-[13.5px] font-bold">
+            {t("admin.table.selCount").replace("{n}", String(bulkSlugs.length))}
+          </span>
+          <button
+            type="submit"
+            disabled={bulkPending}
+            className="btn !px-3 !py-2 text-[13px] border-2 border-line text-primary hover:border-primary ms-auto disabled:opacity-60"
+          >
+            <Trash size={15} weight="bold" />
+            {t("admin.table.deleteSelected")}
+          </button>
+        </form>
+      )}
+
       <div
-        className={`hidden md:grid ${COLS} gap-4 px-4 pb-2 text-[11.5px] font-bold uppercase tracking-[0.07em] text-ink-soft`}
+        className={`hidden md:grid ${COLS} gap-4 border border-transparent px-3.5 pb-2 text-[11.5px] font-bold uppercase tracking-[0.07em] text-ink-soft`}
       >
-        <span>{t("admin.form.category")}</span>
-        <span>{t("admin.table.cover")}</span>
-        <span>{t("admin.nav.products")}</span>
-        <span>{t("admin.table.text")}</span>
+        <input
+          type="checkbox"
+          checked={allVisible}
+          ref={(el) => {
+            if (el) el.indeterminate = someVisible && !allVisible;
+          }}
+          onChange={toggleAll}
+          aria-label={t("admin.table.selectAll")}
+          className="w-4.5 h-4.5 accent-primary self-center"
+        />
+        <span className="text-start">{t("admin.form.category")}</span>
+        <span className="text-start">{t("admin.table.cover")}</span>
+        <span className="text-center">{t("admin.nav.products")}</span>
+        <span className="text-start">{t("admin.table.text")}</span>
         <span className="text-end">{t("admin.table.actions")}</span>
       </div>
 
@@ -100,6 +181,13 @@ export function CategoryTable({
             const img = cover.get(c.slug)?.image;
             return (
               <li key={c.slug} className={`card p-3.5 md:grid ${COLS} md:items-center gap-4`}>
+                <input
+                  type="checkbox"
+                  checked={selected.has(c.slug)}
+                  onChange={() => toggleOne(c.slug)}
+                  aria-label={t("admin.table.selectItem").replace("{n}", cname(c))}
+                  className="w-4.5 h-4.5 accent-primary shrink-0 md:self-center"
+                />
                 {/* Category */}
                 <div className="flex items-center gap-3 min-w-0">
                   {c.image ? (
@@ -139,7 +227,7 @@ export function CategoryTable({
                 </div>
 
                 {/* Count */}
-                <div className="mt-1.5 md:mt-0 text-[14px] font-bold">{n}</div>
+                <div className="mt-1.5 md:mt-0 text-[14px] font-bold md:text-center">{n}</div>
 
                 {/* Text mode */}
                 <div className="mt-1.5 md:mt-0 text-[13px] text-ink-soft">

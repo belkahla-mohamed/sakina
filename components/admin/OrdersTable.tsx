@@ -1,9 +1,10 @@
 "use client";
 
 import { useActionState, useMemo, useState } from "react";
-import { MapPin, Note, Phone, WhatsappLogo } from "@phosphor-icons/react";
-import { saveOrderNote, setOrderStatus, type ActionState } from "@/app/admin/actions";
+import { MapPin, Note, Phone, Trash, WhatsappLogo } from "@phosphor-icons/react";
+import { saveOrderNote, setOrderStatus, deleteOrders, type ActionState } from "@/app/admin/actions";
 import { useActionToast } from "@/components/admin/useActionToast";
+import { useConfirm } from "@/components/admin/Toast";
 import { useLang } from "@/components/providers";
 import type { OrderRow, OrderStatus } from "@/lib/db/orders";
 
@@ -50,6 +51,7 @@ function waLink(phone: string): string {
 export function OrdersTable({ orders }: { orders: OrderRow[] }) {
   const [filter, setFilter] = useState("");
   const [open, setOpen] = useState<Set<number>>(() => new Set(orders.slice(0, 3).map((o) => o.id)));
+  const [selected, setSelected] = useState<Set<number>>(new Set());
   const { t, lang } = useLang();
   const [statusState, statusAction] = useActionState<ActionState, FormData>(
     setOrderStatus,
@@ -59,8 +61,20 @@ export function OrdersTable({ orders }: { orders: OrderRow[] }) {
     saveOrderNote,
     {}
   );
+  const [bulkState, bulkAction, bulkPending] = useActionState<ActionState, FormData>(
+    deleteOrders,
+    {}
+  );
   useActionToast(statusState);
   useActionToast(noteState);
+  useActionToast(bulkState);
+  const askConfirm = useConfirm();
+
+  const allIds = useMemo(() => new Set(orders.map((o) => o.id)), [orders]);
+  const bulkIds = useMemo(
+    () => [...selected].filter((id) => allIds.has(id)),
+    [selected, allIds]
+  );
 
   const counts = useMemo(() => {
     const m: Record<string, number> = { "": orders.length };
@@ -72,6 +86,30 @@ export function OrdersTable({ orders }: { orders: OrderRow[] }) {
     () => (filter ? orders.filter((o) => o.status === filter) : orders),
     [orders, filter]
   );
+
+  const allVisible = rows.length > 0 && rows.every((o) => selected.has(o.id));
+  const someVisible = rows.some((o) => selected.has(o.id));
+
+  function toggleOne(id: number) {
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }
+
+  function toggleAll() {
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (rows.length > 0 && rows.every((o) => next.has(o.id))) {
+        for (const o of rows) next.delete(o.id);
+      } else {
+        for (const o of rows) next.add(o.id);
+      }
+      return next;
+    });
+  }
 
   function toggle(id: number) {
     setOpen((prev) => {
@@ -96,7 +134,20 @@ export function OrdersTable({ orders }: { orders: OrderRow[] }) {
   return (
     <div className="space-y-4">
       {/* Status tabs */}
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap items-center gap-2">
+        <label className="flex items-center gap-2 px-3.5 py-2 rounded-full text-[13px] font-bold border-2 border-line cursor-pointer hover:border-ink/40">
+          <input
+            type="checkbox"
+            checked={allVisible}
+            ref={(el) => {
+              if (el) el.indeterminate = someVisible && !allVisible;
+            }}
+            onChange={toggleAll}
+            aria-label={t("admin.table.selectAll")}
+            className="w-4 h-4 accent-primary"
+          />
+          {t("admin.table.selectAll")}
+        </label>
         {FILTER_KEYS.map((f) => {
           const active = filter === f.value;
           return (
@@ -123,7 +174,41 @@ export function OrdersTable({ orders }: { orders: OrderRow[] }) {
           {t("admin.order.noFilter")}
         </div>
       ) : (
-        <ul className="space-y-3">
+        <>
+          {bulkIds.length > 0 && (
+            <form
+              action={bulkAction}
+              onSubmit={(e) => {
+                e.preventDefault();
+                const form = e.currentTarget;
+                void askConfirm({
+                  title: t("admin.table.delOrdersTitle"),
+                  message: t("admin.table.delOrdersMsg").replace("{n}", String(bulkIds.length)),
+                  confirmLabel: t("admin.table.delete"),
+                  tone: "danger",
+                }).then((ok) => {
+                  if (ok) form.requestSubmit();
+                });
+              }}
+              className="card px-4 py-3 flex flex-wrap items-center gap-3 border-primary"
+            >
+              {bulkIds.map((id) => (
+                <input key={id} type="hidden" name="ids" value={id} />
+              ))}
+              <span className="text-[13.5px] font-bold">
+                {t("admin.table.selCount").replace("{n}", String(bulkIds.length))}
+              </span>
+              <button
+                type="submit"
+                disabled={bulkPending}
+                className="btn !px-3 !py-2 text-[13px] border-2 border-line text-primary hover:border-primary ms-auto disabled:opacity-60"
+              >
+                <Trash size={15} weight="bold" />
+                {t("admin.table.deleteSelected")}
+              </button>
+            </form>
+          )}
+          <ul className="space-y-3">
           {rows.map((o) => {
             const cls = STATUS_CLS[o.status] ?? STATUS_CLS.nouvelle;
             const sk = STATUS_KEY[o.status as keyof typeof STATUS_KEY];
@@ -132,12 +217,21 @@ export function OrdersTable({ orders }: { orders: OrderRow[] }) {
               <li key={o.id} className="card p-4 space-y-3.5">
                 {/* Header */}
                 <div className="flex flex-wrap items-start justify-between gap-3">
-                  <div>
-                    <p className="font-mono font-bold text-[15px]">{o.reference}</p>
-                    <p className="text-[12.5px] text-ink-soft mt-0.5">
-                      {formatDate(o.created_at, lang)} ·{" "}
-                      {(o.items ?? []).reduce((s, it) => s + it.qty, 0)} {t("admin.order.items")}
-                    </p>
+                  <div className="flex items-start gap-2.5 min-w-0">
+                    <input
+                      type="checkbox"
+                      checked={selected.has(o.id)}
+                      onChange={() => toggleOne(o.id)}
+                      aria-label={`${t("admin.table.selectItem").replace("{n}", o.reference)}`}
+                      className="w-4.5 h-4.5 accent-primary shrink-0 mt-1"
+                    />
+                    <div className="min-w-0">
+                      <p className="font-mono font-bold text-[15px]">{o.reference}</p>
+                      <p className="text-[12.5px] text-ink-soft mt-0.5">
+                        {formatDate(o.created_at, lang)} ·{" "}
+                        {(o.items ?? []).reduce((s, it) => s + it.qty, 0)} {t("admin.order.items")}
+                      </p>
+                    </div>
                   </div>
                   <div className="flex items-center gap-2.5">
                     <span className={`rounded-full px-2.5 py-1 text-[11.5px] font-bold ${cls}`}>
@@ -168,7 +262,7 @@ export function OrdersTable({ orders }: { orders: OrderRow[] }) {
                       href={waLink(o.customer_phone)}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="btn !px-3 !py-2 text-[13px] bg-wa text-white hover:opacity-90"
+                      className="btn !px-3 !py-2 text-[13px] bg-wa text-ink hover:opacity-90"
                     >
                       <WhatsappLogo size={14} weight="fill" />
                       WhatsApp
@@ -277,6 +371,7 @@ export function OrdersTable({ orders }: { orders: OrderRow[] }) {
             );
           })}
         </ul>
+        </>
       )}
     </div>
   );

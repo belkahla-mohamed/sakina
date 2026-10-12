@@ -12,12 +12,14 @@ import {
   dbInsertProduct,
   dbUpdateProduct,
   dbDeleteProduct,
+  dbDeleteProducts,
   dbUpsertCategory,
   dbDeleteCategory,
+  dbDeleteCategories,
   type ProductInput,
 } from "@/lib/db/store";
-import { dbUpdateOrderStatus, dbUpdateOrderNote, type OrderStatus } from "@/lib/db/orders";
-import { dbSetReviewStatus, dbDeleteReview, type ReviewStatus } from "@/lib/db/reviews";
+import { dbUpdateOrderStatus, dbUpdateOrderNote, dbDeleteOrders, type OrderStatus } from "@/lib/db/orders";
+import { dbSetReviewStatus, dbDeleteReview, dbDeleteReviews, type ReviewStatus } from "@/lib/db/reviews";
 import { dbUpsertSetting } from "@/lib/db/settings";
 import { q, q1 } from "@/lib/db/pool";
 
@@ -288,6 +290,30 @@ export async function deleteProduct(
   return { ok: t("admin.msg.productDeleted"), okSolution: t("admin.msg.productDeletedSol") };
 }
 
+export async function deleteProducts(
+  _prev: ActionState,
+  fd: FormData
+): Promise<ActionState> {
+  await requireAdmin();
+  const t = await adminT();
+  const slugs = fd
+    .getAll("slugs")
+    .filter((v): v is string => typeof v === "string")
+    .map((s) => s.trim())
+    .filter(Boolean)
+    .slice(0, 100);
+  if (slugs.length === 0) {
+    return { error: t("admin.msg.bulkEmpty"), solution: t("admin.msg.bulkEmptySol") };
+  }
+  try {
+    const n = await dbDeleteProducts(slugs);
+    revalidateStore();
+    return { ok: t("admin.msg.productsDeleted").replace("{n}", String(n)) };
+  } catch (e) {
+    return actionState(e, t.lang);
+  }
+}
+
 /* ---------------- Categories ---------------- */
 
 function parseCategoryForm(fd: FormData) {
@@ -363,6 +389,30 @@ export async function deleteCategory(
   return { ok: t("admin.msg.categoryDeleted") };
 }
 
+export async function deleteCategories(
+  _prev: ActionState,
+  fd: FormData
+): Promise<ActionState> {
+  await requireAdmin();
+  const t = await adminT();
+  const slugs = fd
+    .getAll("slugs")
+    .filter((v): v is string => typeof v === "string")
+    .map((s) => s.trim())
+    .filter(Boolean)
+    .slice(0, 100);
+  if (slugs.length === 0) {
+    return { error: t("admin.msg.bulkEmpty"), solution: t("admin.msg.bulkEmptySol") };
+  }
+  try {
+    const n = await dbDeleteCategories(slugs);
+    revalidateStore();
+    return { ok: t("admin.msg.categoriesDeleted").replace("{n}", String(n)) };
+  } catch (e) {
+    return actionState(e, t.lang);
+  }
+}
+
 /* ---------------- Orders ---------------- */
 
 export async function setOrderStatus(
@@ -407,6 +457,30 @@ export async function saveOrderNote(
   }
   revalidatePath("/admin/commandes");
   return { ok: note ? t("admin.msg.noteSaved") : t("admin.msg.noteCleared") };
+}
+
+export async function deleteOrders(
+  _prev: ActionState,
+  fd: FormData
+): Promise<ActionState> {
+  await requireAdmin();
+  const t = await adminT();
+  const ids = fd
+    .getAll("ids")
+    .map((v) => Math.floor(Number(v)))
+    .filter((n) => Number.isFinite(n) && n > 0)
+    .slice(0, 100);
+  if (ids.length === 0) {
+    return { error: t("admin.msg.bulkEmpty"), solution: t("admin.msg.bulkEmptySol") };
+  }
+  try {
+    const n = await dbDeleteOrders(ids);
+    updateTag("orders");
+    revalidatePath("/admin/commandes");
+    return { ok: t("admin.msg.ordersDeleted").replace("{n}", String(n)) };
+  } catch (e) {
+    return actionState(e, t.lang);
+  }
 }
 
 /* ---------------- Reviews ---------------- */
@@ -455,6 +529,30 @@ export async function deleteReview(
   updateTag("reviews");
   revalidatePath("/admin/avis");
   return { ok: t("admin.msg.reviewDeleted") };
+}
+
+export async function deleteReviews(
+  _prev: ActionState,
+  fd: FormData
+): Promise<ActionState> {
+  await requireAdmin();
+  const t = await adminT();
+  const ids = fd
+    .getAll("ids")
+    .map((v) => Math.floor(Number(v)))
+    .filter((n) => Number.isFinite(n) && n > 0)
+    .slice(0, 100);
+  if (ids.length === 0) {
+    return { error: t("admin.msg.bulkEmpty"), solution: t("admin.msg.bulkEmptySol") };
+  }
+  try {
+    const n = await dbDeleteReviews(ids);
+    updateTag("reviews");
+    revalidatePath("/admin/avis");
+    return { ok: t("admin.msg.reviewsDeleted").replace("{n}", String(n)) };
+  } catch (e) {
+    return actionState(e, t.lang);
+  }
 }
 
 /* ---------------- Settings ---------------- */

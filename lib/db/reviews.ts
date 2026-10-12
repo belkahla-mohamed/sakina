@@ -64,3 +64,12 @@ export async function dbSetReviewStatus(
 export async function dbDeleteReview(id: number): Promise<void> {
   await q("delete from public.reviews where id = $1", [id]);
 }
+
+export async function dbDeleteReviews(ids: number[]): Promise<number> {
+  if (ids.length === 0) return 0;
+  const rows = await q<{ one: number }>(
+    "delete from public.reviews where id = any($1::bigint[]) returning 1",
+    [ids]
+  );
+  return rows.length;
+}

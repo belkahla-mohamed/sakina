@@ -167,3 +167,12 @@ export async function dbUpdateOrderNote(
 ): Promise<void> {
   await q("update public.orders set note = $1 where id = $2", [note, id]);
 }
+
+export async function dbDeleteOrders(ids: number[]): Promise<number> {
+  if (ids.length === 0) return 0;
+  const rows = await q<{ one: number }>(
+    "delete from public.orders where id = any($1::bigint[]) returning 1",
+    [ids]
+  );
+  return rows.length;
+}
