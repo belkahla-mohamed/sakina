@@ -96,7 +96,7 @@ function parseReviews(raw: string | null): LocalReview[] {
 
 function Stars({ count }: { count: number }) {
   return (
-    <div className="flex gap-0.5 text-highlight" aria-label={`${count}/5`}>
+    <div className="flex gap-0.5 text-highlight" role="img" aria-label={`${count}/5`}>
       {Array.from({ length: 5 }).map((_, i) => (
         <Star key={i} size={14} weight={i < count ? "fill" : "regular"} />
       ))}

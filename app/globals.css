@@ -5,9 +5,9 @@
   --color-ink: #25235b;
   --color-ink-soft: #5b5986;
   --color-candy: #ff6b9d;
-  --color-primary: #e8457f;
+  --color-primary: #d03e72;
   --color-teal: #2ec4b6;
-  --color-teal-deep: #1b9a8e;
+  --color-teal-deep: #168278;
   --color-highlight: #ffd166;
   --color-grape: #a78bfa;
   --color-wa: #1fda25;
@@ -121,7 +121,7 @@ h6 {
 }
 .btn-wa {
   background: var(--color-wa);
-  color: #fff;
+  color: var(--color-ink);
 }
 .btn:disabled {
   opacity: 0.4;

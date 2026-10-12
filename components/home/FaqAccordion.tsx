@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Plus, Minus } from "@phosphor-icons/react";
 import { useLang } from "@/components/providers";
-import { FAQ_ITEMS, type FaqItem } from "@/lib/faq";
+import { FAQ_ITEMS } from "@/lib/faq";
 
 export function FaqAccordion({
   withHeader = true,
