@@ -24,12 +24,12 @@ export default async function HomePage() {
 
   return (
     <>
-      <Hero categories={categories} samples={heroSamples} />
+      <Hero samples={heroSamples} />
+      <ProductGrid titleKey="home.newTitle" products={news} href="/shop?sort=new" />
+      <ProductGrid titleKey="home.bestTitle" products={bestsellers} href="/shop?sort=best" />
       <TrustStrip />
       <PromoPack product={promo} />
       <CategoryBento categories={categories} counts={counts} />
-      <ProductGrid titleKey="home.newTitle" products={news} href="/shop?sort=new" />
-      <ProductGrid titleKey="home.bestTitle" products={bestsellers} href="/shop?sort=best" />
       <Testimonials />
       <FaqAccordion />
       <CtaSteps />

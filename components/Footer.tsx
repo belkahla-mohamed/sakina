@@ -32,9 +32,6 @@ export function Footer() {
             <span className="inline-block text-[11px] uppercase tracking-[0.16em] font-extrabold px-3 py-1 rounded-full bg-highlight text-cream">
               {t("footer.newsBadge")}
             </span>
-            <p className="font-display text-[26px] md:text-[30px] font-bold leading-tight mt-3">
-              {t("footer.newsTitle")}
-            </p>
             <div className="mt-4">
               <NewsletterForm />
             </div>

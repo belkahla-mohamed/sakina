@@ -29,7 +29,7 @@ export function NewsletterForm() {
         />
         <button
           type="submit"
-          className="rounded-[8px] bg-highlight text-cream font-display font-bold text-[15px] px-5 py-3 shadow-pop-sm hover:bg-white transition-colors"
+          className="rounded-[8px] bg-highlight text-cream font-display font-bold text-[15px] px-5 py-3 shadow-pop-sm hover:bg-brick-deep transition-colors"
         >
           {t("footer.newsCta")}
         </button>

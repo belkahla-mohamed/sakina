@@ -4,9 +4,10 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Check, Star, Truck, Wallet, ArrowCounterClockwise } from "@phosphor-icons/react";
+import { Check, Truck, Wallet, ArrowCounterClockwise } from "@phosphor-icons/react";
 import { useCart, useLang } from "@/components/providers";
 import { formatPrice, type TKey } from "@/lib/i18n";
+import { PRODUCT_BGS } from "@/lib/product-bgs";
 import type { Product } from "@/lib/types";
 
 export function ProductView({ product, related }: { product: Product; related: Product[] }) {
@@ -78,18 +79,6 @@ export function ProductView({ product, related }: { product: Product; related: P
           <h1 className="text-[28px] md:text-[34px] font-bold leading-tight">
             {lang === "ar" ? product.name_ar : product.name_fr}
           </h1>
-
-          <div className="flex items-center gap-2 mt-3 text-[13.5px]">
-            <span className="flex gap-0.5 text-highlight">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <Star key={i} size={16} weight="fill" />
-              ))}
-            </span>
-            <span className="font-extrabold">{product.rating.toFixed(1)}</span>
-            <span className="text-ink-soft">
-              ({product.reviews} {t("product.reviews")})
-            </span>
-          </div>
 
           <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 mt-4">
             <span className="price text-[32px] text-primary">{formatPrice(product.price, lang)}</span>
@@ -199,9 +188,12 @@ function RelatedCard({ product, index = 0 }: { product: Product; index?: number 
   return (
     <div
       className="card overflow-hidden flex flex-col hover:-translate-y-1 anim-fade-up"
-      style={{ animationDelay: `${Math.min(index, 7) * 60}ms` }}
+      style={{
+        backgroundColor: PRODUCT_BGS[product.slug],
+        animationDelay: `${Math.min(index, 7) * 60}ms`,
+      }}
     >
-      <Link href={`/product/${product.slug}`} className="relative aspect-[4/3] block bg-highlight/30">
+      <Link href={`/product/${product.slug}`} className="relative aspect-[4/3] block">
         <Image
           src={product.image}
           alt={lang === "ar" ? product.name_ar : product.name_fr}

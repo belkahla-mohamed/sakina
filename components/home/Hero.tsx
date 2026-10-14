@@ -2,11 +2,11 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight } from "@phosphor-icons/react";
+import { ArrowRight, BookOpen, Gift } from "@phosphor-icons/react";
 import { useLang } from "@/components/providers";
-import type { Category, Product } from "@/lib/types";
+import type { Product } from "@/lib/types";
 
-export function Hero({ categories, samples }: { categories: Category[]; samples: Product[] }) {
+export function Hero({ samples }: { samples: Product[] }) {
   const { lang, t } = useLang();
   const collage = samples.slice(0, 4);
 
@@ -19,9 +19,16 @@ export function Hero({ categories, samples }: { categories: Category[]; samples:
             {t("home.heroTitle1")} <span className="text-brick">{t("home.heroTitle2")}</span>
           </h1>
           <div className="rule w-16 my-7" />
-          <p className={`text-[16px] md:text-[17px] text-ink-soft max-w-md ${lang === "ar" ? "ar" : ""}`}>
-            {t("home.heroText")}
-          </p>
+          <div className={`mt-5 space-y-2 text-[16px] md:text-[17px] text-ink-soft max-w-md ${lang === "ar" ? "ar" : ""}`}>
+            <p className="flex items-start gap-2.5">
+              <BookOpen size={20} weight="bold" className="text-brick shrink-0 mt-0.5" aria-hidden />
+              <span>{t("home.heroText1")}</span>
+            </p>
+            <p className="flex items-start gap-2.5">
+              <Gift size={20} weight="bold" className="text-brick shrink-0 mt-0.5" aria-hidden />
+              <span>{t("home.heroText2")}</span>
+            </p>
+          </div>
 
           <div className="flex flex-wrap gap-3 mt-9">
             <Link href="/shop" className="btn btn-primary">
@@ -30,18 +37,6 @@ export function Hero({ categories, samples }: { categories: Category[]; samples:
             <Link href="/shop?sort=new" className="btn btn-outline">
               {t("home.heroCta2")}
             </Link>
-          </div>
-
-          <div className="flex flex-wrap gap-x-6 gap-y-2 mt-9">
-            {categories.map((c) => (
-              <Link
-                key={c.slug}
-                href={`/shop?cat=${c.slug}`}
-                className="text-[13px] font-bold uppercase tracking-[0.1em] text-ink-soft hover:text-brick transition-colors"
-              >
-                {lang === "ar" ? c.name_ar : c.name_fr}
-              </Link>
-            ))}
           </div>
         </div>
 

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Star, Heart, Check } from "@phosphor-icons/react";
+import { Heart, Check } from "@phosphor-icons/react";
 import { useCart, useFavs, useLang } from "@/components/providers";
 import { formatPrice } from "@/lib/i18n";
 import { PRODUCT_BGS } from "@/lib/product-bgs";
@@ -83,12 +83,6 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
             {lang === "ar" ? product.name_ar : product.name_fr}
           </p>
         </Link>
-
-        <div className="flex items-center gap-1.5 mt-2 text-[11px] text-ink-soft">
-          <Star size={13} weight="fill" className="text-highlight" />
-          <span className="font-bold text-ink">{product.rating.toFixed(1)}</span>
-          <span>({product.reviews} {t("product.reviews")})</span>
-        </div>
 
         <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5 mt-2">
           <span className="price text-[18px]">{formatPrice(product.price, lang)}</span>

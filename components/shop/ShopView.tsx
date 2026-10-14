@@ -83,15 +83,15 @@ export function ShopView({
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-2 mt-4">
-        <button type="button" className="chip" data-active={cat === ""} onClick={() => setCat("")}>
+      <div className="flex gap-2 mt-4 -mx-4 px-4 md:mx-0 md:px-0 md:flex-wrap overflow-x-auto md:overflow-visible overscroll-x-contain scroll-smooth pb-1.5 md:pb-0 [touch-action:pan-x_pinch-zoom] [-webkit-overflow-scrolling:touch] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden [-webkit-mask-image:linear-gradient(to_right,transparent,#000_14px,#000_calc(100%-28px),transparent)] [mask-image:linear-gradient(to_right,transparent,#000_14px,#000_calc(100%-28px),transparent)] md:[-webkit-mask-image:none] md:[mask-image:none]">
+        <button type="button" className="chip shrink-0" data-active={cat === ""} onClick={() => setCat("")}>
           {t("shop.all")}
         </button>
         {categories.map((c) => (
           <button
             key={c.slug}
             type="button"
-            className="chip"
+            className="chip shrink-0"
             data-active={cat === c.slug}
             onClick={() => setCat(cat === c.slug ? "" : c.slug)}
           >
