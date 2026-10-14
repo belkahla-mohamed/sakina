@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { useLang } from "@/components/providers";
@@ -25,11 +25,11 @@ export function NewsletterForm() {
           placeholder={t("footer.newsPh")}
           aria-label={t("form.email")}
           autoComplete="email"
-          className="flex-1 min-w-0 px-4 py-3 rounded-[14px] text-[16px] text-ink outline-none border-2 border-white/25 focus:border-white/70 bg-white"
+          className="flex-1 min-w-0 px-4 py-3 rounded-[8px] text-[16px] text-ink outline-none border border-white/25 focus:border-white/70 bg-white"
         />
         <button
           type="submit"
-          className="rounded-full border-2 border-ink bg-highlight text-ink font-display font-bold text-[15px] px-5 py-3 shadow-pop-sm"
+          className="rounded-[8px] bg-highlight text-cream font-display font-bold text-[15px] px-5 py-3 shadow-pop-sm hover:bg-white transition-colors"
         >
           {t("footer.newsCta")}
         </button>

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useActionState, useMemo, useState } from "react";
 import { MapPin, Note, Phone, Trash, WhatsappLogo } from "@phosphor-icons/react";
@@ -10,9 +10,9 @@ import type { OrderRow, OrderStatus } from "@/lib/db/orders";
 
 const STATUS_CLS: Record<OrderStatus, string> = {
   nouvelle: "bg-primary text-white",
-  en_cours: "bg-highlight text-ink",
+  en_cours: "bg-teal text-white",
   livree: "bg-teal-deep text-white",
-  annulee: "bg-line text-ink-soft",
+  annulee: "border border-line text-ink-soft",
 };
 
 const STATUS_KEY = {
@@ -50,7 +50,7 @@ function waLink(phone: string): string {
 
 export function OrdersTable({ orders }: { orders: OrderRow[] }) {
   const [filter, setFilter] = useState("");
-  const [open, setOpen] = useState<Set<number>>(() => new Set(orders.slice(0, 3).map((o) => o.id)));
+  const [open, setOpen] = useState<Set<number>>(() => new Set());
   const [selected, setSelected] = useState<Set<number>>(new Set());
   const { t, lang } = useLang();
   const [statusState, statusAction] = useActionState<ActionState, FormData>(
@@ -190,7 +190,7 @@ export function OrdersTable({ orders }: { orders: OrderRow[] }) {
                   if (ok) form.requestSubmit();
                 });
               }}
-              className="card px-4 py-3 flex flex-wrap items-center gap-3 border-primary"
+              className="card px-4 py-3 flex flex-wrap items-center gap-3 !border-primary"
             >
               {bulkIds.map((id) => (
                 <input key={id} type="hidden" name="ids" value={id} />

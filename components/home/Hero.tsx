@@ -11,23 +11,19 @@ export function Hero({ categories, samples }: { categories: Category[]; samples:
   const collage = samples.slice(0, 4);
 
   return (
-    <section
-      className="border-b-2 border-line"
-      style={{ background: "linear-gradient(120deg,#FFE3EE 0%,#FFF3CF 50%,#D6F5F2 100%)" }}
-    >
-      <div className="mx-auto max-w-6xl px-4 lg:px-6 py-12 md:py-16 grid md:grid-cols-2 gap-10 items-center">
+    <section className="border-b border-line">
+      <div className="mx-auto max-w-6xl px-4 lg:px-6 py-14 md:py-20 grid md:grid-cols-2 gap-12 md:gap-16 items-center">
         <div className="anim-fade-up">
-          <span className="inline-block bg-white border-2 border-ink rounded-full px-3.5 py-1.5 text-[11px] font-extrabold uppercase tracking-wider">
-            {t("home.heroBadge")}
-          </span>
-          <h1 className="mt-4 text-[42px] md:text-[54px] font-extrabold leading-[1.03]">
-            {t("home.heroTitle1")} <span className="text-primary">{t("home.heroTitle2")}</span>
+          <p className="eyebrow">{t("home.heroBadge")}</p>
+          <h1 className="mt-6 text-[36px] md:text-[52px] leading-[1.12] heading-caps">
+            {t("home.heroTitle1")} <span className="text-brick">{t("home.heroTitle2")}</span>
           </h1>
-          <p className={`mt-4 text-[16px] md:text-[17px] text-ink-soft max-w-lg ${lang === "ar" ? "ar" : ""}`}>
+          <div className="rule w-16 my-7" />
+          <p className={`text-[16px] md:text-[17px] text-ink-soft max-w-md ${lang === "ar" ? "ar" : ""}`}>
             {t("home.heroText")}
           </p>
 
-          <div className="flex flex-wrap gap-3 mt-6">
+          <div className="flex flex-wrap gap-3 mt-9">
             <Link href="/shop" className="btn btn-primary">
               {t("home.heroCta")}
             </Link>
@@ -36,12 +32,12 @@ export function Hero({ categories, samples }: { categories: Category[]; samples:
             </Link>
           </div>
 
-          <div className="flex flex-wrap gap-2 mt-7">
+          <div className="flex flex-wrap gap-x-6 gap-y-2 mt-9">
             {categories.map((c) => (
               <Link
                 key={c.slug}
                 href={`/shop?cat=${c.slug}`}
-                className="rounded-full bg-white border-2 border-ink px-3.5 py-2 text-[13px] font-bold hover:bg-highlight transition-colors"
+                className="text-[13px] font-bold uppercase tracking-[0.1em] text-ink-soft hover:text-brick transition-colors"
               >
                 {lang === "ar" ? c.name_ar : c.name_fr}
               </Link>
@@ -55,7 +51,7 @@ export function Hero({ categories, samples }: { categories: Category[]; samples:
               <Link
                 key={p.slug}
                 href={`/product/${p.slug}`}
-                className={`card overflow-hidden relative aspect-[4/3] ${i % 2 === 0 ? "-rotate-2" : "rotate-2"} hover:rotate-0 transition-transform anim-fade-in`}
+                className={`group relative aspect-[4/3] overflow-hidden bg-sand anim-fade-in ${i === 0 ? "md:-translate-y-3" : ""}`}
                 style={{ animationDelay: `${200 + i * 90}ms` }}
               >
                 <Image
@@ -63,7 +59,7 @@ export function Hero({ categories, samples }: { categories: Category[]; samples:
                   alt={lang === "ar" ? p.name_ar : p.name_fr}
                   fill
                   sizes="(max-width: 768px) 50vw, 25vw"
-                  className="object-cover"
+                  className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                   // First card sits above the fold: preload it to kill CLS.
                   // The rest stay lazy (next/image default).
                   priority={i === 0}
@@ -72,11 +68,11 @@ export function Hero({ categories, samples }: { categories: Category[]; samples:
             ))}
           </div>
           <div
-            className="absolute -bottom-4 start-1/2 -translate-x-1/2 rtl:translate-x-1/2 bg-white border-2 border-ink rounded-full shadow-pop px-5 py-2.5 text-[13px] font-extrabold flex items-center gap-2 anim-fade-in"
+            className="absolute -bottom-5 start-1/2 -translate-x-1/2 rtl:translate-x-1/2 bg-cream border border-line rounded-full px-5 py-2.5 text-[12px] font-bold uppercase tracking-[0.12em] flex items-center gap-2 anim-fade-in"
             style={{ animationDelay: "600ms" }}
           >
-            <span className="text-highlight">★</span> 5,00 · 320+
-            <ArrowRight size={15} weight="bold" className="text-primary rtl:scale-x-[-1]" />
+            <span className="text-brick">★</span> 5,00 · 320+
+            <ArrowRight size={14} weight="bold" className="text-brick rtl:scale-x-[-1]" />
           </div>
         </div>
       </div>

@@ -5,13 +5,13 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "Sakina — Jouets, éveil & école",
     short_name: "Sakina",
     description:
-      "Jouets d'éveil, livres, fournitures scolaires et vêtements bébé. Paiement à la livraison partout au Maroc.",
+      "Une sélection courte et vérifiée : jouets, livres, école et bébé. Paiement à la livraison partout au Maroc.",
     start_url: "/",
     display: "standalone",
-    background_color: "#25235b",
-    theme_color: "#25235b",
+    background_color: "#fcfbf6",
+    theme_color: "#fcfbf6",
     icons: [
-      { src: "/icon.svg", sizes: "any", type: "image/svg+xml", purpose: "any" },
+      { src: "/icon.png", sizes: "64x64", type: "image/png", purpose: "any" },
       { src: "/apple-icon.png", sizes: "180x180", type: "image/png" },
     ],
   };

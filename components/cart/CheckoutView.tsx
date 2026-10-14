@@ -127,7 +127,7 @@ export function CheckoutView({ products }: { products: Product[] }) {
 
       {sent && (
         <div
-          className="mt-6 p-5 rounded-[20px] border-2 flex flex-col sm:flex-row sm:items-center gap-4 anim-fade-up"
+          className="mt-6 p-5 rounded-[10px] border border-line flex flex-col sm:flex-row sm:items-center gap-4 anim-fade-up"
           style={{ background: "#E9FBF3", borderColor: "#1FDA25" }}
         >
           <CheckCircle size={38} weight="fill" className="text-wa shrink-0" />
@@ -200,7 +200,7 @@ export function CheckoutView({ products }: { products: Product[] }) {
           {orderError && (
             <p
               role="alert"
-              className="text-[13.5px] font-bold text-primary bg-primary/10 border-2 border-primary rounded-[12px] px-3.5 py-2.5"
+              className="text-[13.5px] font-bold text-primary bg-primary/10 border border-primary/40 rounded-[8px] px-3.5 py-2.5"
             >
               {orderError}
             </p>

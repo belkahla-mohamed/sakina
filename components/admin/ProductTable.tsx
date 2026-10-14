@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -12,7 +12,7 @@ import type { Category, Product } from "@/lib/types";
 
 const BADGE_STYLE: Record<string, string> = {
   promo: "bg-primary text-white",
-  nouveau: "bg-highlight text-ink",
+  nouveau: "bg-sand text-ink border border-line",
   epuise: "bg-ink text-white",
 };
 
@@ -152,7 +152,7 @@ export function ProductTable({
               if (ok) form.requestSubmit();
             });
           }}
-          className="card px-4 py-3 flex flex-wrap items-center gap-3 border-primary"
+          className="card px-4 py-3 flex flex-wrap items-center gap-3 !border-primary"
         >
           {bulkSlugs.map((s) => (
             <input key={s} type="hidden" name="slugs" value={s} />
@@ -263,7 +263,7 @@ export function ProductTable({
                     </span>
                   )}
                   {low && !out && (
-                    <span className="rounded-full bg-highlight text-ink text-[10.5px] font-bold px-2 py-0.5">
+                    <span className="rounded-full bg-highlight text-cream text-[10.5px] font-bold px-2 py-0.5">
                       {t("admin.table.low")}
                     </span>
                   )}

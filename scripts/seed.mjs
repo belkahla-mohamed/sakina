@@ -18,7 +18,7 @@ const catRows = categories
 const prodRows = products
   .map(
     (p) =>
-      `  (${q(p.slug)}, ${q(p.name_fr)}, ${q(p.name_ar)}, ${q(p.category)}, ${n(p.price)}, ${n(p.old_price)}, ${q(p.badge)}, ${n(p.rating)}, ${n(p.reviews)}, ${n(p.stock)}, ${p.is_new}, ${p.is_bestseller}, ${q(p.desc_fr)}, ${q(p.desc_ar)}, ${q(`/img/products/${p.slug}.svg`)})`
+      `  (${q(p.slug)}, ${q(p.name_fr)}, ${q(p.name_ar)}, ${q(p.category)}, ${n(p.price)}, ${n(p.old_price)}, ${q(p.badge)}, ${n(p.rating)}, ${n(p.reviews)}, ${n(p.stock)}, ${p.is_new}, ${p.is_bestseller}, ${q(p.desc_fr)}, ${q(p.desc_ar)}, ${q(p.image ?? `/img/products/${p.slug}.svg`)})`
   )
   .join(",\n");
 

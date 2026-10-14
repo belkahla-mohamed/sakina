@@ -13,13 +13,13 @@ const ITEMS = [
 export function TrustStrip() {
   const { t } = useLang();
   return (
-    <section className="bg-white border-b-2 border-line anim-reveal">
+    <section className="bg-white border-b border-line anim-reveal">
       <div className="mx-auto max-w-6xl px-4 lg:px-6 grid grid-cols-2 lg:grid-cols-4 divide-x divide-line rtl:divide-x-reverse">
         {ITEMS.map((item) => {
           const Icon = item.icon;
           return (
             <div key={item.title} className="flex items-center gap-3 py-5 px-2 lg:px-5">
-              <span className="w-11 h-11 rounded-full bg-highlight border-2 border-ink flex items-center justify-center shrink-0">
+              <span className="w-11 h-11 rounded-full bg-highlight/20 text-primary flex items-center justify-center shrink-0">
                 <Icon size={20} weight="bold" />
               </span>
               <div className="min-w-0">

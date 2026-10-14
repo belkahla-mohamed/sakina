@@ -1,77 +1,65 @@
-import { readFileSync, writeFileSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const catalogPath = join(root, "data/catalog.json");
 const catalog = JSON.parse(readFileSync(catalogPath, "utf8"));
+const outDir = join(root, "public/img/products");
+mkdirSync(outDir, { recursive: true });
 
 const KEYWORDS = {
-  "puzzle-en-bois-36-pieces": "wooden puzzle",
-  "cube-deveil-6-activites": "wooden toy blocks",
-  "peluche-ours-bebe": "plush teddy bear toy",
-  "tapis-deveil-musical": "baby play mat",
-  "blocs-construction-50-pieces": "building blocks toy",
-  "cheval-a-bascule-bois": "wooden rocking horse toy",
-  "livre-activites-3-6-ans": "children activity book",
-  "encyclopedie-enfants": "children books",
-  "cahier-coloriage-animaux": "coloring book",
-  "histoires-du-soir-lot-3": "storybook children",
-  "premier-apprentissage-ar-fr": "alphabet learning book",
-  "sac-a-dos-scolaire": "kids backpack",
-  "trousse-double-zip": "pencil case",
-  "kit-couleur-24-crayons": "colored pencils",
-  "cahiers-grand-format-lot-5": "notebook stationery",
-  "gommage-taille-crayon": "school stationery",
-  "pack-naissance-bienvenue-bebe": "newborn baby gift",
-  "coffret-anniversaire-enfant": "birthday gift box",
-  "pack-rentree-scolaire": "school supplies",
-  "body-coton-bio-lot-3": "baby bodysuit",
-  "pyjama-garcon-2-ans": "kids pajamas",
-  "robe-fille-fleurie": "kids dress",
-  "chaussettes-bebe-lot-5": "baby socks",
-  "casquette-enfant": "child cap hat",
+  "lampe-champignon-led": "mushroom table lamp",
+  "plaid-chenille-150x200": "soft throw blanket",
+  "diffuseur-arome-bois": "reed diffuser",
+  "miroir-rond-maxi": "round wall mirror",
+  "cache-pot-terracotta": "terracotta plant pot",
+  "panier-rangement-tresse": "woven storage basket",
+  "sac-tote-coton-epais": "canvas tote bag",
+  "casquette-brodee-classic": "baseball cap",
+  "ceinture-cuir-simple": "leather belt",
+  "lunettes-soleil-uv400": "sunglasses",
+  "foulard-soie-matte": "silk scarf",
+  "huile-argan-nuit": "cosmetic oil bottle",
+  "parfum-musc-blanc-50ml": "perfume bottle",
+  "brosse-visage-electrique": "facial cleansing brush",
+  "coffret-soins-mains": "hand cream set",
+  "masque-argile-verte": "face mask jar cosmetic",
+  "ecouteurs-bt-anc": "wireless earbuds",
+  "powerbank-10000mah": "power bank charger",
+  "coque-silicone-universelle": "phone case",
+  "support-portable-alu": "laptop stand",
+  "carnet-couverture-lin-a5": "notebook journal",
+  "stylo-plume-metal": "fountain pen",
+  "agenda-2027-broche": "planner notebook",
+  "set-rangement-bureau": "desk organizer",
 };
 
 const PREFS = {
-  "peluche-ours-bebe": { include: ["teddy", "plush", "stuffed"], exclude: ["patrol"] },
-  "cheval-a-bascule-bois": { include: ["rocking horse", "hobby horse", "wooden horse"], exclude: ["rodeo", "polo"] },
-  "coffret-anniversaire-enfant": { include: ["wrapping", "wrapped", "gift box", "present"], exclude: ["price", "tag", "sale", "shelf", "display", "store", "grocery"] },
+  "masque-argile-verte": { include: ["mask", "clay"], exclude: ["halloween", "face painting", "ski"] },
+  "coffret-soins-mains": { include: ["cream", "lotion", "hand", "care", "set", "kit"], exclude: ["glove", "sanitizer"] },
+  "brosse-visage-electrique": { include: ["brush", "cleansing", "facial", "face"], exclude: ["hair", "makeup brush set", "paint"] },
+  "support-portable-alu": { include: ["stand", "laptop", "notebook computer", "macbook"], exclude: ["book stand", "music"] },
+  "plaid-chenille-150x200": { include: ["blanket", "throw", "duvet", "bedspread"], exclude: ["baby", "packaging"] },
 };
-
-const REFRESH = new Set([]);
 
 const QUERY_FALLBACKS = {
-  "peluche-ours-bebe": ["teddy bear", "stuffed toy bear", "plush toy"],
-  "cheval-a-bascule-bois": ["rocking horse", "wooden toy horse", "hobby horse toy"],
-  "coffret-anniversaire-enfant": ["wrapped gift present", "gift wrapping ribbon", "present box"],
+  "lampe-champignon-led": ["table lamp", "mushroom lamp", "led lamp"],
+  "diffuseur-arome-bois": ["aroma diffuser", "reed diffuser", "fragrance diffuser"],
+  "cache-pot-terracotta": ["flower pot", "plant pot", "terracotta pot"],
+  "panier-rangement-tresse": ["basket", "wicker basket", "laundry basket"],
+  "huile-argan-nuit": ["oil bottle", "serum bottle", "cosmetic bottle"],
+  "brosse-visage-electrique": ["cleansing brush", "face brush", "beauty device"],
+  "coffret-soins-mains": ["hand cream", "cosmetic set", "beauty set"],
+  "masque-argile-verte": ["clay mask", "face mask", "cosmetic jar"],
+  "powerbank-10000mah": ["power bank", "portable charger", "battery pack"],
+  "coque-silicone-universelle": ["phone case", "smartphone case", "mobile cover"],
+  "support-portable-alu": ["laptop stand", "notebook stand", "computer stand"],
+  "carnet-couverture-lin-a5": ["notebook", "journal", "notepad"],
+  "stylo-plume-metal": ["fountain pen", "ink pen", "writing pen"],
+  "agenda-2027-broche": ["planner", "agenda diary", "calendar notebook"],
+  "set-rangement-bureau": ["desk organizer", "pen holder", "office organizer"],
 };
-
-function matchesPref(r, pref) {
-  const title = (r.title ?? "").toLowerCase();
-  const incOk = pref.include.length === 0 || pref.include.some((k) => title.includes(k));
-  const excOk = !pref.exclude.some((k) => title.includes(k));
-  return incOk && excOk;
-}
-
-function parseLinkHeader(value) {
-  const m = value?.match(/page=(\d+)>\s*;\s*rel="last"/);
-  return m ? Number(m[1]) : 1;
-}
-
-async function headOk(url) {
-  try {
-    const res = await fetch(url, {
-      method: "HEAD",
-      redirect: "follow",
-      signal: AbortSignal.timeout(15000),
-    });
-    const ct = res.headers.get("content-type") ?? "";
-    return res.status === 200 && ct.startsWith("image/");
-  } catch {
-    return false;
-  }
-}
 
 async function search(query, pages = 2) {
   const out = [];
@@ -89,7 +77,9 @@ async function search(query, pages = 2) {
       for (const r of data.results ?? []) {
         if (r.url && (r.width ?? 0) >= 600) out.push(r);
       }
-      if (page >= (parseLinkHeader(res.headers.get("link")) || 1)) break;
+      const link = res.headers.get("link") ?? "";
+      const m = link.match(/page=(\d+)>\s*;\s*rel="last"/);
+      if (page >= (m ? Number(m[1]) : 1)) break;
     } catch {
       break;
     }
@@ -97,8 +87,30 @@ async function search(query, pages = 2) {
   return out;
 }
 
+function matchesPref(r, pref) {
+  const title = (r.title ?? "").toLowerCase();
+  const incOk = pref.include.length === 0 || pref.include.some((k) => title.includes(k));
+  const excOk = !pref.exclude.some((k) => title.includes(k));
+  return incOk && excOk;
+}
+
+async function download(url, destPath) {
+  const res = await fetch(url, {
+    redirect: "follow",
+    signal: AbortSignal.timeout(30000),
+    headers: { "User-Agent": "sakina-dev/1.0" },
+  });
+  if (!res.ok) return false;
+  const ct = res.headers.get("content-type") ?? "";
+  if (!ct.startsWith("image/")) return false;
+  const buf = Buffer.from(await res.arrayBuffer());
+  if (buf.length < 5000) return false;
+  writeFileSync(destPath, buf);
+  return true;
+}
+
 let changed = 0;
-const hosts = new Set();
+let failed = 0;
 
 for (const product of catalog.products) {
   const query = KEYWORDS[product.slug];
@@ -106,9 +118,10 @@ for (const product of catalog.products) {
     console.log(`skip (no keyword): ${product.slug}`);
     continue;
   }
-  if (product.image && product.image.startsWith("http") && !REFRESH.has(product.slug)) {
-    console.log(`keep: ${product.slug} -> ${product.image}`);
-    hosts.add(new URL(product.image).hostname);
+  const localPath = `/img/products/${product.slug}.jpg`;
+  const dest = join(outDir, `${product.slug}.jpg`);
+  if (product.image === localPath) {
+    console.log(`keep: ${product.slug}`);
     continue;
   }
 
@@ -119,33 +132,30 @@ for (const product of catalog.products) {
     results = results.concat(await search(q));
     if (pref && results.some((r) => matchesPref(r, pref))) break;
   }
-  const ranked = pref ? results.filter((r) => matchesPref(r, pref)) : results;
-  const candidates = ranked;
-
+  const candidates = pref ? results.filter((r) => matchesPref(r, pref)) : results;
   if (candidates.length === 0) {
-    console.log(`FAIL (no matching title): ${product.slug}`);
+    console.log(`FAIL (no results): ${product.slug}`);
+    failed++;
     continue;
   }
 
-  let picked = null;
+  let ok = false;
   for (const r of candidates.slice(0, 8)) {
-    if (await headOk(r.url)) {
-      picked = r;
+    if (await download(r.url, dest)) {
+      product.image = localPath;
+      changed++;
+      ok = true;
+      console.log(`OK: ${product.slug} <- ${r.title?.slice(0, 50)}`);
       break;
     }
   }
-
-  if (picked) {
-    product.image = picked.url;
-    hosts.add(new URL(picked.url).hostname);
-    changed++;
-    console.log(`OK: ${product.slug} -> ${picked.title?.slice(0, 40)} [${picked.url}]`);
-  } else {
-    console.log(`FAIL (keeping SVG fallback): ${product.slug}`);
+  if (!ok) {
+    console.log(`FAIL (download): ${product.slug}`);
+    failed++;
   }
 }
 
 if (changed > 0) {
   writeFileSync(catalogPath, JSON.stringify(catalog, null, 2) + "\n", "utf8");
 }
-console.log(`\n${changed} images updated. Hosts: ${[...hosts].join(", ")}`);
+console.log(`\n${changed} downloaded, ${failed} failed.`);

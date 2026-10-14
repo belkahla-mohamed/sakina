@@ -8,14 +8,14 @@ import { buildReviewMessage, openWhatsApp } from "@/lib/whatsapp";
 const REVIEWS = [
   {
     text_fr:
-      "Livraison super rapide à Casablanca et le colis était parfaitement emballé. Ma fille a adoré son puzzle !",
-    text_ar: "وصل الطلب بسرعة إلى الدار البيضاء ومغلّف بشكل ممتاز. ابنتي أحبّت الأحجية!",
+      "Livraison super rapide à Casablanca et le plaid est encore plus doux qu'en photo. J'en ai commandé un deuxième pour mon frère.",
+    text_ar: "وصل الطلب بسرعة إلى الدار البيضاء، والبطانية أنعم مما تبدو في الصورة. طلبت واحدة إضافية لأخي.",
     name: "Salma",
     city_fr: "Casablanca",
     city_ar: "الدار البيضاء",
     date: "12/09/2026",
     initial: "S",
-    color: "#FF6B9D",
+    color: "#0c6b62",
   },
   {
     text_fr:
@@ -26,18 +26,18 @@ const REVIEWS = [
     city_ar: "الرباط",
     date: "28/08/2026",
     initial: "N",
-    color: "#2EC4B6",
+    color: "#b24327",
   },
   {
     text_fr:
-      "Le pack rentrée scolaire est parfait, tout est dedans. Je recommande les yeux fermés.",
-    text_ar: "حزمة العودة إلى المدرسة ممتازة، كل شيء موجود فيها. أنصح بها بشدة.",
+      "Le diffuseur d'arôme sent divin, et l'emballage est parfait pour offrir. Je recommande.",
+    text_ar: "رائحة الموزّع رائعة، والتغليف مثالي للإهداء. أنصح به بشدة.",
     name: "Imane",
     city_fr: "Marrakech",
     city_ar: "مراكش",
     date: "05/09/2026",
     initial: "I",
-    color: "#A78BFA",
+    color: "#151634",
   },
 ];
 
@@ -49,7 +49,7 @@ const BARS = [
   { stars: 1, pct: 0 },
 ];
 
-const AVATAR_COLORS = ["#FF6B9D", "#2EC4B6", "#A78BFA", "#FFD166"];
+const AVATAR_COLORS = ["#0c6b62", "#e0a11c", "#151634", "#b24327"];
 const REVIEWS_KEY = "sakina_reviews_v1";
 
 interface LocalReview {

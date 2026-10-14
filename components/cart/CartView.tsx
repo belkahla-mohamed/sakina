@@ -65,7 +65,7 @@ export function CartView({ products }: { products: Product[] }) {
               </div>
 
               <div className="w-full flex items-center justify-end gap-3 sm:w-auto sm:flex-col sm:items-end sm:justify-start sm:gap-2">
-                <div dir="ltr" className="flex items-center border-2 border-line rounded-full bg-white overflow-hidden">
+                <div dir="ltr" className="flex items-center border border-line rounded-full bg-white overflow-hidden">
                   <button
                     type="button"
                     className="w-10 h-10 font-bold hover:bg-milk"
@@ -119,7 +119,7 @@ export function CartView({ products }: { products: Product[] }) {
           </div>
 
           {missingForFree > 0 && (
-            <p className="text-[13px] mt-3 bg-highlight/40 border-2 border-line rounded-[14px] p-3 anim-fade-up">
+            <p className="text-[13px] mt-3 bg-highlight/15 border border-highlight/40 rounded-[10px] p-3 anim-fade-up">
               {lang === "ar"
                 ? `أضف ${formatPrice(missingForFree, "ar")} أخرى لتحصل على توصيل مجاني.`
                 : `Encore ${formatPrice(missingForFree, "fr")} pour la livraison gratuite.`}

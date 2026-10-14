@@ -1,24 +1,24 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import Image from "next/image";
 import {
   ArrowRight,
-  Backpack,
-  BookOpen,
-  Gift,
-  PuzzlePiece,
-  TShirt,
+  DeviceMobile,
+  Handbag,
+  Lamp,
+  Pen,
+  Sparkle,
 } from "@phosphor-icons/react";
 import { useLang } from "@/components/providers";
 import type { Category } from "@/lib/types";
 
-const ICONS: Record<string, typeof Gift> = {
-  puzzle: PuzzlePiece,
-  book: BookOpen,
-  backpack: Backpack,
-  gift: Gift,
-  tshirt: TShirt,
+const ICONS: Record<string, typeof Lamp> = {
+  lamp: Lamp,
+  handbag: Handbag,
+  sparkle: Sparkle,
+  device: DeviceMobile,
+  pen: Pen,
 };
 
 export function CategoryBento({ categories, counts }: { categories: Category[]; counts: Record<string, number> }) {
@@ -40,17 +40,17 @@ export function CategoryBento({ categories, counts }: { categories: Category[]; 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4" style={{ gridAutoRows: "1fr" }}>
         <Link
           href={`/shop?cat=${featured.slug}`}
-          className="card col-span-2 row-span-2 flex flex-col justify-between p-6 md:p-7 relative overflow-hidden"
-          style={{ background: "linear-gradient(140deg,#FFE3EE,#FFF3CF)" }}
+          className="card col-span-2 row-span-2 flex flex-col justify-between p-6 md:p-7 relative overflow-hidden text-white"
+          style={{ background: "linear-gradient(140deg,#76220a,#5c1a07)" }}
         >
           <div>
-            <span className="text-[10px] font-extrabold px-2.5 py-1 rounded-full bg-white text-primary">
+            <span className="text-[10px] font-extrabold px-2.5 py-1 rounded-full bg-highlight text-cream">
               {t("home.catMostVisited")}
             </span>
             <p className="text-3xl md:text-5xl font-bold leading-[1.02] mt-4 font-display">
               {lang === "ar" ? featured.name_ar : featured.name_fr}
             </p>
-            <p className={`text-[15px] mt-2 font-bold ${lang === "ar" ? "ar" : ""}`} style={{ color: "var(--color-ink-soft)" }}>
+            <p className={`text-[15px] mt-2 font-bold text-white/75 ${lang === "ar" ? "ar" : ""}`}>
               {lang === "ar" ? featured.tagline_ar : featured.tagline_fr}
             </p>
           </div>
@@ -58,17 +58,14 @@ export function CategoryBento({ categories, counts }: { categories: Category[]; 
             <span className="text-[13px] font-extrabold">
               {counts[featured.slug] ?? 0} {t("home.productsCount")}
             </span>
-            <span
-              className="w-11 h-11 rounded-full flex items-center justify-center text-white border-2 border-ink"
-              style={{ background: featured.color }}
-            >
+            <span className="w-11 h-11 rounded-full flex items-center justify-center text-white bg-white/15 border border-white/40">
               <ArrowRight size={20} weight="bold" className="rtl:rotate-180" />
             </span>
           </div>
         </Link>
 
         {rest.map((c) => {
-          const Icon = ICONS[c.icon] ?? Gift;
+          const Icon = ICONS[c.icon] ?? Lamp;
           return (
             <Link
               key={c.slug}
@@ -77,7 +74,7 @@ export function CategoryBento({ categories, counts }: { categories: Category[]; 
               style={{ background: c.color }}
             >
               {c.image ? (
-                <span className="relative block w-14 h-14 rounded-[14px] overflow-hidden border-2 border-ink/20 bg-white/60">
+                <span className="relative block w-14 h-14 rounded-[10px] overflow-hidden border border-white/30 bg-white/60">
                   <Image
                     src={c.image}
                     alt={lang === "ar" ? c.name_ar : c.name_fr}

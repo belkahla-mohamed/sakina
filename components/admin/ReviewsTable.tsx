@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useActionState, useMemo, useState } from "react";
 import { Check, Star, Trash, X } from "@phosphor-icons/react";
@@ -9,9 +9,9 @@ import { useLang } from "@/components/providers";
 import type { ReviewRow, ReviewStatus } from "@/lib/db/reviews";
 
 const STATUS_CLS: Record<ReviewStatus, string> = {
-  pending: "bg-highlight text-ink",
+  pending: "bg-primary text-white",
   approved: "bg-teal-deep text-white",
-  rejected: "bg-line text-ink-soft",
+  rejected: "border border-line text-ink-soft",
 };
 
 const STATUS_KEY = {
@@ -163,7 +163,7 @@ export function ReviewsTable({ reviews }: { reviews: ReviewRow[] }) {
                   if (ok) form.requestSubmit();
                 });
               }}
-              className="card px-4 py-3 flex flex-wrap items-center gap-3 border-primary"
+              className="card px-4 py-3 flex flex-wrap items-center gap-3 !border-primary"
             >
               {bulkIds.map((id) => (
                 <input key={id} type="hidden" name="ids" value={id} />

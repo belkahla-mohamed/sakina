@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import {
   createContext,
@@ -205,7 +205,7 @@ function ToastCard({
     <div
       role={isError ? "alert" : "status"}
       aria-live={isError ? "assertive" : "polite"}
-      className={`pointer-events-auto w-full anim-pop flex items-start gap-3 rounded-[14px] border-2 bg-white px-4 py-3.5 shadow-[0_10px_30px_rgba(37,35,91,0.16)] sm:w-[380px] ${
+          className={`pointer-events-auto w-full anim-pop flex items-start gap-3 rounded-[10px] border bg-white px-4 py-3.5 shadow-[0_10px_30px_rgba(21,22,52,0.16)] sm:w-[380px] ${
         isError ? "border-primary" : "border-teal-deep"
       }`}
     >
@@ -313,11 +313,10 @@ function ConfirmDialog({
         aria-modal="true"
         aria-labelledby="confirm-title"
         aria-describedby={message ? "confirm-message" : undefined}
-        className="anim-pop relative w-full max-w-[420px] rounded-[18px] border-2 border-ink bg-white p-6 shadow-[0_8px_0_0_#25235b]"
-      >
-        <span
-          aria-hidden="true"
-          className="mb-4 flex h-12 w-12 items-center justify-center rounded-full border-2 border-ink bg-highlight"
+          className="anim-pop relative w-full max-w-[420px] rounded-[10px] border border-line bg-white p-6 shadow-[0_2px_4px_rgba(21,22,52,0.08),0_18px_48px_-18px_rgba(21,22,52,0.35)]"
+        >
+          <span
+            className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-highlight text-cream"
         >
           <WarningOctagon size={24} weight="fill" className="text-ink" />
         </span>

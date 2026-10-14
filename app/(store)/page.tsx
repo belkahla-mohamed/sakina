@@ -19,7 +19,7 @@ export default async function HomePage() {
     .concat(products.filter((p) => !p.is_bestseller))
     .slice(0, 8);
   const news = products.filter((p) => p.is_new).slice(0, 4);
-  const promo = products.find((p) => p.slug === "pack-rentree-scolaire") ?? products[0];
+  const promo = products.find((p) => p.slug === "plaid-chenille-150x200") ?? products[0];
   const heroSamples = bestsellers.slice(0, 4);
 
   return (

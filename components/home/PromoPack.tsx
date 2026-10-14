@@ -13,7 +13,7 @@ export function PromoPack({ product }: { product?: Product }) {
   return (
     <section className="mx-auto max-w-6xl px-4 lg:px-6 py-10 md:py-14 anim-reveal">
       <div className="card overflow-hidden grid md:grid-cols-2 items-stretch">
-        <div className="relative min-h-[240px] bg-highlight/40">
+        <div className="relative min-h-[240px] bg-milk">
           <Image
             src={product.image}
             alt={lang === "ar" ? product.name_ar : product.name_fr}
@@ -21,7 +21,7 @@ export function PromoPack({ product }: { product?: Product }) {
             sizes="(max-width: 768px) 100vw, 50vw"
             className="object-cover"
           />
-          <span className="absolute top-3 start-3 bg-primary text-white border-2 border-ink rounded-full px-3 py-1 text-[10.5px] font-extrabold uppercase tracking-[0.06em]">
+          <span className="absolute top-3 start-3 bg-primary text-white rounded-full px-3 py-1 text-[10.5px] font-extrabold uppercase tracking-[0.06em]">
             {t("home.promoBadge")}
           </span>
         </div>

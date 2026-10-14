@@ -9,6 +9,7 @@ import {
   Tag,
   Star,
   Gear,
+  HardDrives,
   SignOut,
 } from "@phosphor-icons/react";
 import { logout } from "@/app/admin/actions";
@@ -21,6 +22,7 @@ const NAV = [
   { href: "/admin/commandes", key: "admin.nav.orders", icon: ShoppingCartSimple, exact: false },
   { href: "/admin/categories", key: "admin.nav.categories", icon: Tag, exact: false },
   { href: "/admin/avis", key: "admin.nav.reviews", icon: Star, exact: false },
+  { href: "/admin/backups", key: "admin.nav.backups", icon: HardDrives, exact: false },
   { href: "/admin/reglages", key: "admin.nav.settings", icon: Gear, exact: false },
 ] as const;
 

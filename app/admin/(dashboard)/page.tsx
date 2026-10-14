@@ -25,6 +25,13 @@ const STATUS_KEY: Record<string, TKey> = {
   annulee: "admin.order.statusCancelled",
 };
 
+const STATUS_CLS: Record<string, string> = {
+  nouvelle: "bg-primary text-white",
+  en_cours: "bg-teal text-white",
+  livree: "bg-teal-deep text-white",
+  annulee: "border border-line text-ink-soft",
+};
+
 export default function AdminDashboardPage() {
   return (
     <AdminSection>
@@ -73,12 +80,16 @@ async function DashboardContent() {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {cards.map((c) => {
           return (
-            <div key={c.label} className="card p-4">
-              <div className="flex items-center justify-between">
-                <span className="text-[13px] font-bold text-ink-soft">{c.label}</span>
-                <Icon name={c.icon} size={20} className={c.tone} />
+            <div key={c.label} className="card p-5">
+              <div className="flex items-start justify-between gap-3">
+                <span className="text-[12.5px] font-bold uppercase tracking-[0.08em] text-ink-soft">
+                  {c.label}
+                </span>
+                <span className="grid h-9 w-9 shrink-0 place-items-center rounded-[10px] bg-primary/8">
+                  <Icon name={c.icon} size={17} className={c.tone} />
+                </span>
               </div>
-              <p className="font-display text-[26px] font-bold mt-2 leading-none">{c.value}</p>
+              <p className="font-display text-[30px] font-bold mt-2.5 leading-none tabular-nums">{c.value}</p>
               <p className="text-[12.5px] text-ink-soft mt-1.5">{c.sub}</p>
             </div>
           );
@@ -110,7 +121,11 @@ async function DashboardContent() {
                   </div>
                   <div className="text-right shrink-0">
                     <p className="price text-[14.5px]">{formatPrice(Number(o.total))}</p>
-                    <span className="inline-block mt-1 text-[11.5px] font-bold px-2 py-0.5 rounded-full bg-milk border border-line">
+                    <span
+                      className={`inline-block mt-1 text-[11.5px] font-bold px-2 py-0.5 rounded-full ${
+                        STATUS_CLS[o.status] ?? "border border-line text-ink-soft"
+                      }`}
+                    >
                       {STATUS_KEY[o.status] ? t(STATUS_KEY[o.status]) : o.status}
                     </span>
                   </div>

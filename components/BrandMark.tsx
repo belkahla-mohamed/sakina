@@ -1,17 +1,37 @@
-export function BrandMark({ className = "" }: { className?: string }) {
+import Image from "next/image";
+
+export function BrandMark({
+  className = "",
+  decorative = true,
+}: {
+  className?: string;
+  decorative?: boolean;
+}) {
   return (
-    <svg
-      viewBox="0 0 64 64"
+    <Image
+      src="/img/brand/mark.png"
+      alt={decorative ? "" : "Sakina Stores"}
+      width={434}
+      height={482}
       className={className}
-      role="img"
-      aria-label="Sakina"
-      focusable="false"
-    >
-      <rect width="64" height="64" rx="15" fill="var(--color-ink)" />
-      <path
-        d="M52.92 46.86 A29 29 0 1 1 24.26 10.01 A24 24 0 1 0 52.92 46.86 Z"
-        fill="var(--color-highlight)"
-      />
-    </svg>
+    />
+  );
+}
+
+export function Wordmark({
+  className = "",
+  decorative = true,
+}: {
+  className?: string;
+  decorative?: boolean;
+}) {
+  return (
+    <Image
+      src="/img/brand/wordmark.png"
+      alt={decorative ? "" : "Sakina Stores"}
+      width={732}
+      height={72}
+      className={className}
+    />
   );
 }

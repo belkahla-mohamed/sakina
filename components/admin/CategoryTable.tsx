@@ -3,19 +3,19 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useActionState, useMemo, useState } from "react";
-import { Backpack, BookOpen, Gift, MagnifyingGlass, PencilSimple, PuzzlePiece, Star, Trash, TShirt } from "@phosphor-icons/react";
+import { DeviceMobile, Handbag, Lamp, MagnifyingGlass, PencilSimple, Pen, Sparkle, Star, Trash } from "@phosphor-icons/react";
 import { deleteCategory, deleteCategories, type ActionState } from "@/app/admin/actions";
 import { useConfirm } from "@/components/admin/Toast";
 import { useActionToast } from "@/components/admin/useActionToast";
 import { useLang } from "@/components/providers";
 import type { Category, Product } from "@/lib/types";
 
-const ICONS: Record<string, typeof Gift> = {
-  gift: Gift,
-  puzzle: PuzzlePiece,
-  book: BookOpen,
-  backpack: Backpack,
-  tshirt: TShirt,
+const ICONS: Record<string, typeof Lamp> = {
+  lamp: Lamp,
+  handbag: Handbag,
+  sparkle: Sparkle,
+  device: DeviceMobile,
+  pen: Pen,
 };
 
 const COLS = "md:grid-cols-[24px_minmax(0,1.7fr)_minmax(0,0.8fr)_minmax(0,0.55fr)_minmax(0,0.85fr)_190px]";
@@ -130,7 +130,7 @@ export function CategoryTable({
               if (ok) form.requestSubmit();
             });
           }}
-          className="card px-4 py-3 flex flex-wrap items-center gap-3 border-primary"
+          className="card px-4 py-3 flex flex-wrap items-center gap-3 !border-primary"
         >
           {bulkSlugs.map((s) => (
             <input key={s} type="hidden" name="slugs" value={s} />
@@ -176,7 +176,7 @@ export function CategoryTable({
       ) : (
         <ul className="space-y-2.5">
           {rows.map((c) => {
-            const Icon = ICONS[c.icon] ?? Gift;
+            const Icon = ICONS[c.icon] ?? Lamp;
             const n = counts[c.slug] ?? 0;
             const img = cover.get(c.slug)?.image;
             return (

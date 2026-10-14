@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Baloo_2, Nunito_Sans, Tajawal } from "next/font/google";
+import { Prata, Karla, Tajawal } from "next/font/google";
 import { cookies } from "next/headers";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
@@ -8,17 +8,17 @@ import { getPublicSettings } from "@/lib/site";
 import { LANG_COOKIE } from "@/lib/i18n";
 import { Providers } from "@/components/providers";
 
-const baloo = Baloo_2({
+const prata = Prata({
   subsets: ["latin"],
-  weight: ["500", "600", "700", "800"],
-  variable: "--font-baloo",
+  weight: "400",
+  variable: "--font-prata",
   display: "swap",
 });
 
-const nunito = Nunito_Sans({
+const karla = Karla({
   subsets: ["latin"],
-  weight: ["400", "600", "700", "800"],
-  variable: "--font-nunito",
+  weight: ["400", "500", "700"],
+  variable: "--font-karla",
   display: "swap",
 });
 
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     template: `%s | ${SITE.name}`,
   },
   description:
-    "Jouets d'éveil, livres, fournitures scolaires et vêtements bébé. Paiement à la livraison, retours sous 7 jours, livraison 24-48h partout au Maroc.",
+    "Jouets d'éveil, livres, fournitures scolaires et vêtements bébé, sélectionnés et vérifiés. Paiement à la livraison, retours sous 7 jours, livraison 24-48h partout au Maroc.",
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
@@ -45,13 +45,13 @@ export const metadata: Metadata = {
     siteName: SITE.name,
     title: `${SITE.name} — Jouets, éveil & école`,
     description:
-      "Jouets d'éveil, livres, fournitures scolaires et vêtements bébé. Paiement à la livraison partout au Maroc.",
+      "Une sélection courte et vérifiée : jouets, livres, école et bébé. Paiement à la livraison partout au Maroc.",
   },
   twitter: {
     card: "summary_large_image",
     title: `${SITE.name} — Jouets, éveil & école`,
     description:
-      "Jouets d'éveil, livres, fournitures scolaires et vêtements bébé. Paiement à la livraison partout au Maroc.",
+      "Une sélection courte et vérifiée : jouets, livres, école et bébé. Paiement à la livraison partout au Maroc.",
   },
   robots: { index: true, follow: true },
 };
@@ -69,7 +69,7 @@ export default async function RootLayout({
     <html
       lang={initialLang}
       dir={initialLang === "ar" ? "rtl" : "ltr"}
-      className={`${baloo.variable} ${nunito.variable} ${tajawal.variable}`}
+      className={`${prata.variable} ${karla.variable} ${tajawal.variable}`}
       suppressHydrationWarning
     >
       <body suppressHydrationWarning>

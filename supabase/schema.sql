@@ -110,6 +110,22 @@ create table if not exists public.settings (
   primary key (key)
 );
 
+create table if not exists public.backups (
+  id bigint generated always as identity not null,
+  kind text default 'manual'::text not null,
+  note text,
+  products_count integer default 0 not null,
+  categories_count integer default 0 not null,
+  orders_count integer default 0 not null,
+  reviews_count integer default 0 not null,
+  settings_count integer default 0 not null,
+  size_bytes integer default 0 not null,
+  data jsonb not null,
+  created_at timestamptz default now() not null,
+  primary key (id),
+  check (kind in ('manual', 'auto', 'prerestore'))
+);
+
 CREATE INDEX IF NOT EXISTS admin_sessions_admin_idx ON public.admin_sessions USING btree (admin_id);
 CREATE INDEX IF NOT EXISTS admin_sessions_expires_idx ON public.admin_sessions USING btree (expires_at);
 CREATE INDEX IF NOT EXISTS order_items_order_idx ON public.order_items USING btree (order_id);
@@ -118,6 +134,7 @@ CREATE INDEX IF NOT EXISTS orders_status_idx ON public.orders USING btree (statu
 CREATE INDEX IF NOT EXISTS products_bestseller_idx ON public.products USING btree (is_bestseller DESC);
 CREATE INDEX IF NOT EXISTS products_category_idx ON public.products USING btree (category);
 CREATE INDEX IF NOT EXISTS reviews_status_idx ON public.reviews USING btree (status, created_at DESC);
+CREATE INDEX IF NOT EXISTS backups_created_idx ON public.backups USING btree (created_at DESC);
 -- ── Row Level Security ──────────────────────────────────────────────────────
 -- RLS is ON with no policies, so anon/authenticated keys return zero rows.
 -- The app is unaffected: it connects as the postgres owner via DATABASE_URL,
@@ -125,6 +142,7 @@ CREATE INDEX IF NOT EXISTS reviews_status_idx ON public.reviews USING btree (sta
 -- ALTER ... ENABLE is a no-op when RLS is already on, so this is re-runnable.
 alter table public.admin_sessions enable row level security;
 alter table public.admin_users enable row level security;
+alter table public.backups enable row level security;
 alter table public.categories enable row level security;
 alter table public.order_items enable row level security;
 alter table public.orders enable row level security;

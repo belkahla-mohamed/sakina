@@ -45,7 +45,7 @@ export function FaqAccordion({
                   </span>
                 </span>
                 <span
-                  className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 border-2 transition-transform duration-200 group-hover:scale-110 active:scale-90 ${
+                  className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 border transition-transform duration-200 group-hover:scale-110 active:scale-90 ${
                     isOpen ? "bg-primary text-white border-ink" : "border-line text-ink"
                   }`}
                 >

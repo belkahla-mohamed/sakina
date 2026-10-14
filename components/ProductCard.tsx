@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import Image from "next/image";
@@ -6,11 +6,12 @@ import Link from "next/link";
 import { Star, Heart, Check } from "@phosphor-icons/react";
 import { useCart, useFavs, useLang } from "@/components/providers";
 import { formatPrice } from "@/lib/i18n";
+import { PRODUCT_BGS } from "@/lib/product-bgs";
 import type { Product } from "@/lib/types";
 
 const BADGE_STYLE: Record<string, string> = {
   promo: "bg-primary text-white",
-  nouveau: "bg-highlight text-ink",
+  nouveau: "bg-highlight text-cream",
   epuise: "bg-ink text-white",
 };
 
@@ -33,9 +34,12 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
   return (
     <div
       className="card h-full overflow-hidden flex flex-col relative group hover:-translate-y-1 anim-fade-up"
-      style={{ animationDelay: `${Math.min(index, 7) * 60}ms` }}
+      style={{
+        backgroundColor: PRODUCT_BGS[product.slug],
+        animationDelay: `${Math.min(index, 7) * 60}ms`,
+      }}
     >
-      <div className="relative aspect-[4/3] overflow-hidden bg-highlight/30">
+      <div className="relative aspect-[4/3] overflow-hidden">
         <Link href={`/product/${product.slug}`} className="absolute inset-0 block">
           <Image
             src={product.image}
@@ -117,10 +121,7 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
                     <Check size={15} weight="bold" /> {t("product.added")}
                   </>
                 ) : (
-                  <>
-                    <span className="sm:hidden">{t("product.add_short")}</span>
-                    <span className="hidden sm:inline">{t("product.add")}</span>
-                  </>
+                  t("product.add_short")
                 )}
               </span>
             )}

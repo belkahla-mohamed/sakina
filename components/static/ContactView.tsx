@@ -56,7 +56,7 @@ export function ContactView() {
               const Icon = r.icon;
               return (
                 <div key={r.label} className="flex items-center gap-3">
-                  <span className="w-10 h-10 rounded-full bg-highlight border-2 border-ink flex items-center justify-center shrink-0">
+                  <span className="w-10 h-10 rounded-full bg-highlight/20 text-primary flex items-center justify-center shrink-0">
                     <Icon size={18} weight="bold" />
                   </span>
                   <div className="min-w-0">

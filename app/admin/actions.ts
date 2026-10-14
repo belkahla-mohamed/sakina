@@ -21,6 +21,11 @@ import {
 import { dbUpdateOrderStatus, dbUpdateOrderNote, dbDeleteOrders, type OrderStatus } from "@/lib/db/orders";
 import { dbSetReviewStatus, dbDeleteReview, dbDeleteReviews, type ReviewStatus } from "@/lib/db/reviews";
 import { dbUpsertSetting } from "@/lib/db/settings";
+import {
+  dbCreateBackup,
+  dbDeleteBackup,
+  dbRestoreBackup,
+} from "@/lib/db/backups";
 import { q, q1 } from "@/lib/db/pool";
 
 /**
@@ -329,7 +334,7 @@ function parseCategoryForm(fd: FormData) {
     name_ar: str(fd.get("name_ar")),
     tagline_fr: str(fd.get("tagline_fr")),
     tagline_ar: str(fd.get("tagline_ar")),
-    color: str(fd.get("color")) || "#FF6B9D",
+    color: str(fd.get("color")) || "#f4f0e6",
     text: str(fd.get("text")) || "light",
     icon: str(fd.get("icon")) || "gift",
     image: str(fd.get("image")) || null,
@@ -587,4 +592,83 @@ export async function saveSettings(
   updateTag("settings");
   revalidatePath("/", "layout");
   return { ok: t("admin.msg.settingsSaved"), okSolution: t("admin.msg.settingsSavedSol") };
+}
+
+/* ---------------- Backups ---------------- */
+
+export async function createBackup(
+  _prev: ActionState,
+  fd: FormData
+): Promise<ActionState> {
+  await requireAdmin();
+  const t = await adminT();
+  const note = str(fd.get("note")) || undefined;
+  try {
+    const b = await dbCreateBackup("manual", note);
+    if (!b) {
+      return { error: t("admin.msg.backupFail"), solution: t("admin.msg.backupFailSol") };
+    }
+  } catch (e) {
+    return actionState(e, t.lang);
+  }
+  revalidatePath("/admin/backups");
+  return {
+    ok: t("admin.msg.backupCreated"),
+    okSolution: t("admin.msg.backupCreatedSol"),
+  };
+}
+
+export async function restoreBackup(
+  _prev: ActionState,
+  fd: FormData
+): Promise<ActionState> {
+  await requireAdmin();
+  const t = await adminT();
+  const id = num(fd.get("id"));
+  if (!id) {
+    return { error: t("admin.msg.backupNotFound"), solution: t("admin.msg.refresh") };
+  }
+  try {
+    // Safety snapshot of the current state, so a wrong restore is reversible.
+    await dbCreateBackup("prerestore", `Avant restauration n°${id}`);
+    const ok = await dbRestoreBackup(id);
+    if (!ok) {
+      return { error: t("admin.msg.backupNotFound"), solution: t("admin.msg.refresh") };
+    }
+  } catch (e) {
+    return actionState(e, t.lang);
+  }
+  // Everything public may have changed: catalog, orders, reviews, settings.
+  updateTag("products");
+  updateTag("categories");
+  updateTag("settings");
+  updateTag("orders");
+  updateTag("reviews");
+  revalidatePath("/", "layout");
+  return {
+    ok: t("admin.msg.backupRestored"),
+    okSolution: t("admin.msg.backupRestoredSol"),
+  };
+}
+
+export async function deleteBackup(
+  _prev: ActionState,
+  fd: FormData
+): Promise<ActionState> {
+  await requireAdmin();
+  const t = await adminT();
+  const id = num(fd.get("id"));
+  if (!id) {
+    return { error: t("admin.msg.backupNotFound"), solution: t("admin.msg.refresh") };
+  }
+  try {
+    const ok = await dbDeleteBackup(id);
+    if (!ok) {
+      return { error: t("admin.msg.backupNotFound"), solution: t("admin.msg.refresh") };
+    }
+  } catch (e) {
+    return actionState(e, t.lang);
+  }
+  revalidatePath("/admin/backups");
+  return { ok: t("admin.msg.backupDeleted") };
 }

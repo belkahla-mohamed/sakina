@@ -8,7 +8,7 @@ export function AnnouncementBar() {
   const text = lang === "ar" ? settings.announce_ar : settings.announce_fr;
   if (!text) return null;
   return (
-    <div className="bg-teal-deep text-white text-center text-[12.5px] md:text-[13px] font-bold py-2 px-4">
+    <div className="bg-cream text-brick text-center text-[12px] md:text-[12.5px] font-bold uppercase tracking-[0.14em] py-2.5 px-4 border-b border-line">
       {text}
     </div>
   );

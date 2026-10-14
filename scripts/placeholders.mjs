@@ -6,12 +6,53 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const { categories, products } = JSON.parse(readFileSync(join(root, "data/catalog.json"), "utf8"));
 
 const EMOJI = {
+  lamp: "💡",
+  handbag: "👜",
+  sparkle: "✨",
+  device: "📱",
+  pen: "🖊️",
   puzzle: "🧩",
   book: "📚",
   backpack: "🎒",
   gift: "🎁",
   tshirt: "👕",
 };
+
+// Product-specific emoji wins over the category default, so every card
+// is distinguishable even within the same category.
+const SLUG_EMOJI = [
+  ["plaid", "🛏️"],
+  ["lampe", "💡"],
+  ["diffuseur", "🌸"],
+  ["miroir", "💎"],
+  ["cache-pot", "🌱"],
+  ["panier", "🧺"],
+  ["sac-tote", "👜"],
+  ["casquette", "🧢"],
+  ["ceinture", "💰"],
+  ["lunettes", "🕶️"],
+  ["foulard", "🧣"],
+  ["huile", "🧴"],
+  ["parfum", "🌺"],
+  ["brosse", "🪥"],
+  ["coffret", "🎁"],
+  ["masque", "🧖"],
+  ["ecouteurs", "🎧"],
+  ["powerbank", "🔋"],
+  ["coque", "📱"],
+  ["support", "💻"],
+  ["carnet", "📓"],
+  ["stylo", "🖊️"],
+  ["agenda", "📔"],
+  ["set-rangement", "🗂️"],
+];
+
+function emojiFor(slug, catIcon) {
+  for (const [prefix, emoji] of SLUG_EMOJI) {
+    if (slug.startsWith(prefix)) return emoji;
+  }
+  return EMOJI[catIcon] ?? "🛍️";
+}
 
 function mixWhite(hex, ratio) {
   const r = parseInt(hex.slice(1, 3), 16);
@@ -29,7 +70,7 @@ for (const p of products) {
   const base = cat?.color ?? "#FF6B9D";
   const light = mixWhite(base, 0.82);
   const mid = mixWhite(base, 0.45);
-  const emoji = EMOJI[cat?.icon] ?? "🧸";
+  const emoji = emojiFor(p.slug, cat?.icon);
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300" role="img" aria-label="${p.name_fr.replace(/&/g, "&amp;").replace(/"/g, "&quot;")}">
   <defs>
     <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">

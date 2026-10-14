@@ -3,19 +3,19 @@
 import { useActionState, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Backpack, BookOpen, Gift, PuzzlePiece, TShirt } from "@phosphor-icons/react";
+import { DeviceMobile, Handbag, Lamp, Pen, Sparkle } from "@phosphor-icons/react";
 import { saveCategory, type ActionState } from "@/app/admin/actions";
 import { useActionToast } from "@/components/admin/useActionToast";
 import { ImageField } from "@/components/admin/ImageField";
 import { useLang } from "@/components/providers";
 import type { Category } from "@/lib/types";
 
-const ICONS: Record<string, typeof Gift> = {
-  gift: Gift,
-  puzzle: PuzzlePiece,
-  book: BookOpen,
-  backpack: Backpack,
-  tshirt: TShirt,
+const ICONS: Record<string, typeof Lamp> = {
+  lamp: Lamp,
+  handbag: Handbag,
+  sparkle: Sparkle,
+  device: DeviceMobile,
+  pen: Pen,
 };
 
 export function CategoryForm({ category }: { category?: Category }) {
@@ -26,23 +26,23 @@ export function CategoryForm({ category }: { category?: Category }) {
   useActionToast(state);
   const { t } = useLang();
   const isEdit = Boolean(category);
-  const [color, setColor] = useState(category?.color ?? "#FF6B9D");
-  const [icon, setIcon] = useState(category?.icon ?? "gift");
+  const [color, setColor] = useState(category?.color ?? "#f4f0e6");
+  const [icon, setIcon] = useState(category?.icon ?? "lamp");
   const [textChoice, setTextChoice] = useState(category?.text ?? "light");
   const [img, setImg] = useState(category?.image ?? "");
 
   const ICON_OPTIONS = [
-    { value: "gift", label: t("admin.category.iconGift") },
-    { value: "puzzle", label: t("admin.category.iconPuzzle") },
-    { value: "book", label: t("admin.category.iconBook") },
-    { value: "backpack", label: t("admin.category.iconBackpack") },
-    { value: "tshirt", label: t("admin.category.iconTshirt") },
+    { value: "lamp", label: t("admin.category.iconLamp") },
+    { value: "handbag", label: t("admin.category.iconHandbag") },
+    { value: "sparkle", label: t("admin.category.iconSparkle") },
+    { value: "device", label: t("admin.category.iconDevice") },
+    { value: "pen", label: t("admin.category.iconPen") },
   ];
 
   const label = "block text-[13.5px] font-bold mb-1.5";
   const field = "field w-full px-3.5 py-2.5";
 
-  const PreviewIcon = ICONS[icon] ?? Gift;
+  const PreviewIcon = ICONS[icon] ?? Lamp;
 
   return (
     <form action={formAction} className="space-y-5" noValidate>
@@ -147,7 +147,7 @@ export function CategoryForm({ category }: { category?: Category }) {
           <input type="hidden" name="icon" value={icon} />
           <div className="flex flex-wrap gap-2.5">
             {ICON_OPTIONS.map((opt) => {
-              const Icon = ICONS[opt.value] ?? Gift;
+              const Icon = ICONS[opt.value] ?? Lamp;
               const active = icon === opt.value;
               return (
                 <button

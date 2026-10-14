@@ -35,18 +35,22 @@ export function ImageField({
   const [url, setUrl] = useState(value);
   const [preview, setPreview] = useState(value);
   const [busy, setBusy] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  // Problem + next step, mirroring the ActionState shape used everywhere else.
+  const [error, setError] = useState<{ title: string; solution?: string } | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   async function handleFile(file: File) {
     setError(null);
 
     if (!ACCEPT.split(",").includes(file.type)) {
-      setError(t("admin.form.badFormat"));
+      setError({ title: t("admin.form.badFormat"), solution: t("admin.msg.uploadRejectedSol") });
       return;
     }
     if (file.size > MAX_MB * 1024 * 1024) {
-      setError(t("admin.form.tooHeavy").replace("{n}", (file.size / 1024 / 1024).toFixed(1)));
+      setError({
+        title: t("admin.form.tooHeavy").replace("{n}", (file.size / 1024 / 1024).toFixed(1)),
+        solution: t("admin.msg.uploadRejectedSol"),
+      });
       return;
     }
 
@@ -61,20 +65,32 @@ export function ImageField({
       fd.append("kind", kind);
 
       const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
-      const data: { url?: string; error?: string } = await res.json().catch(() => ({}));
+      const data: { url?: string; error?: string; solution?: string } = await res
+        .json()
+        .catch(() => ({}));
 
       if (!res.ok || !data.url) {
-        throw new Error(data.error || t("admin.form.httpFail").replace("{n}", String(res.status)));
+        setError({
+          title:
+            data.error ||
+            t("admin.form.httpFail").replace("{n}", String(res.status)),
+          solution: data.solution ?? t("admin.msg.uploadRejectedSol"),
+        });
+        return;
       }
 
       URL.revokeObjectURL(local);
       setUrl(data.url);
       setPreview(data.url);
       onUrlChange?.(data.url);
-    } catch (e) {
+    } catch {
+      // Network-level interruption: the file never reached the server.
       URL.revokeObjectURL(local);
       setPreview(url);
-      setError(e instanceof Error ? e.message : t("admin.form.uploadFail"));
+      setError({
+        title: t("admin.msg.uploadNetwork"),
+        solution: t("admin.msg.uploadNetworkSol"),
+      });
     } finally {
       setBusy(false);
       if (inputRef.current) inputRef.current.value = "";
@@ -168,9 +184,12 @@ export function ImageField({
       </div>
 
       {error && (
-        <p role="alert" className="text-[13px] font-bold text-primary">
-          {error}
-        </p>
+        <div role="alert" className="text-[13px] leading-snug">
+          <p className="font-bold text-primary">{error.title}</p>
+          {error.solution && (
+            <p className="mt-0.5 text-ink-soft">{error.solution}</p>
+          )}
+        </div>
       )}
     </div>
   );

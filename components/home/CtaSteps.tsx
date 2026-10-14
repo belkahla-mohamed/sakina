@@ -5,9 +5,9 @@ import { useLang, useSettings } from "@/components/providers";
 import { WaIcon } from "@/components/WaIcon";
 
 const STEPS = [
-  { icon: ChatCircleDots, n: "1", title: "home.ctaStep1", sub: "home.ctaStep1s", color: "#E8457F", numBg: "#E8457F" },
-  { icon: MapPin, n: "2", title: "home.ctaStep2", sub: "home.ctaStep2s", color: "#E0A800", numBg: "#E0A800" },
-  { icon: Package, n: "3", title: "home.ctaStep3", sub: "home.ctaStep3s", color: "#1B9A8E", numBg: "#1B9A8E" },
+  { icon: ChatCircleDots, n: "1", title: "home.ctaStep1", sub: "home.ctaStep1s", color: "#76220a", numBg: "#76220a" },
+  { icon: MapPin, n: "2", title: "home.ctaStep2", sub: "home.ctaStep2s", color: "#2a1d16", numBg: "#2a1d16" },
+  { icon: Package, n: "3", title: "home.ctaStep3", sub: "home.ctaStep3s", color: "#6b5a50", numBg: "#6b5a50" },
 ] as const;
 
 export function CtaSteps() {
@@ -18,9 +18,7 @@ export function CtaSteps() {
     <section className="mx-auto max-w-6xl px-4 lg:px-6 py-10 md:py-14 anim-reveal">
       <div className="card p-6 md:p-11">
         <div className="text-center max-w-2xl mx-auto mb-9">
-          <span className="inline-block bg-highlight border-2 border-ink rounded-full px-3 py-1 text-[11px] font-extrabold uppercase tracking-wider">
-            {t("home.ctaBadge")}
-          </span>
+          <span className="eyebrow">{t("home.ctaBadge")}</span>
           <h2 className="text-[28px] md:text-[36px] font-bold mt-4">{t("home.ctaTitle")}</h2>
         </div>
 
@@ -30,11 +28,11 @@ export function CtaSteps() {
             return (
               <div
                 key={s.n}
-                className="relative border-2 border-line rounded-[18px] bg-white pt-6 pb-5 px-5"
-                style={{ borderTop: `6px solid ${s.color}` }}
+                className="relative border border-line rounded-[10px] bg-white pt-6 pb-5 px-5"
+                style={{ borderTop: `4px solid ${s.color}` }}
               >
                 <span
-                  className="absolute -top-4 start-4 w-[34px] h-[34px] rounded-full flex items-center justify-center font-display font-bold text-white border-2 border-ink"
+                  className="absolute -top-4 start-4 w-[32px] h-[32px] rounded-full flex items-center justify-center font-display font-bold text-white"
                   style={{ background: s.numBg }}
                 >
                   {s.n}

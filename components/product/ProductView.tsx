@@ -64,7 +64,7 @@ export function ProductView({ product, related }: { product: Product; related: P
             className="object-cover"
           />
           {product.badge && (
-            <span className="absolute top-3 start-3 bg-primary text-white border-2 border-ink rounded-full px-3 py-1 text-[10.5px] font-extrabold uppercase tracking-[0.06em]">
+            <span className="absolute top-3 start-3 bg-primary text-white rounded-full px-3 py-1 text-[10.5px] font-extrabold uppercase tracking-[0.06em]">
               {product.badge === "promo"
                 ? t("product.promo")
                 : product.badge === "nouveau"
@@ -101,7 +101,7 @@ export function ProductView({ product, related }: { product: Product; related: P
           </div>
 
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mt-6">
-            <div dir="ltr" className="flex items-center border-2 border-line rounded-full bg-white overflow-hidden self-stretch sm:self-auto justify-between sm:justify-start">
+            <div dir="ltr" className="flex items-center border border-line rounded-full bg-white overflow-hidden self-stretch sm:self-auto justify-between sm:justify-start">
               <button
                 type="button"
                 className="flex-1 sm:flex-none w-10 h-11 font-bold text-[17px] hover:bg-milk"
@@ -157,7 +157,7 @@ export function ProductView({ product, related }: { product: Product; related: P
               const Icon = item.icon;
               return (
                 <li key={item.k} className="flex items-center gap-2.5 text-[14.5px]">
-                  <span className="w-8 h-8 rounded-full bg-highlight border-2 border-ink flex items-center justify-center shrink-0">
+                  <span className="w-8 h-8 rounded-full bg-highlight/20 text-primary flex items-center justify-center shrink-0">
                     <Icon size={15} weight="bold" />
                   </span>
                   {t(item.k)}
@@ -226,10 +226,7 @@ function RelatedCard({ product, index = 0 }: { product: Product; index?: number 
           {soldOut ? (
             t("product.out")
           ) : (
-            <>
-              <span className="sm:hidden">{t("product.add_short")}</span>
-              <span className="hidden sm:inline">{t("product.add")}</span>
-            </>
+            t("product.add_short")
           )}
         </button>
       </div>

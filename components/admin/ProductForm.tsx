@@ -66,7 +66,7 @@ export function ProductForm({
               // `readOnly` (not `disabled`): a disabled control is dropped from
               // FormData, which silently loses the slug on every edit.
               readOnly={isEdit}
-              placeholder="puzzle-en-bois"
+              placeholder="lampe-champignon-led"
               aria-readonly={isEdit}
               className={`${field} read-only:opacity-60 read-only:cursor-default`}
             />
