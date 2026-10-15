@@ -365,6 +365,77 @@ export function SlidesEditor({ initial }: { initial: HeroSlide[] }) {
                     />
                   </div>
                 </fieldset>
+
+                <fieldset className="space-y-3 border border-line rounded-[10px] p-3.5">
+                  <legend className="px-1 text-[12.5px] font-bold uppercase tracking-[0.1em] text-ink-soft">
+                    {t("admin.slides.colors")}
+                  </legend>
+
+                  <div className="grid sm:grid-cols-2 gap-3">
+                    <div>
+                      <span className={label}>{t("admin.slides.titleColor")}</span>
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="color"
+                          aria-label={t("admin.slides.titleColor")}
+                          value={selected.title_color || "#ffffff"}
+                          onChange={(e) => patch({ title_color: e.target.value })}
+                          className="w-10 h-10 rounded-[6px] border border-line bg-white p-1 cursor-pointer"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => patch({ title_color: "" })}
+                          className="text-[12px] font-bold text-ink-soft underline underline-offset-2 hover:text-ink"
+                        >
+                          {t("admin.slides.colorWhite")}
+                        </button>
+                      </div>
+                    </div>
+                    <div>
+                      <span className={label}>{t("admin.slides.textColor")}</span>
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="color"
+                          aria-label={t("admin.slides.textColor")}
+                          value={selected.text_color || "#ffffff"}
+                          onChange={(e) => patch({ text_color: e.target.value })}
+                          className="w-10 h-10 rounded-[6px] border border-line bg-white p-1 cursor-pointer"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => patch({ text_color: "" })}
+                          className="text-[12px] font-bold text-ink-soft underline underline-offset-2 hover:text-ink"
+                        >
+                          {t("admin.slides.colorWhite")}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="flex items-center justify-between">
+                      <label className={label} htmlFor={`ov-${selected.id}`}>
+                        {t("admin.slides.overlay")}
+                      </label>
+                      <span className="text-[12px] font-bold tabular-nums text-ink-soft">
+                        {selected.overlay}%
+                      </span>
+                    </div>
+                    <input
+                      id={`ov-${selected.id}`}
+                      type="range"
+                      min={0}
+                      max={100}
+                      step={5}
+                      value={selected.overlay}
+                      onChange={(e) => patch({ overlay: Number(e.target.value) })}
+                      className="w-full accent-primary"
+                    />
+                    <p className="text-[12px] text-ink-soft mt-1">
+                      {t("admin.slides.overlayHint")}
+                    </p>
+                  </div>
+                </fieldset>
               </section>
 
               {/* Live preview — same SlideContent the homepage renders */}
@@ -382,7 +453,11 @@ export function SlidesEditor({ initial }: { initial: HeroSlide[] }) {
                       className="object-cover"
                     />
                   )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/45 to-ink/20" />
+                  <div
+                    className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/45 to-ink/20"
+                    style={{ opacity: selected.overlay / 100 }}
+                    aria-hidden
+                  />
                   <div className="relative h-full flex items-end p-5">
                     <SlideContent slide={selected} lang={lang} />
                   </div>

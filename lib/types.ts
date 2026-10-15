@@ -46,6 +46,12 @@ export interface HeroSlide {
   title_ar: string;
   text_fr: string;
   text_ar: string;
+  /** Hex title color ("" = white). */
+  title_color: string;
+  /** Hex body-text color ("" = white). */
+  text_color: string;
+  /** Dark scrim over the image, 0–100 (100 = default gradient strength). */
+  overlay: number;
   btn_label_fr: string;
   btn_label_ar: string;
   btn_href: string;

@@ -38,6 +38,7 @@ export function SlideContent({
           className={`font-display font-bold text-white leading-tight ${ar} ${
             compact ? "text-[18px]" : "text-[28px] md:text-[40px]"
           }`}
+          style={slide.title_color ? { color: slide.title_color } : undefined}
         >
           {title}
         </h2>
@@ -45,6 +46,7 @@ export function SlideContent({
       {text && (
         <p
           className={`text-white/85 max-w-lg ${ar} ${compact ? "text-[12.5px]" : "text-[15px] md:text-[17px]"}`}
+          style={slide.text_color ? { color: slide.text_color } : undefined}
         >
           {text}
         </p>
@@ -133,7 +135,11 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
                 priority={i === 0}
               />
             )}
-            <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/45 to-ink/20" />
+            <div
+              className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/45 to-ink/20"
+              style={{ opacity: s.overlay / 100 }}
+              aria-hidden
+            />
             <div
               className={`relative h-full mx-auto max-w-6xl px-4 lg:px-6 flex items-end pb-10 md:pb-14 ${
                 lang === "ar" ? "text-right" : ""

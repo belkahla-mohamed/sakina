@@ -23,6 +23,23 @@ function bool(value: unknown): boolean {
   return value === true || value === "true" || value === "on" || value === "1";
 }
 
+/** Only #rgb / #rrggbb hex — anything else falls back to the default (white). */
+function hex(value: unknown): string {
+  const v = typeof value === "string" ? value.trim() : "";
+  return /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(v) ? v.toLowerCase() : "";
+}
+
+/** Clamp to an integer 0–max (default when missing/unparseable). */
+function pct(value: unknown, fallback: number, max = 100): number {
+  const n =
+    typeof value === "number"
+      ? value
+      : typeof value === "string"
+        ? parseFloat(value)
+        : NaN;
+  return Number.isFinite(n) ? Math.min(max, Math.max(0, Math.round(n))) : fallback;
+}
+
 let counter = 0;
 export function newSlideId(): string {
   counter += 1;
@@ -37,6 +54,9 @@ export function emptySlide(): HeroSlide {
     title_ar: "",
     text_fr: "",
     text_ar: "",
+    title_color: "",
+    text_color: "",
+    overlay: 100,
     btn_label_fr: "",
     btn_label_ar: "",
     btn_href: "/shop",
@@ -69,6 +89,10 @@ export function normalizeSlide(raw: unknown): HeroSlide | null {
     btn2_label_fr: clamp(s.btn2_label_fr, MAX_LEN.label),
     btn2_label_ar: clamp(s.btn2_label_ar, MAX_LEN.label),
     btn2_href: href(s.btn2_href),
+    title_color: hex(s.title_color),
+    text_color: hex(s.text_color),
+    // Missing field (old JSON) → 100 keeps the previous look.
+    overlay: s.overlay === undefined ? 100 : pct(s.overlay, 100),
     active: bool(s.active),
   };
 }
