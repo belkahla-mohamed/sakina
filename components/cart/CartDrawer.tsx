@@ -205,6 +205,13 @@ export function CartDrawer({ products }: { products: Product[] }) {
               )}
 
               <Link
+                href="/cart"
+                onClick={close}
+                className="btn btn-outline w-full"
+              >
+                {t("cart.view")}
+              </Link>
+              <Link
                 href="/checkout"
                 onClick={close}
                 className="btn btn-wa w-full"
