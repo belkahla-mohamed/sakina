@@ -70,7 +70,7 @@ export function Navbar({
     >
       {t("a11y.skip")}
     </a>
-        <header className="sticky top-0 z-40 bg-cream/95 backdrop-blur border-b border-line">
+        <header className="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-line">
       <div className="mx-auto max-w-6xl px-4 lg:px-6 h-16 md:h-[72px] flex items-center gap-3">
         {/* mobile: menu */}
         <button
@@ -139,7 +139,7 @@ export function Navbar({
             {favCount > 0 && (
               <span
                 key={favCount}
-                className="absolute -top-0.5 -end-0.5 min-w-[19px] h-[19px] px-1 rounded-full bg-primary text-white text-[11px] font-extrabold flex items-center justify-center border-2 border-milk anim-pop"
+                className="absolute -top-0.5 -end-0.5 min-w-[19px] h-[19px] px-1 rounded-full bg-primary text-white text-[11px] font-extrabold flex items-center justify-center border-2 border-white anim-pop"
               >
                 {favCount}
               </span>
@@ -161,7 +161,7 @@ export function Navbar({
             {count > 0 && (
               <span
                 key={count}
-                className="absolute -top-0.5 -end-0.5 min-w-[19px] h-[19px] px-1 rounded-full bg-primary text-white text-[11px] font-extrabold flex items-center justify-center border-2 border-milk anim-pop"
+                className="absolute -top-0.5 -end-0.5 min-w-[19px] h-[19px] px-1 rounded-full bg-primary text-white text-[11px] font-extrabold flex items-center justify-center border-2 border-white anim-pop"
               >
                 {count}
               </span>
@@ -185,7 +185,7 @@ export function Navbar({
       {/* search overlay */}
       <div
         data-motion="soft"
-        className={`absolute inset-x-0 top-full bg-milk border-b-2 border-line shadow-lg origin-top will-change-transform transition-[opacity,translate,visibility] ${
+        className={`absolute inset-x-0 top-full bg-white border-b-2 border-line shadow-lg origin-top will-change-transform transition-[opacity,translate,visibility] ${
           search
             ? "visible opacity-100 translate-y-0 duration-[280ms] ease-[cubic-bezier(0.32,0.72,0,1)]"
             : "invisible opacity-0 -translate-y-3 duration-[220ms] ease-[cubic-bezier(0.4,0,0.2,1)]"
