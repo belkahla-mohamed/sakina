@@ -1,9 +1,9 @@
 ﻿"use client";
 
 import { useActionState, useMemo, useState } from "react";
-import { Check, Star, Trash, X } from "@phosphor-icons/react";
+import { Check, MagnifyingGlass, Star, Trash, X } from "@phosphor-icons/react";
 import { deleteReview, deleteReviews, setReviewStatus, type ActionState } from "@/app/admin/actions";
-import { useConfirm } from "@/components/admin/Toast";
+import { confirmSubmit, useConfirm } from "@/components/admin/Toast";
 import { useActionToast } from "@/components/admin/useActionToast";
 import { useLang } from "@/components/providers";
 import type { ReviewRow, ReviewStatus } from "@/lib/db/reviews";
@@ -37,6 +37,7 @@ function formatDate(iso: string, lang: "fr" | "ar"): string {
 
 export function ReviewsTable({ reviews }: { reviews: ReviewRow[] }) {
   const [filter, setFilter] = useState("");
+  const [query, setQuery] = useState("");
   const [selected, setSelected] = useState<Set<number>>(new Set());
   const [statusState, statusAction] = useActionState<ActionState, FormData>(
     setReviewStatus,
@@ -68,10 +69,18 @@ export function ReviewsTable({ reviews }: { reviews: ReviewRow[] }) {
     return m;
   }, [reviews]);
 
-  const rows = useMemo(
-    () => (filter ? reviews.filter((r) => r.status === filter) : reviews),
-    [reviews, filter]
-  );
+  const rows = useMemo(() => {
+    const needle = query.trim().toLowerCase();
+    return reviews.filter((r) => {
+      if (filter && r.status !== filter) return false;
+      if (!needle) return true;
+      return (
+        r.name.toLowerCase().includes(needle) ||
+        (r.city ?? "").toLowerCase().includes(needle) ||
+        r.text.toLowerCase().includes(needle)
+      );
+    });
+  }, [reviews, filter, query]);
 
   const allVisible = rows.length > 0 && rows.every((r) => selected.has(r.id));
   const someVisible = rows.some((r) => selected.has(r.id));
@@ -107,6 +116,27 @@ export function ReviewsTable({ reviews }: { reviews: ReviewRow[] }) {
 
   return (
     <div className="space-y-4">
+      {/* Search */}
+      <div className="flex flex-wrap items-center gap-3">
+        <div className="relative flex-1 min-w-[220px]">
+          <MagnifyingGlass
+            size={17}
+            className="pointer-events-none absolute start-3 top-1/2 -translate-y-1/2 text-ink-soft"
+          />
+          <input
+            type="search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder={t("admin.table.searchReviews")}
+            aria-label={t("admin.table.searchReviewAria")}
+            className="field w-full ps-10 pe-3.5 py-2.5"
+          />
+        </div>
+        <span className="text-[13px] text-ink-soft whitespace-nowrap">
+          {rows.length} / {reviews.length}
+        </span>
+      </div>
+
       <div className="flex flex-wrap items-center gap-2">
         <label className="flex items-center gap-2 px-3.5 py-2 rounded-full text-[13px] font-bold border-2 border-line cursor-pointer hover:border-ink/40">
           <input
@@ -144,25 +174,21 @@ export function ReviewsTable({ reviews }: { reviews: ReviewRow[] }) {
 
       {rows.length === 0 ? (
         <div className="card p-10 text-center text-[14.5px] text-ink-soft">
-          {t("admin.review.noFilter")}
+          {query.trim() ? t("admin.table.noReviewMatch") : t("admin.review.noFilter")}
         </div>
       ) : (
         <>
           {bulkIds.length > 0 && (
             <form
               action={bulkAction}
-              onSubmit={(e) => {
-                e.preventDefault();
-                const form = e.currentTarget;
-                void askConfirm({
+              onSubmit={(e) =>
+                confirmSubmit(e, askConfirm, {
                   title: t("admin.table.delReviewsTitle"),
                   message: t("admin.table.delReviewsMsg").replace("{n}", String(bulkIds.length)),
                   confirmLabel: t("admin.table.delete"),
                   tone: "danger",
-                }).then((ok) => {
-                  if (ok) form.requestSubmit();
-                });
-              }}
+                })
+              }
               className="card px-4 py-3 flex flex-wrap items-center gap-3 !border-primary"
             >
               {bulkIds.map((id) => (
@@ -258,18 +284,14 @@ export function ReviewsTable({ reviews }: { reviews: ReviewRow[] }) {
                   <form
                     action={deleteAction}
                     className="inline ms-auto"
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      const form = e.currentTarget;
-                      void askConfirm({
+                    onSubmit={(e) =>
+                      confirmSubmit(e, askConfirm, {
                         title: t("admin.review.delTitle"),
                         message: t("admin.review.delMsg").replace("{n}", r.name),
                         confirmLabel: t("admin.table.delete"),
                         tone: "danger",
-                      }).then((ok) => {
-                        if (ok) form.requestSubmit();
-                      });
-                    }}
+                      })
+                    }
                   >
                     <input type="hidden" name="id" value={r.id} />
                     <button

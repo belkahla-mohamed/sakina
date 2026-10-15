@@ -9,6 +9,7 @@ import {
   useRef,
   useState,
   useSyncExternalStore,
+  type FormEvent,
   type KeyboardEvent as ReactKeyboardEvent,
 } from "react";
 import { createPortal } from "react-dom";
@@ -60,6 +61,33 @@ export function useToast(): ToastApi {
 /** Convenience wrapper for the confirmation dialog alone. */
 export function useConfirm(): ToastApi["confirm"] {
   return useToast().confirm;
+}
+
+/**
+ * Confirm-then-submit for destructive forms.
+ *
+ * `form.requestSubmit()` re-dispatches a native submit event, so a naive
+ * "preventDefault, then resubmit once confirmed" handler re-runs itself,
+ * cancels the second event too, and the Server Action never fires. The
+ * `data-confirmed` marker lets exactly one re-entrant pass fall through
+ * to React's form action untouched.
+ */
+export function confirmSubmit(
+  e: FormEvent<HTMLFormElement>,
+  confirm: ToastApi["confirm"],
+  options: ConfirmOptions
+): void {
+  const form = e.currentTarget;
+  if (form.dataset.confirmed === "1") {
+    delete form.dataset.confirmed;
+    return;
+  }
+  e.preventDefault();
+  void confirm(options).then((ok) => {
+    if (!ok) return;
+    form.dataset.confirmed = "1";
+    form.requestSubmit();
+  });
 }
 
 function readFlashCookie(): Omit<Toast, "id"> | null {
@@ -316,10 +344,10 @@ function ConfirmDialog({
           className="anim-pop relative w-full max-w-[420px] rounded-[10px] border border-line bg-white p-6 shadow-[0_2px_4px_rgba(21,22,52,0.08),0_18px_48px_-18px_rgba(21,22,52,0.35)]"
         >
           <span
-            className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-highlight text-cream"
-        >
-          <WarningOctagon size={24} weight="fill" className="text-ink" />
-        </span>
+            className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white"
+          >
+            <WarningOctagon size={24} weight="fill" className="text-white" />
+          </span>
 
         <h2
           id="confirm-title"

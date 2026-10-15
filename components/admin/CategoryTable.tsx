@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useActionState, useMemo, useState } from "react";
 import { Check, DeviceMobile, Handbag, Lamp, LinkSimple, MagnifyingGlass, PencilSimple, Pen, Sparkle, Star, Trash } from "@phosphor-icons/react";
 import { deleteCategory, deleteCategories, type ActionState } from "@/app/admin/actions";
-import { useConfirm, useToast } from "@/components/admin/Toast";
+import { confirmSubmit, useConfirm, useToast } from "@/components/admin/Toast";
 import { useActionToast } from "@/components/admin/useActionToast";
 import { useLang } from "@/components/providers";
 import type { Category, Product } from "@/lib/types";
@@ -143,18 +143,14 @@ export function CategoryTable({
       {bulkSlugs.length > 0 && (
         <form
           action={bulkAction}
-          onSubmit={(e) => {
-            e.preventDefault();
-            const form = e.currentTarget;
-            void askConfirm({
+          onSubmit={(e) =>
+            confirmSubmit(e, askConfirm, {
               title: t("admin.table.delCategoriesTitle"),
               message: t("admin.table.delCategoriesMsg").replace("{n}", String(bulkSlugs.length)),
               confirmLabel: t("admin.table.delete"),
               tone: "danger",
-            }).then((ok) => {
-              if (ok) form.requestSubmit();
-            });
-          }}
+            })
+          }
           className="card px-4 py-3 flex flex-wrap items-center gap-3 !border-primary"
         >
           {bulkSlugs.map((s) => (
@@ -285,10 +281,8 @@ export function CategoryTable({
                   <form
                     action={deleteAction}
                     className="inline"
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      const form = e.currentTarget;
-                      void askConfirm({
+                    onSubmit={(e) =>
+                      confirmSubmit(e, askConfirm, {
                         title: t("admin.table.delCategoryTitle"),
                         message:
                           n > 0
@@ -296,10 +290,8 @@ export function CategoryTable({
                             : t("admin.table.delCategoryMsgEmpty").replace("{name}", cname(c)),
                         confirmLabel: t("admin.table.delete"),
                         tone: "danger",
-                      }).then((ok) => {
-                        if (ok) form.requestSubmit();
-                      });
-                    }}
+                      })
+                    }
                   >
                     <input type="hidden" name="slug" value={c.slug} />
                     <button

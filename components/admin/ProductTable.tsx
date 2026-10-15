@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useActionState, useMemo, useState } from "react";
 import { Check, LinkSimple, MagnifyingGlass, PencilSimple, Trash } from "@phosphor-icons/react";
 import { deleteProduct, deleteProducts, type ActionState } from "@/app/admin/actions";
-import { useConfirm, useToast } from "@/components/admin/Toast";
+import { confirmSubmit, useConfirm, useToast } from "@/components/admin/Toast";
 import { useActionToast } from "@/components/admin/useActionToast";
 import { useLang } from "@/components/providers";
 import type { Category, Product } from "@/lib/types";
@@ -166,18 +166,14 @@ export function ProductTable({
       {bulkSlugs.length > 0 && (
         <form
           action={bulkAction}
-          onSubmit={(e) => {
-            e.preventDefault();
-            const form = e.currentTarget;
-            void askConfirm({
+          onSubmit={(e) =>
+            confirmSubmit(e, askConfirm, {
               title: t("admin.table.delProductsTitle"),
               message: t("admin.table.delProductsMsg").replace("{n}", String(bulkSlugs.length)),
               confirmLabel: t("admin.table.delete"),
               tone: "danger",
-            }).then((ok) => {
-              if (ok) form.requestSubmit();
-            });
-          }}
+            })
+          }
           className="card px-4 py-3 flex flex-wrap items-center gap-3 !border-primary"
         >
           {bulkSlugs.map((s) => (
@@ -332,18 +328,14 @@ export function ProductTable({
                   <form
                     action={deleteAction}
                     className="inline"
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      const form = e.currentTarget;
-                      void askConfirm({
+                    onSubmit={(e) =>
+                      confirmSubmit(e, askConfirm, {
                         title: t("admin.table.delProductTitle"),
                         message: `« ${pname(p)} » ${t("admin.table.delProductMsg")}`,
                         confirmLabel: t("admin.table.delete"),
                         tone: "danger",
-                      }).then((ok) => {
-                        if (ok) form.requestSubmit();
-                      });
-                    }}
+                      })
+                    }
                   >
                     <input type="hidden" name="slug" value={p.slug} />
                     <button

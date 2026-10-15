@@ -14,7 +14,7 @@ import {
   type ActionState,
 } from "@/app/admin/actions";
 import { useActionToast } from "@/components/admin/useActionToast";
-import { useConfirm } from "@/components/admin/Toast";
+import { confirmSubmit, useConfirm } from "@/components/admin/Toast";
 import { useLang } from "@/components/providers";
 import type { BackupRow } from "@/lib/db/backups";
 
@@ -140,10 +140,8 @@ export function BackupsTable({ backups }: { backups: BackupRow[] }) {
                 </a>
                 <form
                   action={restoreAction}
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    const form = e.currentTarget;
-                    void askConfirm({
+                  onSubmit={(e) =>
+                    confirmSubmit(e, askConfirm, {
                       title: t("admin.backup.restoreTitle"),
                       message: t("admin.backup.restoreMsg").replace(
                         "{date}",
@@ -151,10 +149,8 @@ export function BackupsTable({ backups }: { backups: BackupRow[] }) {
                       ),
                       confirmLabel: t("admin.backup.restore"),
                       tone: "danger",
-                    }).then((ok) => {
-                      if (ok) form.requestSubmit();
-                    });
-                  }}
+                    })
+                  }
                 >
                   <input type="hidden" name="id" value={b.id} />
                   <button
@@ -167,18 +163,14 @@ export function BackupsTable({ backups }: { backups: BackupRow[] }) {
                 </form>
                 <form
                   action={deleteAction}
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    const form = e.currentTarget;
-                    void askConfirm({
+                  onSubmit={(e) =>
+                    confirmSubmit(e, askConfirm, {
                       title: t("admin.backup.delTitle"),
                       message: t("admin.backup.delMsg"),
                       confirmLabel: t("admin.backup.delete"),
                       tone: "danger",
-                    }).then((ok) => {
-                      if (ok) form.requestSubmit();
-                    });
-                  }}
+                    })
+                  }
                 >
                   <input type="hidden" name="id" value={b.id} />
                   <button

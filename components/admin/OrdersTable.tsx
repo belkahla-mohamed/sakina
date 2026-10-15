@@ -1,10 +1,10 @@
 ﻿"use client";
 
 import { useActionState, useMemo, useState } from "react";
-import { MapPin, Note, Phone, Trash, WhatsappLogo } from "@phosphor-icons/react";
+import { MagnifyingGlass, MapPin, Note, Phone, Trash, WhatsappLogo } from "@phosphor-icons/react";
 import { saveOrderNote, setOrderStatus, deleteOrders, type ActionState } from "@/app/admin/actions";
 import { useActionToast } from "@/components/admin/useActionToast";
-import { useConfirm } from "@/components/admin/Toast";
+import { confirmSubmit, useConfirm } from "@/components/admin/Toast";
 import { useLang } from "@/components/providers";
 import type { OrderRow, OrderStatus } from "@/lib/db/orders";
 
@@ -50,6 +50,7 @@ function waLink(phone: string): string {
 
 export function OrdersTable({ orders }: { orders: OrderRow[] }) {
   const [filter, setFilter] = useState("");
+  const [query, setQuery] = useState("");
   const [open, setOpen] = useState<Set<number>>(() => new Set());
   const [selected, setSelected] = useState<Set<number>>(new Set());
   const { t, lang } = useLang();
@@ -82,10 +83,19 @@ export function OrdersTable({ orders }: { orders: OrderRow[] }) {
     return m;
   }, [orders]);
 
-  const rows = useMemo(
-    () => (filter ? orders.filter((o) => o.status === filter) : orders),
-    [orders, filter]
-  );
+  const rows = useMemo(() => {
+    const needle = query.trim().toLowerCase();
+    return orders.filter((o) => {
+      if (filter && o.status !== filter) return false;
+      if (!needle) return true;
+      return (
+        o.reference.toLowerCase().includes(needle) ||
+        o.customer_name.toLowerCase().includes(needle) ||
+        o.customer_phone.includes(needle) ||
+        o.customer_city.toLowerCase().includes(needle)
+      );
+    });
+  }, [orders, filter, query]);
 
   const allVisible = rows.length > 0 && rows.every((o) => selected.has(o.id));
   const someVisible = rows.some((o) => selected.has(o.id));
@@ -133,6 +143,27 @@ export function OrdersTable({ orders }: { orders: OrderRow[] }) {
 
   return (
     <div className="space-y-4">
+      {/* Search */}
+      <div className="flex flex-wrap items-center gap-3">
+        <div className="relative flex-1 min-w-[220px]">
+          <MagnifyingGlass
+            size={17}
+            className="pointer-events-none absolute start-3 top-1/2 -translate-y-1/2 text-ink-soft"
+          />
+          <input
+            type="search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder={t("admin.table.searchOrders")}
+            aria-label={t("admin.table.searchOrderAria")}
+            className="field w-full ps-10 pe-3.5 py-2.5"
+          />
+        </div>
+        <span className="text-[13px] text-ink-soft whitespace-nowrap">
+          {rows.length} / {orders.length}
+        </span>
+      </div>
+
       {/* Status tabs */}
       <div className="flex flex-wrap items-center gap-2">
         <label className="flex items-center gap-2 px-3.5 py-2 rounded-full text-[13px] font-bold border-2 border-line cursor-pointer hover:border-ink/40">
@@ -171,25 +202,21 @@ export function OrdersTable({ orders }: { orders: OrderRow[] }) {
 
       {rows.length === 0 ? (
         <div className="card p-10 text-center text-[14.5px] text-ink-soft">
-          {t("admin.order.noFilter")}
+          {query.trim() ? t("admin.table.noOrderMatch") : t("admin.order.noFilter")}
         </div>
       ) : (
         <>
           {bulkIds.length > 0 && (
             <form
               action={bulkAction}
-              onSubmit={(e) => {
-                e.preventDefault();
-                const form = e.currentTarget;
-                void askConfirm({
+              onSubmit={(e) =>
+                confirmSubmit(e, askConfirm, {
                   title: t("admin.table.delOrdersTitle"),
                   message: t("admin.table.delOrdersMsg").replace("{n}", String(bulkIds.length)),
                   confirmLabel: t("admin.table.delete"),
                   tone: "danger",
-                }).then((ok) => {
-                  if (ok) form.requestSubmit();
-                });
-              }}
+                })
+              }
               className="card px-4 py-3 flex flex-wrap items-center gap-3 !border-primary"
             >
               {bulkIds.map((id) => (
@@ -365,6 +392,31 @@ export function OrdersTable({ orders }: { orders: OrderRow[] }) {
                         <span className="font-bold">{t("admin.order.noteIs")}</span> {o.note}
                       </p>
                     )}
+
+                    <div className="flex justify-end">
+                      <form
+                        action={bulkAction}
+                        className="inline"
+                        onSubmit={(e) =>
+                          confirmSubmit(e, askConfirm, {
+                            title: t("admin.table.delOrderTitle"),
+                            message: t("admin.table.delOrderMsg").replace("{n}", o.reference),
+                            confirmLabel: t("admin.table.delete"),
+                            tone: "danger",
+                          })
+                        }
+                      >
+                        <input type="hidden" name="ids" value={o.id} />
+                        <button
+                          type="submit"
+                          aria-label={`${t("admin.table.delete")} ${o.reference}`}
+                          className="btn !px-3 !py-2 text-[13px] border-2 border-line text-primary hover:border-primary"
+                        >
+                          <Trash size={15} weight="bold" />
+                          {t("admin.table.delete")}
+                        </button>
+                      </form>
+                    </div>
                   </div>
                 )}
               </li>
