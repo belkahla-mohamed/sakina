@@ -26,17 +26,16 @@ export default async function HomePage() {
     .slice(0, 8);
   const news = products.filter((p) => p.is_new).slice(0, 4);
   const promo = products.find((p) => p.slug === "plaid-chenille-150x200") ?? products[0];
-  const heroSamples = bestsellers.slice(0, 4);
 
   return (
     <>
       {slides.length > 0 && <HeroSlider slides={slides} />}
-      <Hero samples={heroSamples} />
+      <Hero />
       <ProductGrid titleKey="home.newTitle" products={news} href="/shop?sort=new" />
       <ProductGrid titleKey="home.bestTitle" products={bestsellers} href="/shop?sort=best" />
-      <TrustStrip />
       <PromoPack product={promo} />
       <CategoryBento categories={categories} counts={counts} />
+      <TrustStrip />
       <Testimonials />
       <FaqAccordion />
       <CtaSteps />
