@@ -29,11 +29,13 @@ export function SlideContent({
 
   if (!title && !text && !btn1 && !btn2) return null;
 
+  const ar = lang === "ar" ? "ar" : "";
+
   return (
-    <div className={compact ? "space-y-2" : "space-y-3"}>
+    <div className={`space-y-3 ${compact ? "text-[13px]" : ""}`}>
       {title && (
         <h2
-          className={`font-display font-bold text-white leading-tight ${
+          className={`font-display font-bold text-white leading-tight ${ar} ${
             compact ? "text-[18px]" : "text-[28px] md:text-[40px]"
           }`}
         >
@@ -42,7 +44,7 @@ export function SlideContent({
       )}
       {text && (
         <p
-          className={`text-white/85 max-w-lg ${compact ? "text-[12.5px]" : "text-[15px] md:text-[17px]"}`}
+          className={`text-white/85 max-w-lg ${ar} ${compact ? "text-[12.5px]" : "text-[15px] md:text-[17px]"}`}
         >
           {text}
         </p>

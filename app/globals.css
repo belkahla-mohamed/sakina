@@ -53,16 +53,20 @@ summary {
   transform: rotate(180deg);
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--font-display);
-  font-weight: 400;
-  line-height: 1.2;
-  color: var(--color-ink);
+/* Element defaults live in @layer base so Tailwind utilities (text-white…)
+   can override them — unlayered rules always beat layered utilities. */
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--color-ink);
+  }
 }
 
 .ar {
