@@ -22,6 +22,11 @@ import { dbUpdateOrderStatus, dbUpdateOrderNote, dbDeleteOrders, type OrderStatu
 import { dbSetReviewStatus, dbDeleteReview, dbDeleteReviews, type ReviewStatus } from "@/lib/db/reviews";
 import { dbUpsertSetting } from "@/lib/db/settings";
 import {
+  HERO_SLIDES_KEY,
+  MAX_SLIDES,
+  normalizeSlide,
+} from "@/lib/hero-slides";
+import {
   dbCreateBackup,
   dbDeleteBackup,
   dbRestoreBackup,
@@ -671,4 +676,48 @@ export async function deleteBackup(
   }
   revalidatePath("/admin/backups");
   return { ok: t("admin.msg.backupDeleted") };
+}
+
+/* ---------------- Hero slider ---------------- */
+
+export async function saveHeroSlides(
+  _prev: ActionState,
+  fd: FormData
+): Promise<ActionState> {
+  await requireAdmin();
+  const t = await adminT();
+  const raw = str(fd.get("slides"));
+  if (!raw) {
+    return { error: t("admin.msg.slidesEmpty"), solution: t("admin.msg.slidesEmptySol") };
+  }
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(raw);
+  } catch {
+    return { error: t("admin.msg.slidesBad"), solution: t("admin.msg.refresh") };
+  }
+  if (!Array.isArray(parsed)) {
+    return { error: t("admin.msg.slidesBad"), solution: t("admin.msg.refresh") };
+  }
+  if (parsed.length > MAX_SLIDES) {
+    return {
+      error: t("admin.msg.slidesTooMany").replace("{n}", String(MAX_SLIDES)),
+      solution: t("admin.msg.slidesTooManySol").replace("{n}", String(MAX_SLIDES)),
+    };
+  }
+  // normalizeSlide drops empty entries and clamps every field.
+  const slides = parsed
+    .map((entry) => normalizeSlide(entry))
+    .filter((s): s is NonNullable<typeof s> => s !== null);
+  try {
+    await dbUpsertSetting(HERO_SLIDES_KEY, JSON.stringify(slides));
+  } catch (e) {
+    return actionState(e, t.lang);
+  }
+  updateTag("settings");
+  revalidatePath("/", "layout");
+  return {
+    ok: t("admin.msg.slidesSaved"),
+    okSolution: t("admin.msg.slidesSavedSol"),
+  };
 }

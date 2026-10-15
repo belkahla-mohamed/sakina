@@ -2,6 +2,8 @@ import "server-only";
 import { cacheLife, cacheTag } from "next/cache";
 import { dbSettings } from "@/lib/db/settings";
 import { SITE, type PublicSettings } from "@/lib/config";
+import { parseSlides, activeSlides, HERO_SLIDES_KEY } from "@/lib/hero-slides";
+import type { HeroSlide } from "@/lib/types";
 
 export type { PublicSettings };
 
@@ -48,5 +50,18 @@ export async function getPublicSettings(): Promise<PublicSettings> {
     };
   } catch {
     return FALLBACK_SETTINGS;
+  }
+}
+
+/** Active homepage slider slides. Cached with settings so admin saves show up now. */
+export async function getHeroSlides(): Promise<HeroSlide[]> {
+  "use cache";
+  cacheLife("minutes");
+  cacheTag("settings");
+  try {
+    const map = await dbSettings();
+    return activeSlides(parseSlides(map[HERO_SLIDES_KEY]));
+  } catch {
+    return [];
   }
 }

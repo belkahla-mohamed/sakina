@@ -86,8 +86,11 @@ export function Navbar({
         </button>
 
         {/* logo */}
-        <Link href="/" className="flex items-center gap-3 shrink-0 py-1.5">
+        <Link href="/" className="flex items-center gap-2 sm:gap-3 shrink-0 py-1.5">
           <BrandMark className="h-9 w-auto md:h-10 shrink-0" />
+          <span className="lg:hidden font-display font-bold text-[15px] sm:text-[17px] tracking-tight whitespace-nowrap">
+            Sakina
+          </span>
           <span className="hidden lg:flex items-center gap-2.5">
             <Wordmark className="h-[13px] w-auto xl:h-[15px]" />
             <span className="ar hidden xl:inline text-[12px] text-ink-soft">ساكينا</span>

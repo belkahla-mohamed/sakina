@@ -18,6 +18,7 @@ import { v2 as cloudinary } from "cloudinary";
 const FOLDERS = {
   product: "sakina_stores/products",
   category: "sakina_stores/categories",
+  hero: "sakina_stores/hero",
   misc: "sakina_stores/misc",
 } as const;
 
