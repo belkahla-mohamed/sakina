@@ -3,9 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useActionState, useMemo, useState } from "react";
-import { DeviceMobile, Handbag, Lamp, MagnifyingGlass, PencilSimple, Pen, Sparkle, Star, Trash } from "@phosphor-icons/react";
+import { Check, DeviceMobile, Handbag, Lamp, LinkSimple, MagnifyingGlass, PencilSimple, Pen, Sparkle, Star, Trash } from "@phosphor-icons/react";
 import { deleteCategory, deleteCategories, type ActionState } from "@/app/admin/actions";
-import { useConfirm } from "@/components/admin/Toast";
+import { useConfirm, useToast } from "@/components/admin/Toast";
 import { useActionToast } from "@/components/admin/useActionToast";
 import { useLang } from "@/components/providers";
 import type { Category, Product } from "@/lib/types";
@@ -18,7 +18,7 @@ const ICONS: Record<string, typeof Lamp> = {
   pen: Pen,
 };
 
-const COLS = "md:grid-cols-[24px_minmax(0,1.7fr)_minmax(0,0.8fr)_minmax(0,0.55fr)_minmax(0,0.85fr)_190px]";
+const COLS = "md:grid-cols-[24px_minmax(0,1.7fr)_minmax(0,0.8fr)_minmax(0,0.55fr)_minmax(0,0.85fr)_230px]";
 
 export function CategoryTable({
   categories,
@@ -42,8 +42,33 @@ export function CategoryTable({
   useActionToast(deleteState);
   useActionToast(bulkState);
   const askConfirm = useConfirm();
+  const toast = useToast();
   const { t, lang } = useLang();
   const cname = (c: Category) => (lang === "ar" ? c.name_ar : c.name_fr);
+  const [copiedSlug, setCopiedSlug] = useState<string | null>(null);
+
+  async function copyLink(slug: string) {
+    const url = `${window.location.origin}/shop?cat=${slug}`;
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(url);
+      } else {
+        const ta = document.createElement("textarea");
+        ta.value = url;
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        ta.remove();
+      }
+      setCopiedSlug(slug);
+      toast.success(t("admin.msg.linkCopied"), t("admin.msg.linkCopiedSol"));
+      window.setTimeout(() => setCopiedSlug((c) => (c === slug ? null : c)), 1500);
+    } catch {
+      toast.error(t("admin.msg.linkCopyFail"), t("admin.msg.linkCopyFailSol"));
+    }
+  }
 
   const allSlugs = useMemo(() => new Set(categories.map((c) => c.slug)), [categories]);
   const bulkSlugs = useMemo(
@@ -236,6 +261,19 @@ export function CategoryTable({
 
                 {/* Actions */}
                 <div className="mt-3 md:mt-0 flex items-center gap-2 md:justify-end">
+                  <button
+                    type="button"
+                    onClick={() => void copyLink(c.slug)}
+                    aria-label={`${t("admin.table.copyLink")} ${cname(c)}`}
+                    title={t("admin.table.copyLink")}
+                    className="btn !px-3 !py-2 text-[13px] border-2 border-line text-ink hover:border-ink"
+                  >
+                    {copiedSlug === c.slug ? (
+                      <Check size={15} weight="bold" className="text-teal-deep" />
+                    ) : (
+                      <LinkSimple size={15} weight="bold" />
+                    )}
+                  </button>
                   <Link
                     href={`/admin/categories/${c.slug}`}
                     className="btn btn-outline !px-3 !py-2 text-[13px]"
