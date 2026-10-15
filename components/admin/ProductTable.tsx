@@ -3,9 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useActionState, useMemo, useState } from "react";
-import { MagnifyingGlass, PencilSimple, Trash } from "@phosphor-icons/react";
+import { Check, LinkSimple, MagnifyingGlass, PencilSimple, Trash } from "@phosphor-icons/react";
 import { deleteProduct, deleteProducts, type ActionState } from "@/app/admin/actions";
-import { useConfirm } from "@/components/admin/Toast";
+import { useConfirm, useToast } from "@/components/admin/Toast";
 import { useActionToast } from "@/components/admin/useActionToast";
 import { useLang } from "@/components/providers";
 import type { Category, Product } from "@/lib/types";
@@ -20,7 +20,7 @@ function formatPrice(n: number): string {
   return `${n.toFixed(2).replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, " ")} dh`;
 }
 
-const COLS = "md:grid-cols-[24px_minmax(0,2.6fr)_minmax(0,1.15fr)_minmax(0,1fr)_minmax(0,0.9fr)_190px]";
+const COLS = "md:grid-cols-[24px_minmax(0,2.6fr)_minmax(0,1.15fr)_minmax(0,1fr)_minmax(0,0.9fr)_230px]";
 
 export function ProductTable({
   products,
@@ -43,7 +43,33 @@ export function ProductTable({
   useActionToast(deleteState);
   useActionToast(bulkState);
   const askConfirm = useConfirm();
+  const toast = useToast();
   const { t, lang } = useLang();
+  const [copiedSlug, setCopiedSlug] = useState<string | null>(null);
+
+  async function copyLink(slug: string) {
+    const url = `${window.location.origin}/product/${slug}`;
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(url);
+      } else {
+        // Fallback for older browsers / non-secure contexts.
+        const ta = document.createElement("textarea");
+        ta.value = url;
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        ta.remove();
+      }
+      setCopiedSlug(slug);
+      toast.success(t("admin.msg.linkCopied"), t("admin.msg.linkCopiedSol"));
+      window.setTimeout(() => setCopiedSlug((c) => (c === slug ? null : c)), 1500);
+    } catch {
+      toast.error(t("admin.msg.linkCopyFail"), t("admin.msg.linkCopyFailSol"));
+    }
+  }
 
   const allSlugs = useMemo(() => new Set(products.map((p) => p.slug)), [products]);
   const bulkSlugs = useMemo(
@@ -278,6 +304,19 @@ export function ProductTable({
 
                 {/* Actions */}
                 <div className="mt-3 md:mt-0 flex items-center gap-2 md:justify-end">
+                  <button
+                    type="button"
+                    onClick={() => void copyLink(p.slug)}
+                    aria-label={`${t("admin.table.copyLink")} ${pname(p)}`}
+                    title={t("admin.table.copyLink")}
+                    className="btn !px-3 !py-2 text-[13px] border-2 border-line text-ink hover:border-ink"
+                  >
+                    {copiedSlug === p.slug ? (
+                      <Check size={15} weight="bold" className="text-teal-deep" />
+                    ) : (
+                      <LinkSimple size={15} weight="bold" />
+                    )}
+                  </button>
                   <Link
                     href={`/admin/produits/${p.slug}`}
                     className="btn btn-outline !px-3 !py-2 text-[13px]"
