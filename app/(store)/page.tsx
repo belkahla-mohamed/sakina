@@ -1,5 +1,5 @@
 import { getCategories, getProducts } from "@/lib/catalog";
-import { getHeroSlides } from "@/lib/site";
+import { getHeroSlides, getProductRotation } from "@/lib/site";
 import { Hero } from "@/components/home/Hero";
 import { HeroSlider } from "@/components/home/HeroSlider";
 import { TrustStrip } from "@/components/home/TrustStrip";
@@ -11,10 +11,11 @@ import { FaqAccordion } from "@/components/home/FaqAccordion";
 import { CtaSteps } from "@/components/home/CtaSteps";
 
 export default async function HomePage() {
-  const [products, categories, slides] = await Promise.all([
+  const [products, categories, slides, rotate] = await Promise.all([
     getProducts(),
     getCategories(),
     getHeroSlides(),
+    getProductRotation(),
   ]);
 
   const counts: Record<string, number> = {};
@@ -31,8 +32,8 @@ export default async function HomePage() {
     <>
       {slides.length > 0 && <HeroSlider slides={slides} />}
       <Hero />
-      <ProductGrid titleKey="home.newTitle" products={news} href="/shop?sort=new" />
-      <ProductGrid titleKey="home.bestTitle" products={bestsellers} href="/shop?sort=best" />
+      <ProductGrid titleKey="home.newTitle" products={news} href="/shop?sort=new" autoRotate={rotate} />
+      <ProductGrid titleKey="home.bestTitle" products={bestsellers} href="/shop?sort=best" autoRotate={rotate} />
       <PromoPack product={promo} />
       <CategoryBento categories={categories} counts={counts} />
       <TrustStrip />

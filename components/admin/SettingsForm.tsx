@@ -176,6 +176,19 @@ export function SettingsForm({ settings }: { settings: SettingsMap }) {
         </div>
       </section>
 
+      {/* Appearance */}
+      <section className="card p-5 space-y-4">
+        <h2 className="font-display text-[17px] font-bold">{t("admin.settings.appearance")}</h2>
+        <label className="flex items-start gap-2.5 cursor-pointer">
+          <input type="checkbox" name="product_rotation" value="1" defaultChecked={settings.product_rotation !== "0"} className="w-4.5 h-4.5 accent-primary mt-0.5" />
+          <input type="hidden" name="product_rotation" value="0" />
+          <span>
+            <span className="block text-[13.5px] font-bold">{t("admin.settings.rotation")}</span>
+            <span className={hint}>{t("admin.settings.rotationHint")}</span>
+          </span>
+        </label>
+      </section>
+
       <div className="flex items-start gap-2.5 text-[13px] text-ink-soft bg-milk border border-line rounded-[12px] px-4 py-3">
         <Info size={17} className="shrink-0 mt-0.5" />
         <p>

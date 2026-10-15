@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { getCategories, getProducts } from "@/lib/catalog";
+import { getProductRotation } from "@/lib/site";
 import { ShopView } from "@/components/shop/ShopView";
 import { PageSkeleton } from "@/components/PageSkeleton";
 
@@ -17,16 +18,18 @@ interface Search {
 }
 
 async function ShopContent({ searchParams }: { searchParams: Promise<Search> }) {
-  const [products, categories, params] = await Promise.all([
+  const [products, categories, params, rotate] = await Promise.all([
     getProducts(),
     getCategories(),
     searchParams,
+    getProductRotation(),
   ]);
 
   return (
     <ShopView
       products={products}
       categories={categories}
+      autoRotate={rotate}
       initial={{
         q: params.q ?? "",
         cat: params.cat ?? "",

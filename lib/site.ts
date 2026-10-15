@@ -53,6 +53,19 @@ export async function getPublicSettings(): Promise<PublicSettings> {
   }
 }
 
+/** Product-card photo auto-rotation. Cached with settings; defaults to ON. */
+export async function getProductRotation(): Promise<boolean> {
+  "use cache";
+  cacheLife("minutes");
+  cacheTag("settings");
+  try {
+    const map = await dbSettings();
+    return (map.product_rotation ?? "1") !== "0";
+  } catch {
+    return true;
+  }
+}
+
 /** Active homepage slider slides. Cached with settings so admin saves show up now. */
 export async function getHeroSlides(): Promise<HeroSlide[]> {
   "use cache";

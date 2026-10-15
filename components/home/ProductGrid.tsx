@@ -10,10 +10,12 @@ export function ProductGrid({
   titleKey,
   products,
   href,
+  autoRotate = true,
 }: {
   titleKey: TKey;
   products: Product[];
   href: string;
+  autoRotate?: boolean;
 }) {
   const { t } = useLang();
 
@@ -27,7 +29,7 @@ export function ProductGrid({
       </div>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {products.map((p, i) => (
-          <ProductCard key={p.slug} product={p} index={i} />
+          <ProductCard key={p.slug} product={p} index={i} autoRotate={autoRotate} />
         ))}
       </div>
     </section>

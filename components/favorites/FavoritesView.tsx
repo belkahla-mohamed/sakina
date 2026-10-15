@@ -5,7 +5,7 @@ import { useFavs, useLang } from "@/components/providers";
 import { ProductCard } from "@/components/ProductCard";
 import type { Product } from "@/lib/types";
 
-export function FavoritesView({ products }: { products: Product[] }) {
+export function FavoritesView({ products, autoRotate = true }: { products: Product[]; autoRotate?: boolean }) {
   const { t } = useLang();
   const { slugs } = useFavs();
 
@@ -35,7 +35,7 @@ export function FavoritesView({ products }: { products: Product[] }) {
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6">
         {items.map((product, i) => (
-          <ProductCard key={product.slug} product={product} index={i} />
+          <ProductCard key={product.slug} product={product} index={i} autoRotate={autoRotate} />
         ))}
       </div>
     </div>

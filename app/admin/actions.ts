@@ -583,6 +583,7 @@ const SETTING_KEYS = [
   "social_instagram",
   "social_tiktok",
   "social_facebook",
+  "product_rotation",
 ] as const;
 
 export async function saveSettings(

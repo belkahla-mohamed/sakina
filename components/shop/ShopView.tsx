@@ -18,10 +18,12 @@ export function ShopView({
   products,
   categories,
   initial,
+  autoRotate = true,
 }: {
   products: Product[];
   categories: Category[];
   initial: Initial;
+  autoRotate?: boolean;
 }) {
   const { lang, t } = useLang();
   const [q, setQ] = useState(initial.q);
@@ -115,7 +117,7 @@ export function ShopView({
           className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-3"
         >
           {filtered.map((p, i) => (
-            <ProductCard key={p.slug} product={p} index={i} />
+            <ProductCard key={p.slug} product={p} index={i} autoRotate={autoRotate} />
           ))}
         </div>
       )}

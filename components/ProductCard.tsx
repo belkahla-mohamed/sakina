@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Heart, Check } from "@phosphor-icons/react";
@@ -15,12 +15,36 @@ const BADGE_STYLE: Record<string, string> = {
   epuise: "bg-ink text-white",
 };
 
-export function ProductCard({ product, index = 0 }: { product: Product; index?: number }) {
+const ROTATE_MS = 3200;
+
+export function ProductCard({
+  product,
+  index = 0,
+  autoRotate = true,
+}: {
+  product: Product;
+  index?: number;
+  autoRotate?: boolean;
+}) {
   const { lang, t } = useLang();
   const { add } = useCart();
   const { has, toggle } = useFavs();
   const [added, setAdded] = useState(false);
   const liked = has(product.slug);
+
+  const gallery = product.images?.length ? product.images : [product.image];
+  const [frame, setFrame] = useState(0);
+
+  useEffect(() => {
+    if (!autoRotate || gallery.length < 2) return;
+    const id = window.setInterval(
+      () => setFrame((i) => (i + 1) % gallery.length),
+      ROTATE_MS
+    );
+    return () => window.clearInterval(id);
+  }, [gallery.length, autoRotate]);
+
+  const shown = autoRotate ? frame : 0;
 
   const soldOut = product.badge === "epuise" || product.stock <= 0;
 
@@ -41,13 +65,19 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
     >
       <div className="relative aspect-[4/3] overflow-hidden">
         <Link href={`/product/${product.slug}`} className="absolute inset-0 block">
-          <Image
-            src={product.image}
-            alt={lang === "ar" ? product.name_ar : product.name_fr}
-            fill
-            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
-          />
+          {gallery.map((src, i) => (
+            <Image
+              key={`${src}-${i}`}
+              src={src}
+              alt={lang === "ar" ? product.name_ar : product.name_fr}
+              fill
+              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+              className={`object-cover transition-opacity duration-700 group-hover:scale-105 ${
+                i === shown ? "opacity-100" : "opacity-0"
+              }`}
+              priority={i === 0 && index === 0}
+            />
+          ))}
         </Link>
 
         {product.badge && (
