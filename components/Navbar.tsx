@@ -28,7 +28,7 @@ export function Navbar({
 }) {
   const { lang, setLang, t } = useLang();
   const settings = useSettings();
-  const { count } = useCart();
+  const { count, open: openCart } = useCart();
   const { count: favCount } = useFavs();
   const router = useRouter();
 
@@ -146,9 +146,11 @@ export function Navbar({
             )}
           </Link>
 
-          <Link
-            href="/cart"
+          <button
+            type="button"
+            onClick={openCart}
             aria-label={t("cart.title")}
+            aria-haspopup="dialog"
             className="relative w-11 h-11 flex items-center justify-center hover:text-primary"
           >
             <svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -164,7 +166,7 @@ export function Navbar({
                 {count}
               </span>
             )}
-          </Link>
+          </button>
 
           <a
             href={`https://wa.me/${settings.whatsapp}`}

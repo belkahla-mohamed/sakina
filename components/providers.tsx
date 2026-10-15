@@ -6,6 +6,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useState,
   useSyncExternalStore,
   type ReactNode,
 } from "react";
@@ -96,6 +97,10 @@ interface CartValue {
   setQty: (slug: string, qty: number) => void;
   remove: (slug: string) => void;
   clear: () => void;
+  /** Side-drawer visibility — `add()` opens it automatically. */
+  isOpen: boolean;
+  open: () => void;
+  close: () => void;
 }
 
 const CartContext = createContext<CartValue | null>(null);
@@ -159,6 +164,7 @@ export function Providers({
     storedLang === "ar" || storedLang === "fr" ? storedLang : initialLang ?? "fr";
   const entries = useMemo(() => parseCart(storedCart), [storedCart]);
   const favSlugs = useMemo(() => parseFavs(storedFavs), [storedFavs]);
+  const [cartOpen, setCartOpen] = useState(false);
 
   useEffect(() => {
     document.documentElement.lang = lang;
@@ -179,6 +185,7 @@ export function Providers({
         ? entries.map((e) => (e.slug === slug ? { ...e, qty: e.qty + qty } : e))
         : [...entries, { slug, qty }];
       persistEntries(next);
+      setCartOpen(true);
     },
     [entries, persistEntries]
   );
@@ -232,8 +239,11 @@ export function Providers({
       setQty,
       remove,
       clear,
+      isOpen: cartOpen,
+      open: () => setCartOpen(true),
+      close: () => setCartOpen(false),
     }),
-    [entries, add, setQty, remove, clear]
+    [entries, add, setQty, remove, clear, cartOpen]
   );
 
   const favsValue = useMemo<FavsValue>(

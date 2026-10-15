@@ -2,6 +2,7 @@ import { getCategories, getProducts } from "@/lib/catalog";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { CartDrawer } from "@/components/cart/CartDrawer";
 
 export default async function StoreLayout({
   children,
@@ -17,6 +18,7 @@ export default async function StoreLayout({
         {children}
       </main>
       <Footer />
+      <CartDrawer products={products} />
     </>
   );
 }
