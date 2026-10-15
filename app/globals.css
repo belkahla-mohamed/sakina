@@ -88,60 +88,64 @@ h6.ar {
   font-family: var(--font-arabic);
 }
 
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.55rem;
-  border: 1px solid transparent;
-  border-radius: 2px;
-  font-family: var(--font-body);
-  font-weight: 700;
-  font-size: 12px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  line-height: 1.2;
-  padding: 1rem 2rem;
-  cursor: pointer;
-  touch-action: manipulation;
-  white-space: nowrap;
-  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease,
-    opacity 0.2s ease;
-}
-.btn:active:not(:disabled) {
-  opacity: 0.85;
-}
-.btn-primary {
-  background: var(--color-brick);
-  color: var(--color-cream);
-}
-.btn-primary:hover:not(:disabled) {
-  background: var(--color-brick-deep);
-}
-.btn-secondary {
-  background: var(--color-ink);
-  color: var(--color-cream);
-}
-.btn-highlight {
-  background: var(--color-brick);
-  color: var(--color-cream);
-}
-.btn-outline {
-  background: transparent;
-  color: var(--color-ink);
-  border-color: var(--color-ink);
-}
-.btn-outline:hover:not(:disabled) {
-  background: var(--color-ink);
-  color: var(--color-cream);
-}
-.btn-wa {
-  background: var(--color-wa);
-  color: var(--color-ink);
-}
-.btn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
+/* Buttons live in @layer components so utilities (border-white, bg-white…)
+   can override them — unlayered rules always beat layered utilities. */
+@layer components {
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    line-height: 1.2;
+    padding: 1rem 2rem;
+    cursor: pointer;
+    touch-action: manipulation;
+    white-space: nowrap;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease,
+      opacity 0.2s ease;
+  }
+  .btn:active:not(:disabled) {
+    opacity: 0.85;
+  }
+  .btn-primary {
+    background: var(--color-brick);
+    color: var(--color-cream);
+  }
+  .btn-primary:hover:not(:disabled) {
+    background: var(--color-brick-deep);
+  }
+  .btn-secondary {
+    background: var(--color-ink);
+    color: var(--color-cream);
+  }
+  .btn-highlight {
+    background: var(--color-brick);
+    color: var(--color-cream);
+  }
+  .btn-outline {
+    background: transparent;
+    color: var(--color-ink);
+    border-color: var(--color-ink);
+  }
+  .btn-outline:hover:not(:disabled) {
+    background: var(--color-ink);
+    color: var(--color-cream);
+  }
+  .btn-wa {
+    background: var(--color-wa);
+    color: var(--color-ink);
+  }
+  .btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
 }
 
 .chip {

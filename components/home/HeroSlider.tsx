@@ -152,17 +152,17 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
               type="button"
               onClick={() => go(index - 1)}
               aria-label={lang === "ar" ? "الشريحة السابقة" : "Slide précédent"}
-              className="absolute top-1/2 -translate-y-1/2 start-2 md:start-4 w-10 h-10 rounded-full bg-white/15 backdrop-blur border border-white/25 text-white flex items-center justify-center hover:bg-white/30 transition-colors"
+              className="absolute bottom-2.5 start-2 md:bottom-auto md:top-1/2 md:-translate-y-1/2 md:start-4 w-9 h-9 md:w-10 md:h-10 rounded-full bg-white/20 backdrop-blur border border-white/30 text-white flex items-center justify-center hover:bg-white/35 transition-colors"
             >
-              <CaretLeft size={18} weight="bold" className="rtl:rotate-180" />
+              <CaretLeft size={17} weight="bold" className="rtl:rotate-180" />
             </button>
             <button
               type="button"
               onClick={() => go(index + 1)}
               aria-label={lang === "ar" ? "الشريحة التالية" : "Slide suivant"}
-              className="absolute top-1/2 -translate-y-1/2 end-2 md:end-4 w-10 h-10 rounded-full bg-white/15 backdrop-blur border border-white/25 text-white flex items-center justify-center hover:bg-white/30 transition-colors"
+              className="absolute bottom-2.5 end-2 md:bottom-auto md:top-1/2 md:-translate-y-1/2 md:end-4 w-9 h-9 md:w-10 md:h-10 rounded-full bg-white/20 backdrop-blur border border-white/30 text-white flex items-center justify-center hover:bg-white/35 transition-colors"
             >
-              <CaretRight size={18} weight="bold" className="rtl:rotate-180" />
+              <CaretRight size={17} weight="bold" className="rtl:rotate-180" />
             </button>
 
             <div className="absolute bottom-3 inset-x-0 flex justify-center gap-1.5">
