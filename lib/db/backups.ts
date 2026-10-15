@@ -200,8 +200,8 @@ export async function dbRestoreBackup(id: number): Promise<boolean> {
       await client.query(
         `insert into public.products
            (slug, name_fr, name_ar, category, price, old_price, badge, rating,
-            reviews, stock, is_new, is_bestseller, desc_fr, desc_ar, image, created_at)
-         values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16)`,
+            reviews, stock, is_new, is_bestseller, desc_fr, desc_ar, image, images, created_at)
+         values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17)`,
         [
           p.slug,
           p.name_fr,
@@ -218,6 +218,7 @@ export async function dbRestoreBackup(id: number): Promise<boolean> {
           p.desc_fr ?? null,
           p.desc_ar ?? null,
           p.image ?? null,
+          Array.isArray(p.images) && p.images.length > 0 ? p.images : null,
           p.created_at ?? new Date(),
         ]
       );

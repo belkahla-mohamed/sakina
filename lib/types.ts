@@ -31,6 +31,8 @@ export interface Product {
   desc_fr: string;
   desc_ar: string;
   image: string;
+  /** Ordered gallery (cover first). Older rows may not have it — fall back to `[image]`. */
+  images?: string[];
 }
 
 export interface CartLine {

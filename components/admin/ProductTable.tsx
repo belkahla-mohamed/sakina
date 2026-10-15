@@ -241,14 +241,18 @@ export function ProductTable({
                 />
                 {/* Product */}
                 <div className="flex items-start gap-3 min-w-0">
-                  <div className="relative w-14 h-14 shrink-0 rounded-[10px] overflow-hidden border border-line bg-highlight/30">
-                    <Image
-                      src={p.image}
-                      alt={pname(p)}
-                      fill
-                      sizes="56px"
-                      className="object-cover"
-                    />
+                  <div className="relative w-14 h-14 shrink-0 rounded-[10px] overflow-hidden border border-line bg-highlight/30 flex items-center justify-center">
+                    {p.image ? (
+                      <Image
+                        src={p.image}
+                        alt={pname(p)}
+                        fill
+                        sizes="56px"
+                        className="object-cover"
+                      />
+                    ) : (
+                      <span className="text-[11px] font-bold text-ink-soft">—</span>
+                    )}
                   </div>
                   <div className="min-w-0">
                     <p className="font-display font-bold text-[14.5px] leading-tight line-clamp-1">

@@ -1,5 +1,6 @@
+import { cacheLife, cacheTag } from "next/cache";
 import type { Badge, Category, Product } from "@/lib/types";
-import { getSupabase } from "@/lib/supabase";
+import { dbCategories, dbProducts } from "@/lib/db/store";
 import local from "@/data/catalog.json";
 
 const localCategories = local.categories as Category[];
@@ -13,42 +14,53 @@ const localProducts: Product[] = (local.products as unknown as LocalProduct[]).m
   ...p,
   badge: (p.badge as Badge) ?? null,
   image: p.image || `/img/products/${p.slug}.svg`,
+  images: [p.image || `/img/products/${p.slug}.svg`],
 }));
+
+// The storefront must read the SAME Postgres the admin writes to
+// (`DATABASE_URL` via lib/db/store). The seed JSON is only a dev
+// fallback when no database is configured — never a substitute for
+// a real (even empty) query result, otherwise deleted products
+// resurrect from catalog.json.
+// Products may legitimately have no image (DB row with null). Every render
+// site assumes a string, so normalise once here instead of guarding each one.
+const PLACEHOLDER = "/img/placeholder.svg";
+
+/** Cover first, extras after, duplicates dropped. Always a non-empty list. */
+function normalizeGallery(image: string | null, images?: string[] | null): string[] {
+  const cover = image || PLACEHOLDER;
+  const extras = (images ?? []).filter((u): u is string => Boolean(u) && u !== cover);
+  return [cover, ...extras];
+}
 
 export async function getCategories(): Promise<Category[]> {
   "use cache";
-  const supabase = getSupabase();
-  if (supabase) {
-    try {
-      const { data, error } = await supabase
-        .from("categories")
-        .select("*")
-        .order("featured", { ascending: false });
-      if (!error && data && data.length > 0) return data as Category[];
-      if (error) console.warn("[catalog] categories query failed, using local data:", error.message);
-    } catch (e) {
-      console.warn("[catalog] categories fetch failed, using local data:", e);
-    }
+  cacheLife("minutes");
+  cacheTag("categories");
+  if (!process.env.DATABASE_URL) return localCategories;
+  try {
+    return await dbCategories();
+  } catch (e) {
+    console.warn("[catalog] categories query failed, using local seed:", e);
+    return localCategories;
   }
-  return localCategories;
 }
 
 export async function getProducts(): Promise<Product[]> {
   "use cache";
-  const supabase = getSupabase();
-  if (supabase) {
-    try {
-      const { data, error } = await supabase
-        .from("products")
-        .select("*")
-        .order("is_bestseller", { ascending: false });
-      if (!error && data && data.length > 0) return data as Product[];
-      if (error) console.warn("[catalog] products query failed, using local data:", error.message);
-    } catch (e) {
-      console.warn("[catalog] products fetch failed, using local data:", e);
-    }
+  cacheLife("minutes");
+  cacheTag("products");
+  if (!process.env.DATABASE_URL) return localProducts;
+  try {
+    const rows = await dbProducts();
+    return rows.map((p) => {
+      const gallery = normalizeGallery(p.image, p.images);
+      return { ...p, image: gallery[0], images: gallery };
+    });
+  } catch (e) {
+    console.warn("[catalog] products query failed, using local seed:", e);
+    return localProducts;
   }
-  return localProducts;
 }
 
 export async function getProduct(slug: string): Promise<Product | undefined> {

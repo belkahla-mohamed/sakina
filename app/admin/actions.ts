@@ -209,6 +209,12 @@ function parseProductForm(fd: FormData): { input: ProductInput; isNew: boolean }
     desc_fr: str(fd.get("desc_fr")),
     desc_ar: str(fd.get("desc_ar")),
     image: str(fd.get("image")) || null,
+    images: fd
+      .getAll("images")
+      .filter((v): v is string => typeof v === "string")
+      .map((s) => s.trim())
+      .filter(Boolean)
+      .slice(0, 10),
   };
   return { input, isNew: !existing };
 }

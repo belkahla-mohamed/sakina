@@ -72,6 +72,7 @@ export interface ProductInput {
   desc_fr: string;
   desc_ar: string;
   image: string | null;
+  images: string[];
 }
 
 const PRODUCT_COLS = [
@@ -90,6 +91,7 @@ const PRODUCT_COLS = [
   "desc_fr",
   "desc_ar",
   "image",
+  "images",
 ] as const;
 
 function productValues(p: ProductInput): unknown[] {

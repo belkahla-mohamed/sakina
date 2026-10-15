@@ -16,6 +16,9 @@ export function ProductView({ product, related }: { product: Product; related: P
   const router = useRouter();
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
+  const gallery = product.images?.length ? product.images : [product.image];
+  const [frame, setFrame] = useState(0);
+  const activeSrc = gallery[frame] ?? product.image;
 
   const soldOut = product.badge === "epuise" || product.stock <= 0;
   const trust: { icon: typeof Truck; k: TKey }[] = [
@@ -53,25 +56,48 @@ export function ProductView({ product, related }: { product: Product; related: P
 
       <div className="grid md:grid-cols-2 gap-7 lg:gap-10">
         <div
-          className="card overflow-hidden relative aspect-[4/3] bg-highlight/30 anim-fade-up"
+          className="anim-fade-up space-y-3"
           style={{ animationDelay: "60ms" }}
         >
-          <Image
-            src={product.image}
-            alt={lang === "ar" ? product.name_ar : product.name_fr}
-            fill
-            priority
-            sizes="(max-width: 768px) 100vw, 50vw"
-            className="object-cover"
-          />
-          {product.badge && (
-            <span className="absolute top-3 start-3 bg-primary text-white rounded-full px-3 py-1 text-[10.5px] font-extrabold uppercase tracking-[0.06em]">
-              {product.badge === "promo"
-                ? t("product.promo")
-                : product.badge === "nouveau"
-                  ? t("product.new")
-                  : t("product.soldout")}
-            </span>
+          <div className="card overflow-hidden relative aspect-[4/3] bg-highlight/30">
+            <Image
+              key={activeSrc}
+              src={activeSrc}
+              alt={lang === "ar" ? product.name_ar : product.name_fr}
+              fill
+              priority
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="object-cover anim-fade-in"
+            />
+            {product.badge && (
+              <span className="absolute top-3 start-3 bg-primary text-white rounded-full px-3 py-1 text-[10.5px] font-extrabold uppercase tracking-[0.06em]">
+                {product.badge === "promo"
+                  ? t("product.promo")
+                  : product.badge === "nouveau"
+                    ? t("product.new")
+                    : t("product.soldout")}
+              </span>
+            )}
+          </div>
+
+          {gallery.length > 1 && (
+            <div className="flex flex-wrap gap-2.5" role="tablist" aria-label={t("product.gallery")}>
+              {gallery.map((src, i) => (
+                <button
+                  key={`${src}-${i}`}
+                  type="button"
+                  role="tab"
+                  aria-selected={i === frame}
+                  aria-label={`${t("product.gallery")} ${i + 1}`}
+                  onClick={() => setFrame(i)}
+                  className={`relative w-[72px] h-[72px] rounded-[10px] overflow-hidden border-2 transition-colors ${
+                    i === frame ? "border-primary" : "border-line hover:border-ink/40"
+                  }`}
+                >
+                  <Image src={src} alt="" fill sizes="72px" className="object-cover" />
+                </button>
+              ))}
+            </div>
           )}
         </div>
 

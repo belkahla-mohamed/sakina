@@ -3,7 +3,7 @@
 import { useActionState } from "react";
 import Link from "next/link";
 import { saveProduct, type ActionState } from "@/app/admin/actions";
-import { ImageField } from "@/components/admin/ImageField";
+import { MultiImageField } from "@/components/admin/MultiImageField";
 import { useActionToast } from "@/components/admin/useActionToast";
 import { useLang } from "@/components/providers";
 import type { Category, Product } from "@/lib/types";
@@ -171,9 +171,7 @@ export function ProductForm({
           </label>
           <textarea id="desc_ar" name="desc_ar" dir="rtl" rows={3} defaultValue={product?.desc_ar} className={`${field} ar resize-y`} />
         </div>
-        <div>
-          <ImageField value={product?.image ?? ""} />
-        </div>
+        <MultiImageField image={product?.image} images={product?.images} />
       </section>
 
       <div className="flex items-center gap-3">

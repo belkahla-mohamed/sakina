@@ -87,6 +87,7 @@ create table if not exists public.products (
   desc_fr text,
   desc_ar text,
   image text,
+  images text[],
   created_at timestamptz default now() not null,
   primary key (slug),
   foreign key (category) references public.categories (slug)
