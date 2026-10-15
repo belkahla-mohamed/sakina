@@ -50,7 +50,10 @@ export function CartDrawer({ products }: { products: Product[] }) {
   }, [isOpen]);
 
   return (
-    <div className="fixed inset-0 z-50" aria-hidden={!isOpen}>
+    <div
+      className={`fixed inset-0 z-50 ${isOpen ? "" : "pointer-events-none"}`}
+      aria-hidden={!isOpen}
+    >
       {/* Backdrop */}
       <div
         onClick={close}
