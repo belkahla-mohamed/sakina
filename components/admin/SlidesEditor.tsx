@@ -16,10 +16,49 @@ import { useActionToast } from "@/components/admin/useActionToast";
 import { SlideContent } from "@/components/home/HeroSlider";
 import { useLang } from "@/components/providers";
 import { emptySlide, MAX_SLIDES } from "@/lib/hero-slides";
+import type { TKey } from "@/lib/i18n";
 import type { HeroSlide } from "@/lib/types";
 
 const label = "block text-[13.5px] font-bold mb-1.5";
 const field = "field w-full px-3.5 py-2.5";
+
+const BRAND_SWATCHES: { hex: string; key: TKey }[] = [
+  { hex: "#76220a", key: "admin.slides.colorBrick" },
+  { hex: "#5c1a07", key: "admin.slides.colorBrickDeep" },
+  { hex: "#2a1d16", key: "admin.slides.colorInk" },
+  { hex: "#f4f0e6", key: "admin.slides.colorSand" },
+  { hex: "#fcfbf6", key: "admin.slides.colorCream" },
+];
+
+function ColorSwatches({
+  value,
+  onPick,
+}: {
+  value: string;
+  onPick: (hex: string) => void;
+}) {
+  const { t } = useLang();
+  return (
+    <div className="flex items-center gap-1.5 mt-2">
+      {BRAND_SWATCHES.map((c) => (
+        <button
+          key={c.hex}
+          type="button"
+          title={t(c.key)}
+          aria-label={t(c.key)}
+          aria-pressed={value.toLowerCase() === c.hex}
+          onClick={() => onPick(c.hex)}
+          className={`w-6 h-6 rounded-full border-2 transition-all ${
+            value.toLowerCase() === c.hex
+              ? "border-ink scale-110"
+              : "border-line hover:border-ink/50"
+          }`}
+          style={{ backgroundColor: c.hex }}
+        />
+      ))}
+    </div>
+  );
+}
 
 export function SlidesEditor({ initial }: { initial: HeroSlide[] }) {
   const { t, lang } = useLang();
@@ -390,6 +429,10 @@ export function SlidesEditor({ initial }: { initial: HeroSlide[] }) {
                           {t("admin.slides.colorWhite")}
                         </button>
                       </div>
+                      <ColorSwatches
+                        value={selected.title_color || "#ffffff"}
+                        onPick={(hex) => patch({ title_color: hex })}
+                      />
                     </div>
                     <div>
                       <span className={label}>{t("admin.slides.textColor")}</span>
@@ -409,6 +452,10 @@ export function SlidesEditor({ initial }: { initial: HeroSlide[] }) {
                           {t("admin.slides.colorWhite")}
                         </button>
                       </div>
+                      <ColorSwatches
+                        value={selected.text_color || "#ffffff"}
+                        onPick={(hex) => patch({ text_color: hex })}
+                      />
                     </div>
                   </div>
 
