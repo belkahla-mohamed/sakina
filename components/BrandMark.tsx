@@ -27,10 +27,28 @@ export function Wordmark({
 }) {
   return (
     <Image
-      src="/img/brand/wordmark.png"
+      src="/img/brand/sakina-stores.png"
       alt={decorative ? "" : "Sakina Stores"}
-      width={732}
-      height={72}
+      width={859}
+      height={74}
+      className={className}
+    />
+  );
+}
+
+export function SakinaShort({
+  className = "",
+  decorative = true,
+}: {
+  className?: string;
+  decorative?: boolean;
+}) {
+  return (
+    <Image
+      src="/img/brand/sakina.png"
+      alt={decorative ? "" : "Sakina"}
+      width={527}
+      height={94}
       className={className}
     />
   );
