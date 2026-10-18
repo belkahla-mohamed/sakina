@@ -29,6 +29,24 @@ function hex(value: unknown): string {
   return /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(v) ? v.toLowerCase() : "";
 }
 
+/** Font family choice — "" = theme default, else "display" (Prata) or "body" (Karla). */
+function font(value: unknown): string {
+  return value === "display" || value === "body" ? value : "";
+}
+
+function alignOf(value: unknown): HeroSlide["align"] {
+  return value === "center" || value === "end" ? value : "start";
+}
+
+function valignOf(value: unknown): HeroSlide["valign"] {
+  return value === "center" ? value : "bottom";
+}
+
+/** Tri-state visibility: missing field (old JSON) = shown, "false" = hidden. */
+function vis(value: unknown): boolean {
+  return value === undefined ? true : bool(value);
+}
+
 /** Clamp to an integer 0–max (default when missing/unparseable). */
 function pct(value: unknown, fallback: number, max = 100): number {
   const n =
@@ -64,6 +82,22 @@ export function emptySlide(): HeroSlide {
     btn2_label_ar: "",
     btn2_href: "",
     active: true,
+    show_title: true,
+    show_text: true,
+    show_btns: true,
+    title_font: "",
+    text_font: "",
+    title_size: 0,
+    text_size: 0,
+    title_bold: true,
+    title_underline: false,
+    btn1_bg: "",
+    btn1_color: "",
+    btn2_bg: "",
+    btn2_color: "",
+    overlay_color: "",
+    align: "start",
+    valign: "bottom",
   };
 }
 
@@ -94,6 +128,22 @@ export function normalizeSlide(raw: unknown): HeroSlide | null {
     // Missing field (old JSON) → 100 keeps the previous look.
     overlay: s.overlay === undefined ? 100 : pct(s.overlay, 100),
     active: bool(s.active),
+    show_title: vis(s.show_title),
+    show_text: vis(s.show_text),
+    show_btns: vis(s.show_btns),
+    title_font: font(s.title_font),
+    text_font: font(s.text_font),
+    title_size: s.title_size === undefined ? 0 : pct(s.title_size, 0, 80),
+    text_size: s.text_size === undefined ? 0 : pct(s.text_size, 0, 48),
+    title_bold: s.title_bold === undefined ? true : bool(s.title_bold),
+    title_underline: bool(s.title_underline),
+    btn1_bg: hex(s.btn1_bg),
+    btn1_color: hex(s.btn1_color),
+    btn2_bg: hex(s.btn2_bg),
+    btn2_color: hex(s.btn2_color),
+    overlay_color: hex(s.overlay_color),
+    align: alignOf(s.align),
+    valign: valignOf(s.valign),
   };
 }
 

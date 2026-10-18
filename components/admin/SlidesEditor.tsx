@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useActionState, useState } from "react";
 import Image from "next/image";
@@ -13,7 +13,11 @@ import {
 import { saveHeroSlides, type ActionState } from "@/app/admin/actions";
 import { ImageField } from "@/components/admin/ImageField";
 import { useActionToast } from "@/components/admin/useActionToast";
-import { SlideContent } from "@/components/home/HeroSlider";
+import {
+  SlideContent,
+  slidePlacementClasses,
+  slideScrim,
+} from "@/components/home/HeroSlider";
 import { useLang } from "@/components/providers";
 import { emptySlide, MAX_SLIDES } from "@/lib/hero-slides";
 import type { TKey } from "@/lib/i18n";
@@ -309,6 +313,44 @@ export function SlidesEditor({ initial }: { initial: HeroSlide[] }) {
                   </div>
                 </div>
 
+                <fieldset className="space-y-2.5 border border-line rounded-[10px] p-3.5">
+                  <legend className="px-1 text-[12.5px] font-bold uppercase tracking-[0.1em] text-ink-soft">
+                    {t("admin.slides.visibility")}
+                  </legend>
+                  <div className="flex flex-wrap gap-x-6 gap-y-2">
+                    <label className="flex items-center gap-2 text-[13.5px] font-bold cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={selected.show_title}
+                        onChange={(e) => patch({ show_title: e.target.checked })}
+                        className="w-4 h-4 accent-primary cursor-pointer"
+                      />
+                      {t("admin.slides.showTitle")}
+                    </label>
+                    <label className="flex items-center gap-2 text-[13.5px] font-bold cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={selected.show_text}
+                        onChange={(e) => patch({ show_text: e.target.checked })}
+                        className="w-4 h-4 accent-primary cursor-pointer"
+                      />
+                      {t("admin.slides.showText")}
+                    </label>
+                    <label className="flex items-center gap-2 text-[13.5px] font-bold cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={selected.show_btns}
+                        onChange={(e) => patch({ show_btns: e.target.checked })}
+                        className="w-4 h-4 accent-primary cursor-pointer"
+                      />
+                      {t("admin.slides.showBtns")}
+                    </label>
+                  </div>
+                  <p className="text-[12px] text-ink-soft">
+                    {t("admin.slides.visibilityHint")}
+                  </p>
+                </fieldset>
+
                 <fieldset className="space-y-3 border border-line rounded-[10px] p-3.5">
                   <legend className="px-1 text-[12.5px] font-bold uppercase tracking-[0.1em] text-ink-soft">
                     {t("admin.slides.btn1")}
@@ -407,6 +449,90 @@ export function SlidesEditor({ initial }: { initial: HeroSlide[] }) {
 
                 <fieldset className="space-y-3 border border-line rounded-[10px] p-3.5">
                   <legend className="px-1 text-[12.5px] font-bold uppercase tracking-[0.1em] text-ink-soft">
+                    {t("admin.slides.btnStyle")}
+                  </legend>
+                  <div className="grid sm:grid-cols-2 gap-3">
+                    <div>
+                      <span className={label}>{t("admin.slides.btn1Bg")}</span>
+                      <div className="flex items-center gap-2 mt-1.5">
+                        <input
+                          type="color"
+                          aria-label={t("admin.slides.btn1Bg")}
+                          value={selected.btn1_bg || "#ffffff"}
+                          onChange={(e) => patch({ btn1_bg: e.target.value })}
+                          className="w-10 h-10 rounded-[6px] border border-line bg-white p-1 cursor-pointer"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => patch({ btn1_bg: "" })}
+                          className="text-[12px] font-bold text-ink-soft underline underline-offset-2 hover:text-ink"
+                        >
+                          {t("admin.slides.colorDefault")}
+                        </button>
+                      </div>
+                    </div>
+                    <div>
+                      <span className={label}>{t("admin.slides.btn1Color")}</span>
+                      <div className="flex items-center gap-2 mt-1.5">
+                        <input
+                          type="color"
+                          aria-label={t("admin.slides.btn1Color")}
+                          value={selected.btn1_color || "#2a1d16"}
+                          onChange={(e) => patch({ btn1_color: e.target.value })}
+                          className="w-10 h-10 rounded-[6px] border border-line bg-white p-1 cursor-pointer"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => patch({ btn1_color: "" })}
+                          className="text-[12px] font-bold text-ink-soft underline underline-offset-2 hover:text-ink"
+                        >
+                          {t("admin.slides.colorDefault")}
+                        </button>
+                      </div>
+                    </div>
+                    <div>
+                      <span className={label}>{t("admin.slides.btn2Bg")}</span>
+                      <div className="flex items-center gap-2 mt-1.5">
+                        <input
+                          type="color"
+                          aria-label={t("admin.slides.btn2Bg")}
+                          value={selected.btn2_bg || "#000000"}
+                          onChange={(e) => patch({ btn2_bg: e.target.value })}
+                          className="w-10 h-10 rounded-[6px] border border-line bg-white p-1 cursor-pointer"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => patch({ btn2_bg: "" })}
+                          className="text-[12px] font-bold text-ink-soft underline underline-offset-2 hover:text-ink"
+                        >
+                          {t("admin.slides.colorDefault")}
+                        </button>
+                      </div>
+                    </div>
+                    <div>
+                      <span className={label}>{t("admin.slides.btn2Color")}</span>
+                      <div className="flex items-center gap-2 mt-1.5">
+                        <input
+                          type="color"
+                          aria-label={t("admin.slides.btn2Color")}
+                          value={selected.btn2_color || "#ffffff"}
+                          onChange={(e) => patch({ btn2_color: e.target.value })}
+                          className="w-10 h-10 rounded-[6px] border border-line bg-white p-1 cursor-pointer"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => patch({ btn2_color: "" })}
+                          className="text-[12px] font-bold text-ink-soft underline underline-offset-2 hover:text-ink"
+                        >
+                          {t("admin.slides.colorDefault")}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </fieldset>
+
+                <fieldset className="space-y-3 border border-line rounded-[10px] p-3.5">
+                  <legend className="px-1 text-[12.5px] font-bold uppercase tracking-[0.1em] text-ink-soft">
                     {t("admin.slides.colors")}
                   </legend>
 
@@ -460,6 +586,26 @@ export function SlidesEditor({ initial }: { initial: HeroSlide[] }) {
                   </div>
 
                   <div>
+                    <div className="flex items-center gap-2">
+                      <span className={label}>{t("admin.slides.overlayColor")}</span>
+                      <button
+                        type="button"
+                        onClick={() => patch({ overlay_color: "" })}
+                        className="text-[12px] font-bold text-ink-soft underline underline-offset-2 hover:text-ink"
+                      >
+                        {t("admin.slides.colorDefault")}
+                      </button>
+                    </div>
+                    <input
+                      type="color"
+                      aria-label={t("admin.slides.overlayColor")}
+                      value={selected.overlay_color || "#2a1d16"}
+                      onChange={(e) => patch({ overlay_color: e.target.value })}
+                      className="w-10 h-10 rounded-[6px] border border-line bg-white p-1 cursor-pointer"
+                    />
+                  </div>
+
+                  <div>
                     <div className="flex items-center justify-between">
                       <label className={label} htmlFor={`ov-${selected.id}`}>
                         {t("admin.slides.overlay")}
@@ -483,6 +629,145 @@ export function SlidesEditor({ initial }: { initial: HeroSlide[] }) {
                     </p>
                   </div>
                 </fieldset>
+
+                <fieldset className="space-y-3 border border-line rounded-[10px] p-3.5">
+                  <legend className="px-1 text-[12.5px] font-bold uppercase tracking-[0.1em] text-ink-soft">
+                    {t("admin.slides.typography")}
+                  </legend>
+                  <div className="grid sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className={label} htmlFor={`tf-${selected.id}`}>
+                        {t("admin.slides.titleFont")}
+                      </label>
+                      <select
+                        id={`tf-${selected.id}`}
+                        value={selected.title_font}
+                        onChange={(e) => patch({ title_font: e.target.value })}
+                        className={field}
+                      >
+                        <option value="">{t("admin.slides.fontDefault")}</option>
+                        <option value="display">{t("admin.slides.fontDisplay")}</option>
+                        <option value="body">{t("admin.slides.fontBody")}</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className={label} htmlFor={`bf-${selected.id}`}>
+                        {t("admin.slides.textFont")}
+                      </label>
+                      <select
+                        id={`bf-${selected.id}`}
+                        value={selected.text_font}
+                        onChange={(e) => patch({ text_font: e.target.value })}
+                        className={field}
+                      >
+                        <option value="">{t("admin.slides.fontDefault")}</option>
+                        <option value="display">{t("admin.slides.fontDisplay")}</option>
+                        <option value="body">{t("admin.slides.fontBody")}</option>
+                      </select>
+                    </div>
+                    <div>
+                      <div className="flex items-center justify-between">
+                        <label className={label} htmlFor={`ts-${selected.id}`}>
+                          {t("admin.slides.titleSize")}
+                        </label>
+                        <span className="text-[12px] font-bold tabular-nums text-ink-soft">
+                          {selected.title_size ? `${selected.title_size}px` : "—"}
+                        </span>
+                      </div>
+                      <input
+                        type="number"
+                        id={`ts-${selected.id}`}
+                        min={12}
+                        max={80}
+                        value={selected.title_size || ""}
+                        placeholder="40"
+                        onChange={(e) =>
+                          patch({ title_size: Math.min(80, Math.max(0, Number(e.target.value) || 0)) })
+                        }
+                        className={field}
+                      />
+                    </div>
+                    <div>
+                      <div className="flex items-center justify-between">
+                        <label className={label} htmlFor={`xs-${selected.id}`}>
+                          {t("admin.slides.textSize")}
+                        </label>
+                        <span className="text-[12px] font-bold tabular-nums text-ink-soft">
+                          {selected.text_size ? `${selected.text_size}px` : "—"}
+                        </span>
+                      </div>
+                      <input
+                        type="number"
+                        id={`xs-${selected.id}`}
+                        min={10}
+                        max={48}
+                        value={selected.text_size || ""}
+                        placeholder="17"
+                        onChange={(e) =>
+                          patch({ text_size: Math.min(48, Math.max(0, Number(e.target.value) || 0)) })
+                        }
+                        className={field}
+                      />
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap gap-x-6 gap-y-2">
+                    <label className="flex items-center gap-2 text-[13.5px] font-bold cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={selected.title_bold}
+                        onChange={(e) => patch({ title_bold: e.target.checked })}
+                        className="w-4 h-4 accent-primary cursor-pointer"
+                      />
+                      {t("admin.slides.titleBold")}
+                    </label>
+                    <label className="flex items-center gap-2 text-[13.5px] font-bold cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={selected.title_underline}
+                        onChange={(e) => patch({ title_underline: e.target.checked })}
+                        className="w-4 h-4 accent-primary cursor-pointer"
+                      />
+                      {t("admin.slides.titleUnderline")}
+                    </label>
+                  </div>
+                </fieldset>
+
+                <fieldset className="space-y-3 border border-line rounded-[10px] p-3.5">
+                  <legend className="px-1 text-[12.5px] font-bold uppercase tracking-[0.1em] text-ink-soft">
+                    {t("admin.slides.placement")}
+                  </legend>
+                  <div className="grid sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className={label} htmlFor={`al-${selected.id}`}>
+                        {t("admin.slides.align")}
+                      </label>
+                      <select
+                        id={`al-${selected.id}`}
+                        value={selected.align}
+                        onChange={(e) => patch({ align: e.target.value as "start" | "center" | "end" })}
+                        className={field}
+                      >
+                        <option value="start">{t("admin.slides.alignStart")}</option>
+                        <option value="center">{t("admin.slides.alignCenter")}</option>
+                        <option value="end">{t("admin.slides.alignEnd")}</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className={label} htmlFor={`va-${selected.id}`}>
+                        {t("admin.slides.valign")}
+                      </label>
+                      <select
+                        id={`va-${selected.id}`}
+                        value={selected.valign}
+                        onChange={(e) => patch({ valign: e.target.value as "bottom" | "center" })}
+                        className={field}
+                      >
+                        <option value="bottom">{t("admin.slides.valignBottom")}</option>
+                        <option value="center">{t("admin.slides.valignCenter")}</option>
+                      </select>
+                    </div>
+                  </div>
+                </fieldset>
               </section>
 
               {/* Live preview — same SlideContent the homepage renders */}
@@ -501,11 +786,13 @@ export function SlidesEditor({ initial }: { initial: HeroSlide[] }) {
                     />
                   )}
                   <div
-                    className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/45 to-ink/20"
-                    style={{ opacity: selected.overlay / 100 }}
+                    className={slideScrim(selected).className}
+                    style={slideScrim(selected).style}
                     aria-hidden
                   />
-                  <div className="relative h-full flex items-end p-5">
+                  <div
+                    className={`relative h-full flex ${slidePlacementClasses(selected)} p-5`}
+                  >
                     <SlideContent slide={selected} lang={lang} />
                   </div>
                 </div>

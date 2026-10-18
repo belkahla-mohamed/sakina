@@ -31,12 +31,15 @@ const KIND_CLS: Record<string, string> = {
 };
 
 function formatDate(iso: string, lang: "fr" | "ar"): string {
+  // Pinned time zone: SSR and client must format identically or hydration
+  // fails when the server process runs in UTC (Next dev) vs browser GMT+1.
   return new Date(iso).toLocaleString(lang === "ar" ? "ar-MA" : "fr-FR", {
     day: "2-digit",
     month: "short",
     year: "numeric",
     hour: "2-digit",
     minute: "2-digit",
+    timeZone: "Africa/Casablanca",
   });
 }
 

@@ -55,15 +55,16 @@ export async function dbGetBackupData(id: number): Promise<{
 /* ---------------- Snapshot capture ---------------- */
 
 async function captureSnapshot(client: PoolClient): Promise<BackupSnapshot> {
-  const [products, categories, orders, orderItems, reviews, settings] =
-    await Promise.all([
-      client.query("select * from public.products"),
-      client.query("select * from public.categories"),
-      client.query("select * from public.orders"),
-      client.query("select * from public.order_items"),
-      client.query("select * from public.reviews"),
-      client.query("select key, value from public.settings"),
-    ]);
+  // pg clients execute one query at a time; issuing concurrent queries on a
+  // single client is deprecated (warning in pg ≥8.x, removed in 9.0). Keep
+  // the reads sequential — we're inside a transaction and want a consistent
+  // snapshot anyway.
+  const products = await client.query("select * from public.products");
+  const categories = await client.query("select * from public.categories");
+  const orders = await client.query("select * from public.orders");
+  const orderItems = await client.query("select * from public.order_items");
+  const reviews = await client.query("select * from public.reviews");
+  const settings = await client.query("select key, value from public.settings");
 
   const itemsByOrder = new Map<number, Record<string, unknown>[]>();
   for (const it of orderItems.rows) {

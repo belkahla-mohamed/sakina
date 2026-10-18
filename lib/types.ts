@@ -61,6 +61,29 @@ export interface HeroSlide {
   btn2_label_ar: string;
   btn2_href: string;
   active: boolean;
+  /* ---- Per-element visibility (admin can hide any block; "" JSON = shown). ---- */
+  show_title: boolean;
+  show_text: boolean;
+  show_btns: boolean;
+  /* ---- Typography ("" / 0 = theme default). ---- */
+  /** "display" (Prata) | "body" (Karla) | "" = default (display for title, body for text). */
+  title_font: string;
+  text_font: string;
+  /** Override font size in px — 0 = theme default. */
+  title_size: number;
+  text_size: number;
+  title_bold: boolean;
+  title_underline: boolean;
+  /* ---- Button colors ("" = theme default). ---- */
+  btn1_bg: string;
+  btn1_color: string;
+  btn2_bg: string;
+  btn2_color: string;
+  /* ---- Scrim color ("" = ink gradient). ---- */
+  overlay_color: string;
+  /* ---- Content placement on the slide. ---- */
+  align: "start" | "center" | "end";
+  valign: "bottom" | "center";
 }
 
 export type Lang = "fr" | "ar";

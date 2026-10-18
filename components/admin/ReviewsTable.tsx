@@ -28,10 +28,13 @@ const FILTER_KEYS = [
 ] as const;
 
 function formatDate(iso: string, lang: "fr" | "ar"): string {
+  // Pinned time zone: SSR and client must format identically or hydration
+  // fails when the server process runs in UTC (Next dev) vs browser GMT+1.
   return new Date(iso).toLocaleDateString(lang === "ar" ? "ar-MA" : "fr-FR", {
     day: "2-digit",
     month: "short",
     year: "numeric",
+    timeZone: "Africa/Casablanca",
   });
 }
 
