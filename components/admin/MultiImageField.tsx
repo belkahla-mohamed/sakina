@@ -119,7 +119,7 @@ export function MultiImageField({
               key={url}
               className="relative w-24 h-24 rounded-[12px] overflow-hidden border-2 border-line bg-highlight/20 group"
             >
-              <Image src={url} alt="" fill sizes="96px" className="object-cover" />
+              <Image src={url} alt="" fill sizes="96px" className="object-contain" />
               {busy && (
                 <div className="absolute inset-0 bg-ink/40 flex items-center justify-center">
                   <span className="text-[10px] font-bold text-white">…</span>

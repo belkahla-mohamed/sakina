@@ -72,7 +72,7 @@ export function ProductCard({
               alt={lang === "ar" ? product.name_ar : product.name_fr}
               fill
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-              className={`object-cover transition-opacity duration-700 group-hover:scale-105 ${
+              className={`object-contain transition-opacity duration-700 group-hover:scale-105 ${
                 i === shown ? "opacity-100" : "opacity-0"
               }`}
               priority={i === 0 && index === 0}

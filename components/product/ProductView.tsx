@@ -67,7 +67,7 @@ export function ProductView({ product, related }: { product: Product; related: P
               fill
               priority
               sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-cover anim-fade-in"
+              className="object-contain anim-fade-in"
             />
             {product.badge && (
               <span className="absolute top-3 start-3 bg-primary text-white rounded-full px-3 py-1 text-[10.5px] font-extrabold uppercase tracking-[0.06em]">
@@ -94,7 +94,7 @@ export function ProductView({ product, related }: { product: Product; related: P
                     i === frame ? "border-primary" : "border-line hover:border-ink/40"
                   }`}
                 >
-                  <Image src={src} alt="" fill sizes="72px" className="object-cover" />
+                  <Image src={src} alt="" fill sizes="72px" className="object-contain" />
                 </button>
               ))}
             </div>
@@ -225,7 +225,7 @@ function RelatedCard({ product, index = 0 }: { product: Product; index?: number 
           alt={lang === "ar" ? product.name_ar : product.name_fr}
           fill
           sizes="(max-width: 768px) 50vw, 25vw"
-          className="object-cover"
+          className="object-contain"
         />
       </Link>
       <div className="p-3.5 flex flex-col flex-1">

@@ -207,7 +207,7 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
                 alt=""
                 fill
                 sizes="100vw"
-                className="object-cover"
+                className="object-contain"
                 priority={i === 0}
               />
             )}

@@ -120,7 +120,7 @@ export function ImageField({
                 alt={t("admin.form.previewAlt")}
                 fill
                 sizes="96px"
-                className="object-cover"
+                className="object-contain"
               />
               {busy && (
                 <div className="absolute inset-0 bg-ink/50 flex items-center justify-center">

@@ -244,7 +244,7 @@ export function ProductTable({
                         alt={pname(p)}
                         fill
                         sizes="56px"
-                        className="object-cover"
+                        className="object-contain"
                       />
                     ) : (
                       <span className="text-[11px] font-bold text-ink-soft">—</span>

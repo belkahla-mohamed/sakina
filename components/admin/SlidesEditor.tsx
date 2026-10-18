@@ -156,7 +156,7 @@ export function SlidesEditor({ initial }: { initial: HeroSlide[] }) {
                           alt=""
                           fill
                           sizes="64px"
-                          className="object-cover"
+                          className="object-contain"
                         />
                       )}
                     </span>
@@ -782,7 +782,7 @@ export function SlidesEditor({ initial }: { initial: HeroSlide[] }) {
                       alt=""
                       fill
                       sizes="(max-width: 1024px) 100vw, 50vw"
-                      className="object-cover"
+                      className="object-contain"
                     />
                   )}
                   <div
