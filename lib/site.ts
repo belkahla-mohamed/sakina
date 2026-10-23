@@ -3,7 +3,8 @@ import { cacheLife, cacheTag } from "next/cache";
 import { dbSettings } from "@/lib/db/settings";
 import { SITE, type PublicSettings } from "@/lib/config";
 import { parseSlides, activeSlides, HERO_SLIDES_KEY } from "@/lib/hero-slides";
-import type { HeroSlide } from "@/lib/types";
+import { OFFERS_KEY, parseOffers, activeOffers, homeOffers } from "@/lib/offers";
+import type { HeroSlide, Offer } from "@/lib/types";
 
 export type { PublicSettings };
 
@@ -74,6 +75,32 @@ export async function getHeroSlides(): Promise<HeroSlide[]> {
   try {
     const map = await dbSettings();
     return activeSlides(parseSlides(map[HERO_SLIDES_KEY]));
+  } catch {
+    return [];
+  }
+}
+
+/** All active offers (display window respected) — used by the /offres page. */
+export async function getOffers(): Promise<Offer[]> {
+  "use cache";
+  cacheLife("minutes");
+  cacheTag("settings");
+  try {
+    const map = await dbSettings();
+    return activeOffers(parseOffers(map[OFFERS_KEY]));
+  } catch {
+    return [];
+  }
+}
+
+/** Active offers the admin chose to feature on the homepage (may be empty). */
+export async function getHomeOffers(): Promise<Offer[]> {
+  "use cache";
+  cacheLife("minutes");
+  cacheTag("settings");
+  try {
+    const map = await dbSettings();
+    return homeOffers(parseOffers(map[OFFERS_KEY]));
   } catch {
     return [];
   }

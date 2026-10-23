@@ -3,8 +3,6 @@ import type { Badge, Category, Product } from "@/lib/types";
 import { dbCategories, dbProducts } from "@/lib/db/store";
 import local from "@/data/catalog.json";
 
-const localCategories = local.categories as Category[];
-
 type LocalProduct = Omit<Product, "badge" | "image"> & {
   badge?: string | null;
   image?: string | null;
@@ -19,9 +17,12 @@ const localProducts: Product[] = (local.products as unknown as LocalProduct[]).m
 
 // The storefront must read the SAME Postgres the admin writes to
 // (`DATABASE_URL` via lib/db/store). The seed JSON is only a dev
-// fallback when no database is configured — never a substitute for
-// a real (even empty) query result, otherwise deleted products
-// resurrect from catalog.json.
+// fallback for PRODUCTS when no database is configured — never a
+// substitute for a real (even empty) query result, otherwise deleted
+// products resurrect from catalog.json.
+// Categories, however, are DATABASE-ONLY: an empty or failing query
+// yields [] and the home section simply hides — demo categories must
+// never resurface on a real store.
 // Products may legitimately have no image (DB row with null). Every render
 // site assumes a string, so normalise once here instead of guarding each one.
 const PLACEHOLDER = "/img/placeholder.svg";
@@ -37,12 +38,12 @@ export async function getCategories(): Promise<Category[]> {
   "use cache";
   cacheLife("minutes");
   cacheTag("categories");
-  if (!process.env.DATABASE_URL) return localCategories;
+  if (!process.env.DATABASE_URL) return [];
   try {
     return await dbCategories();
   } catch (e) {
-    console.warn("[catalog] categories query failed, using local seed:", e);
-    return localCategories;
+    console.warn("[catalog] categories query failed:", e);
+    return [];
   }
 }
 

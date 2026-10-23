@@ -86,4 +86,51 @@ export interface HeroSlide {
   valign: "bottom" | "center";
 }
 
+/** Homepage promo offer, stored as JSON in settings (`offers`). */
+export interface Offer {
+  id: string;
+  title_fr: string;
+  title_ar: string;
+  text_fr: string;
+  text_ar: string;
+  image: string;
+  /** Discount kind and value. */
+  discount_type: "percent" | "fixed";
+  discount_value: number;
+  btn_label_fr: string;
+  btn_label_ar: string;
+  btn_href: string;
+  /* ---- Targeting: which products the offer is about (drives the CTA link). ---- */
+  /** "all" = whole shop · "category" = every product of one category · "products" = hand-picked slugs. */
+  target_type: "all" | "category" | "products";
+  /** Category slug when target_type is "category" ("" = none picked yet). */
+  target_category: string;
+  /** Product slugs when target_type is "products". */
+  target_products: string[];
+  starts_at: string; // ISO date, "" = now
+  ends_at: string;   // ISO date, "" = no expiry
+  active: boolean;
+  /** Admin picks whether this offer appears in the homepage section (/offres always lists active ones). */
+  show_on_home: boolean;
+  show_title: boolean;
+  show_text: boolean;
+  show_btns: boolean;
+  title_font: string;
+  text_font: string;
+  title_size: number;
+  text_size: number;
+  title_bold: boolean;
+  title_underline: boolean;
+  title_color: string;
+  text_color: string;
+  btn1_bg: string;
+  btn1_color: string;
+  bg_color: string;        // card background hex ("" = default)
+  bg_opacity: number;      // 0-100
+  bg_shadow: string;       // shadow color hex ("" = none)
+  bg_shadow_opacity: number;
+  align: "start" | "center" | "end";
+  valign: "bottom" | "center";
+}
+
 export type Lang = "fr" | "ar";

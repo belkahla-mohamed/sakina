@@ -12,6 +12,7 @@ import {
   HardDrives,
   SignOut,
   Images,
+  Ticket,
 } from "@phosphor-icons/react";
 import { logout } from "@/app/admin/actions";
 import { useLang } from "@/components/providers";
@@ -23,6 +24,7 @@ const NAV = [
   { href: "/admin/commandes", key: "admin.nav.orders", icon: ShoppingCartSimple, exact: false },
   { href: "/admin/categories", key: "admin.nav.categories", icon: Tag, exact: false },
   { href: "/admin/slides", key: "admin.nav.slides", icon: Images, exact: false },
+  { href: "/admin/offres", key: "admin.nav.offers", icon: Ticket, exact: false },
   { href: "/admin/avis", key: "admin.nav.reviews", icon: Star, exact: false },
   { href: "/admin/backups", key: "admin.nav.backups", icon: HardDrives, exact: false },
   { href: "/admin/reglages", key: "admin.nav.settings", icon: Gear, exact: false },

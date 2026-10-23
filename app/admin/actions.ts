@@ -27,6 +27,11 @@ import {
   normalizeSlide,
 } from "@/lib/hero-slides";
 import {
+  MAX_OFFERS,
+  normalizeOffer,
+  OFFERS_KEY,
+} from "@/lib/offers";
+import {
   dbCreateBackup,
   dbDeleteBackup,
   dbRestoreBackup,
@@ -726,5 +731,48 @@ export async function saveHeroSlides(
   return {
     ok: t("admin.msg.slidesSaved"),
     okSolution: t("admin.msg.slidesSavedSol"),
+  };
+}
+
+/* ---------------- Offers ---------------- */
+
+export async function saveOffers(
+  _prev: ActionState,
+  fd: FormData
+): Promise<ActionState> {
+  await requireAdmin();
+  const t = await adminT();
+  const raw = str(fd.get("offers"));
+  if (!raw) {
+    return { error: t("admin.msg.offersEmpty"), solution: t("admin.msg.offersEmptySol") };
+  }
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(raw);
+  } catch {
+    return { error: t("admin.msg.offersBad"), solution: t("admin.msg.refresh") };
+  }
+  if (!Array.isArray(parsed)) {
+    return { error: t("admin.msg.offersBad"), solution: t("admin.msg.refresh") };
+  }
+  if (parsed.length > MAX_OFFERS) {
+    return {
+      error: t("admin.msg.offersTooMany").replace("{n}", String(MAX_OFFERS)),
+      solution: t("admin.msg.offersTooManySol").replace("{n}", String(MAX_OFFERS)),
+    };
+  }
+  const offers = parsed
+    .map((entry) => normalizeOffer(entry))
+    .filter((o): o is NonNullable<typeof o> => o !== null);
+  try {
+    await dbUpsertSetting(OFFERS_KEY, JSON.stringify(offers));
+  } catch (e) {
+    return actionState(e, t.lang);
+  }
+  updateTag("settings");
+  revalidatePath("/", "layout");
+  return {
+    ok: t("admin.msg.offersSaved"),
+    okSolution: t("admin.msg.offersSavedSol"),
   };
 }

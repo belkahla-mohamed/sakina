@@ -19,6 +19,9 @@ export function ProductGrid({
 }) {
   const { t } = useLang();
 
+  // Nothing to show → the whole section disappears from the homepage.
+  if (products.length === 0) return null;
+
   return (
     <section className="mx-auto max-w-6xl px-4 lg:px-6 py-8 md:py-10 anim-reveal">
       <div className="flex items-end justify-between mb-5">

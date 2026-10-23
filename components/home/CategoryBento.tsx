@@ -24,7 +24,11 @@ const ICONS: Record<string, typeof Lamp> = {
 export function CategoryBento({ categories, counts }: { categories: Category[]; counts: Record<string, number> }) {
   const { lang, t } = useLang();
   const featured = categories.find((c) => c.featured) ?? categories[0];
-  const rest = categories.filter((c) => c.slug !== featured?.slug);
+
+  // No categories at all → hide the section (also avoids a crash on `featured`).
+  if (!featured) return null;
+
+  const rest = categories.filter((c) => c.slug !== featured.slug);
 
   const textColor = (c: Category) => (c.text === "dark" ? "text-ink" : "text-white");
 
