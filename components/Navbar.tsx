@@ -124,9 +124,9 @@ export function Navbar({
             type="button"
             className="hidden sm:flex items-center text-[13.5px] font-extrabold border border-line rounded-full px-3 h-11 hover:border-ink"
             onClick={() => setLang(lang === "fr" ? "ar" : "fr")}
-            aria-label={`Langue ${lang === "fr" ? "FR / عربي" : "عربي / FR"}`}
+            aria-label={`Langue ${lang === "fr" ? "العربية" : "Français"}`}
           >
-            {lang === "fr" ? "FR / عربي" : "عربي / FR"}
+            {lang === "fr" ? "عربي" : "FR"}
           </button>
 
           <Link
