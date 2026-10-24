@@ -3,7 +3,7 @@
 import { useActionState, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { DeviceMobile, Handbag, Lamp, Pen, Sparkle } from "@phosphor-icons/react";
+import { Check, DeviceMobile, Handbag, Lamp, Pen, Sparkle } from "@phosphor-icons/react";
 import { saveCategory, type ActionState } from "@/app/admin/actions";
 import { useActionToast } from "@/components/admin/useActionToast";
 import { ImageField } from "@/components/admin/ImageField";
@@ -17,6 +17,14 @@ const ICONS: Record<string, typeof Lamp> = {
   device: DeviceMobile,
   pen: Pen,
 };
+
+/** Only the site brand colors are offered in the category picker. */
+const COLOR_SWATCHES: { hex: string; key: string; label: string }[] = [
+  { hex: "#76220a", key: "admin.category.colorGrenade", label: "Grenade" },
+  { hex: "#f4f0e6", key: "admin.category.colorBeige", label: "Beige" },
+  { hex: "#ffffff", key: "admin.category.colorWhite", label: "Blanc" },
+  { hex: "#000000", key: "admin.category.colorBlack", label: "Noir" },
+];
 
 export function CategoryForm({ category }: { category?: Category }) {
   const [state, formAction, pending] = useActionState<ActionState, FormData>(
@@ -105,25 +113,29 @@ export function CategoryForm({ category }: { category?: Category }) {
             <label htmlFor="color" className={label}>
               {t("admin.category.color")}
             </label>
-            <div className="flex items-center gap-2.5">
-              <input
-                id="color"
-                type="color"
-                value={color}
-                onChange={(e) => setColor(e.target.value)}
-                aria-label={t("admin.category.pickColor")}
-                className="w-12 h-11 rounded-[10px] border-2 border-line bg-white p-1 cursor-pointer"
-              />
-              <input
-                type="text"
-                name="color"
-                value={color}
-                onChange={(e) => setColor(e.target.value)}
-                pattern="^#[0-9A-Fa-f]{6}$"
-                aria-label={t("admin.category.hexColor")}
-                className={`${field} flex-1 font-mono`}
-              />
+            <input type="hidden" name="color" value={color} />
+            <div className="flex flex-wrap gap-2.5">
+              {COLOR_SWATCHES.map((c) => {
+                const active = color.toLowerCase() === c.hex;
+                return (
+                  <button
+                    key={c.hex}
+                    type="button"
+                    onClick={() => setColor(c.hex)}
+                    aria-label={t(c.key as any)}
+                    title={t(c.key as any)}
+                    aria-pressed={active}
+                    className={`w-10 h-10 rounded-[10px] border-2 transition-all ${
+                      active ? "border-ink scale-110" : "border-line hover:border-ink/50"
+                    }`}
+                    style={{ backgroundColor: c.hex }}
+                  >
+                    {active && <Check size={14} weight="bold" className="text-white" />}
+                  </button>
+                );
+              })}
             </div>
+            <p className="text-[12px] text-ink-soft mt-1.5">{t("admin.category.colorHint")}</p>
           </div>
           <div>
             <label htmlFor="text" className={label}>
