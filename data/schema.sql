@@ -134,7 +134,9 @@ insert into public.settings (key, value) values
   ('site_name_ar', 'ساكينا'),
   ('social_instagram', ''),
   ('social_tiktok', ''),
-  ('social_facebook', '')
+  ('social_facebook', ''),
+  ('delivery_casablanca', '20'),
+  ('delivery_outside', '35')
 on conflict (key) do nothing;
 
 -- ============================================================

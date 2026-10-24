@@ -63,6 +63,43 @@ export function SettingsForm({ settings }: { settings: SettingsMap }) {
             {t("admin.settings.shipHint")}
           </p>
         </div>
+
+        <div>
+          <label htmlFor="delivery_casablanca" className={label}>
+            {t("admin.settings.deliveryCasablanca")}
+          </label>
+          <input
+            id="delivery_casablanca"
+            name="delivery_casablanca"
+            type="number"
+            min="0"
+            step="1"
+            placeholder="20"
+            defaultValue={settings.delivery_casablanca ?? ""}
+            className={`${field} max-w-[220px]`}
+          />
+          <p className={hint}>
+            {t("admin.settings.deliveryCasablancaHint")}
+          </p>
+        </div>
+        <div>
+          <label htmlFor="delivery_outside" className={label}>
+            {t("admin.settings.deliveryOutside")}
+          </label>
+          <input
+            id="delivery_outside"
+            name="delivery_outside"
+            type="number"
+            min="0"
+            step="1"
+            placeholder="35"
+            defaultValue={settings.delivery_outside ?? ""}
+            className={`${field} max-w-[220px]`}
+          />
+          <p className={hint}>
+            {t("admin.settings.deliveryOutsideHint")}
+          </p>
+        </div>
       </section>
 
       {/* Socials */}

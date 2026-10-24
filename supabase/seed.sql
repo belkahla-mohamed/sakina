@@ -74,4 +74,6 @@ insert into public.settings (key, value, updated_at) values ('whatsapp', '212608
 insert into public.settings (key, value, updated_at) values ('social_instagram', '', '2026-10-10T07:01:17.542Z') on conflict (key) do nothing;
 insert into public.settings (key, value, updated_at) values ('social_tiktok', '', '2026-10-10T07:01:17.542Z') on conflict (key) do nothing;
 insert into public.settings (key, value, updated_at) values ('social_facebook', '', '2026-10-10T07:01:17.542Z') on conflict (key) do nothing;
+insert into public.settings (key, value, updated_at) values ('delivery_casablanca', '20', '2026-10-10T07:01:17.542Z') on conflict (key) do update set value = excluded.value, updated_at = excluded.updated_at;
+insert into public.settings (key, value, updated_at) values ('delivery_outside', '35', '2026-10-10T07:01:17.542Z') on conflict (key) do update set value = excluded.value, updated_at = excluded.updated_at;
 

@@ -586,6 +586,8 @@ export async function deleteReviews(
 const SETTING_KEYS = [
   "whatsapp",
   "free_shipping_from",
+  "delivery_casablanca",
+  "delivery_outside",
   "announce_fr",
   "announce_ar",
   "site_name",

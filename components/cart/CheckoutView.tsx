@@ -48,7 +48,13 @@ export function CheckoutView({ products }: { products: Product[] }) {
   const [waWeb, setWaWeb] = useState<string | null>(null);
 
   const lines = buildLines(entries, products);
-  const totals = computeTotals(lines, settings.freeShippingFrom);
+  const totals = computeTotals(
+    lines,
+    settings.freeShippingFrom,
+    city,
+    settings.deliveryCasablanca,
+    settings.deliveryOutside
+  );
 
   if (lines.length === 0) {
     return (

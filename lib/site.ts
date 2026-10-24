@@ -11,6 +11,8 @@ export type { PublicSettings };
 export const FALLBACK_SETTINGS: PublicSettings = {
   whatsapp: SITE.whatsapp,
   freeShippingFrom: SITE.freeShippingFrom,
+  deliveryCasablanca: SITE.deliveryCasablanca,
+  deliveryOutside: SITE.deliveryOutside,
   announce_fr:
     "Livraison gratuite dès 300 DH · Paiement à la livraison · Retour sous 7 jours",
   announce_ar:
@@ -41,6 +43,14 @@ export async function getPublicSettings(): Promise<PublicSettings> {
     return {
       whatsapp: map.whatsapp || FALLBACK_SETTINGS.whatsapp,
       freeShippingFrom: toInt(map.free_shipping_from, FALLBACK_SETTINGS.freeShippingFrom),
+      deliveryCasablanca: toInt(
+        map.delivery_casablanca,
+        FALLBACK_SETTINGS.deliveryCasablanca
+      ),
+      deliveryOutside: toInt(
+        map.delivery_outside,
+        FALLBACK_SETTINGS.deliveryOutside
+      ),
       announce_fr: map.announce_fr || FALLBACK_SETTINGS.announce_fr,
       announce_ar: map.announce_ar || FALLBACK_SETTINGS.announce_ar,
       site_name: map.site_name || FALLBACK_SETTINGS.site_name,

@@ -9,6 +9,8 @@ export interface SettingsMap {
 export const DEFAULT_SETTINGS: SettingsMap = {
   whatsapp: "212608308484",
   free_shipping_from: "300",
+  delivery_casablanca: "20",
+  delivery_outside: "35",
   announce_fr:
     "Livraison gratuite dès 300 DH · Paiement à la livraison · Retour sous 7 jours",
   announce_ar:

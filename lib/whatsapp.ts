@@ -4,7 +4,10 @@ import type { CartEntry } from "@/components/providers";
 import type { Product } from "@/lib/types";
 
 export const FREE_SHIPPING_FROM = SITE.freeShippingFrom;
-export const SHIPPING_COST = 30;
+
+/** Default city-based delivery fees (overridable from the admin panel). */
+export const DELIVERY_CASABLANCA = SITE.deliveryCasablanca;
+export const DELIVERY_OUTSIDE = SITE.deliveryOutside;
 
 export interface Line {
   product: Product;
@@ -28,11 +31,27 @@ export function buildLines(entries: CartEntry[], products: Product[]): Line[] {
 
 export function computeTotals(
   lines: Line[],
-  freeShippingFrom: number = FREE_SHIPPING_FROM
+  freeShippingFrom: number = FREE_SHIPPING_FROM,
+  city: string = "",
+  deliveryCasablanca: number = DELIVERY_CASABLANCA,
+  deliveryOutside: number = DELIVERY_OUTSIDE
 ): Totals {
   const subtotal = lines.reduce((sum, l) => sum + l.product.price * l.qty, 0);
-  const shipping = subtotal === 0 || subtotal >= freeShippingFrom ? 0 : SHIPPING_COST;
+  const isCasablanca = city.trim().toLowerCase() === "casablanca";
+  const shippingCost = isCasablanca ? deliveryCasablanca : deliveryOutside;
+  const shipping = subtotal === 0 || subtotal >= freeShippingFrom ? 0 : shippingCost;
   return { subtotal, shipping, total: subtotal + shipping };
+}
+
+/** Delivery fee for a given city (Casablanca vs everywhere else). */
+export function deliveryCostFor(
+  city: string,
+  deliveryCasablanca: number = DELIVERY_CASABLANCA,
+  deliveryOutside: number = DELIVERY_OUTSIDE
+): number {
+  return city.trim().toLowerCase() === "casablanca"
+    ? deliveryCasablanca
+    : deliveryOutside;
 }
 
 export interface Customer {

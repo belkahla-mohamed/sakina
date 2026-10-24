@@ -21,7 +21,13 @@ export function CartDrawer({ products }: { products: Product[] }) {
   const panelRef = useRef<HTMLDivElement>(null);
 
   const lines = buildLines(entries, products);
-  const totals = computeTotals(lines, settings.freeShippingFrom);
+  const totals = computeTotals(
+    lines,
+    settings.freeShippingFrom,
+    "",
+    settings.deliveryCasablanca,
+    settings.deliveryOutside
+  );
   const missingForFree = Math.max(0, settings.freeShippingFrom - totals.subtotal);
 
   // Escape closes; focus moves into the panel on open.

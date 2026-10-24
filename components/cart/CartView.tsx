@@ -14,7 +14,13 @@ export function CartView({ products }: { products: Product[] }) {
   const { entries, setQty, remove, count } = useCart();
 
   const lines = buildLines(entries, products);
-  const totals = computeTotals(lines, settings.freeShippingFrom);
+  const totals = computeTotals(
+    lines,
+    settings.freeShippingFrom,
+    "",
+    settings.deliveryCasablanca,
+    settings.deliveryOutside
+  );
   const missingForFree = Math.max(0, settings.freeShippingFrom - totals.subtotal);
 
   if (lines.length === 0) {

@@ -12,6 +12,8 @@ export const SITE = {
   // Real number (international format, no +)
   whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "212608308484",
   freeShippingFrom: 300,
+  deliveryCasablanca: 20,
+  deliveryOutside: 35,
 } as const;
 
 /**
@@ -22,6 +24,8 @@ export const SITE = {
 export interface PublicSettings {
   whatsapp: string;
   freeShippingFrom: number;
+  deliveryCasablanca: number;
+  deliveryOutside: number;
   announce_fr: string;
   announce_ar: string;
   site_name: string;

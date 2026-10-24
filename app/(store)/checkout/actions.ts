@@ -3,7 +3,7 @@
 import { dbCreateOrder, type CreateOrderInput } from "@/lib/db/orders";
 import { dbProductsBySlugs } from "@/lib/db/store";
 import { getPublicSettings } from "@/lib/site";
-import { SHIPPING_COST } from "@/lib/whatsapp";
+import { deliveryCostFor } from "@/lib/whatsapp";
 
 const MAX_QTY = 50;
 
@@ -66,7 +66,10 @@ export async function placeOrder(input: PlaceOrderInput): Promise<PlaceOrderResu
   if (items.length === 0) return { ok: false, error: "Aucun produit valide dans le panier." };
 
   const settings = await getPublicSettings();
-  const shipping = subtotal >= settings.freeShippingFrom ? 0 : SHIPPING_COST;
+  const shipping =
+    subtotal === 0 || subtotal >= settings.freeShippingFrom
+      ? 0
+      : deliveryCostFor(city, settings.deliveryCasablanca, settings.deliveryOutside);
   const total = subtotal + shipping;
 
   try {

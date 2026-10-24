@@ -122,6 +122,8 @@ const FavsContext = createContext<FavsValue | null>(null);
 const DEFAULT_SETTINGS: PublicSettings = {
   whatsapp: SITE.whatsapp,
   freeShippingFrom: SITE.freeShippingFrom,
+  deliveryCasablanca: SITE.deliveryCasablanca,
+  deliveryOutside: SITE.deliveryOutside,
   announce_fr:
     "Livraison gratuite dès 300 DH · Paiement à la livraison · Retour sous 7 jours",
   announce_ar:
