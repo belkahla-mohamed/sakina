@@ -12,6 +12,7 @@ import {
 } from "@phosphor-icons/react";
 import { saveHeroSlides, type ActionState } from "@/app/admin/actions";
 import { ImageField } from "@/components/admin/ImageField";
+import { useConfirm } from "@/components/admin/Toast";
 import { useActionToast } from "@/components/admin/useActionToast";
 import {
   SlideContent,
@@ -73,6 +74,7 @@ export function SlidesEditor({ initial }: { initial: HeroSlide[] }) {
     {}
   );
   useActionToast(state);
+  const askConfirm = useConfirm();
 
   const selected = slides.find((s) => s.id === selectedId) ?? null;
 
@@ -92,8 +94,16 @@ export function SlidesEditor({ initial }: { initial: HeroSlide[] }) {
   }
 
   function removeSlide(id: string) {
-    setSlides((prev) => prev.filter((s) => s.id !== id));
-    if (selectedId === id) setSelectedId(null);
+    void askConfirm({
+      title: t("admin.slides.delete"),
+      message: t("admin.slides.deleteConfirm"),
+      confirmLabel: t("admin.slides.delete"),
+      tone: "danger",
+    }).then((ok) => {
+      if (!ok) return;
+      setSlides((prev) => prev.filter((s) => s.id !== id));
+      if (selectedId === id) setSelectedId(null);
+    });
   }
 
   function move(id: string, dir: -1 | 1) {

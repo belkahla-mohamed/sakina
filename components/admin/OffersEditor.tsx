@@ -12,6 +12,7 @@ import {
 } from "@phosphor-icons/react";
 import { saveOffers, type ActionState } from "@/app/admin/actions";
 import { ImageField } from "@/components/admin/ImageField";
+import { useConfirm } from "@/components/admin/Toast";
 import { useActionToast } from "@/components/admin/useActionToast";
 import { useLang } from "@/components/providers";
 import type { Category, Offer, Product } from "@/lib/types";
@@ -243,6 +244,7 @@ export function OffersEditor({
     {}
   );
   useActionToast(state);
+  const askConfirm = useConfirm();
 
   const selected = offers.find((o) => o.id === selectedId) ?? null;
 
@@ -262,8 +264,16 @@ export function OffersEditor({
   }
 
   function removeOffer(id: string) {
-    setOffers((prev) => prev.filter((o) => o.id !== id));
-    if (selectedId === id) setSelectedId(null);
+    void askConfirm({
+      title: t("admin.offers.delete"),
+      message: t("admin.offers.deleteConfirm"),
+      confirmLabel: t("admin.offers.delete"),
+      tone: "danger",
+    }).then((ok) => {
+      if (!ok) return;
+      setOffers((prev) => prev.filter((o) => o.id !== id));
+      if (selectedId === id) setSelectedId(null);
+    });
   }
 
   function move(id: string, dir: -1 | 1) {
