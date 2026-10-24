@@ -284,6 +284,11 @@ export async function saveProduct(
   }
 
   revalidateStore();
+  // Purge the client-side route cache for the edited product's page and the
+  // products list. Without this, re-opening the product via "MODIFIER" serves
+  // a stale cached payload (old price) until a hard page refresh.
+  revalidatePath(`/admin/produits/${input.slug}`);
+  revalidatePath("/admin/produits");
   await setFlash({
     kind: "success",
     title: t("admin.msg.productSaved"),
