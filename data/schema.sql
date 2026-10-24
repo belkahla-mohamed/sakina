@@ -136,7 +136,8 @@ insert into public.settings (key, value) values
   ('social_tiktok', ''),
   ('social_facebook', ''),
   ('delivery_casablanca', '20'),
-  ('delivery_outside', '35')
+  ('delivery_outside', '35'),
+  ('announce_hidden', '0')
 on conflict (key) do nothing;
 
 -- ============================================================

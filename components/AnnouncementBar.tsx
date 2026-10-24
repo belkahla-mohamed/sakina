@@ -5,6 +5,7 @@ import { useLang, useSettings } from "@/components/providers";
 export function AnnouncementBar() {
   const { lang } = useLang();
   const settings = useSettings();
+  if (settings.announceHidden) return null;
   const text = lang === "ar" ? settings.announce_ar : settings.announce_fr;
   if (!text) return null;
   return (

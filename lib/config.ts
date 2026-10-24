@@ -14,6 +14,7 @@ export const SITE = {
   freeShippingFrom: 300,
   deliveryCasablanca: 20,
   deliveryOutside: 35,
+  announceHidden: false,
 } as const;
 
 /**
@@ -26,6 +27,7 @@ export interface PublicSettings {
   freeShippingFrom: number;
   deliveryCasablanca: number;
   deliveryOutside: number;
+  announceHidden: boolean;
   announce_fr: string;
   announce_ar: string;
   site_name: string;

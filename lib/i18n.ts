@@ -613,6 +613,10 @@ export const dict = {
     "admin.settings.announce": "Bandeau d'annonce",
     "admin.settings.textFr": "Texte (FR)",
     "admin.settings.textAr": "Texte (AR)",
+    "admin.settings.announceVisibility": "Visibilité du bandeau",
+    "admin.settings.announceHide": "Masquer le bandeau",
+    "admin.settings.announceHideHint":
+      "Cochez pour cacher le bandeau d'annonce sur toute la boutique.",
     "admin.settings.branding": "Identité de la boutique",
     "admin.settings.appearance": "Apparence de la boutique",
     "admin.settings.rotation": "Défilement automatique des photos produits",
@@ -1304,6 +1308,10 @@ export const dict = {
     "admin.settings.announce": "شريط الإعلان",
     "admin.settings.textFr": "النص (فرنسي)",
     "admin.settings.textAr": "النص (عربي)",
+    "admin.settings.announceVisibility": "إظهار/إخفاء الشريط",
+    "admin.settings.announceHide": "إخفاء الشريط",
+    "admin.settings.announceHideHint":
+      "ضع علامة لإخفاء شريط الإعلان من المتجر بالكامل.",
     "admin.settings.branding": "هوية المتجر",
     "admin.settings.appearance": "مظهر المتجر",
     "admin.settings.rotation": "عرض صور المنتجات تلقائياً بشكل متسلسل",

@@ -124,6 +124,7 @@ const DEFAULT_SETTINGS: PublicSettings = {
   freeShippingFrom: SITE.freeShippingFrom,
   deliveryCasablanca: SITE.deliveryCasablanca,
   deliveryOutside: SITE.deliveryOutside,
+  announceHidden: SITE.announceHidden,
   announce_fr:
     "Livraison gratuite dès 300 DH · Paiement à la livraison · Retour sous 7 jours",
   announce_ar:

@@ -13,6 +13,7 @@ export const FALLBACK_SETTINGS: PublicSettings = {
   freeShippingFrom: SITE.freeShippingFrom,
   deliveryCasablanca: SITE.deliveryCasablanca,
   deliveryOutside: SITE.deliveryOutside,
+  announceHidden: SITE.announceHidden,
   announce_fr:
     "Livraison gratuite dès 300 DH · Paiement à la livraison · Retour sous 7 jours",
   announce_ar:
@@ -51,6 +52,7 @@ export async function getPublicSettings(): Promise<PublicSettings> {
         map.delivery_outside,
         FALLBACK_SETTINGS.deliveryOutside
       ),
+      announceHidden: map.announce_hidden !== "0",
       announce_fr: map.announce_fr || FALLBACK_SETTINGS.announce_fr,
       announce_ar: map.announce_ar || FALLBACK_SETTINGS.announce_ar,
       site_name: map.site_name || FALLBACK_SETTINGS.site_name,

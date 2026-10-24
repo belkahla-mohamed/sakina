@@ -183,6 +183,29 @@ export function SettingsForm({ settings }: { settings: SettingsMap }) {
         </div>
       </section>
 
+      {/* Announcement bar visibility */}
+      <section className="card p-5 space-y-4">
+        <h2 className="font-display text-[17px] font-bold">
+          {t("admin.settings.announceVisibility")}
+        </h2>
+        <label className="flex items-start gap-2.5 cursor-pointer">
+          <input
+            type="checkbox"
+            name="announce_hidden"
+            value="1"
+            defaultChecked={settings.announce_hidden !== "0"}
+            className="w-4.5 h-4.5 accent-primary mt-0.5"
+          />
+          <input type="hidden" name="announce_hidden" value="0" />
+          <span>
+            <span className="block text-[13.5px] font-bold">
+              {t("admin.settings.announceHide")}
+            </span>
+            <span className={hint}>{t("admin.settings.announceHideHint")}</span>
+          </span>
+        </label>
+      </section>
+
       {/* Branding */}
       <section className="card p-5 space-y-4">
         <h2 className="font-display text-[17px] font-bold">{t("admin.settings.branding")}</h2>
