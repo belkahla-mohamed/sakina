@@ -16,12 +16,22 @@ const globalForPool = globalThis as unknown as {
 };
 
 function createPool(): Pool {
-  const connectionString = process.env.DATABASE_URL;
+  let connectionString = process.env.DATABASE_URL;
   if (!connectionString) {
     throw new Error(
       "DATABASE_URL is not set. Add it to .env.local (Supabase → Settings → Database → Connection string)."
     );
   }
+
+  // Supabase pooler port 5432 is Session mode, which starves connection slots
+  // on serverless hosts like Vercel. Port 6543 is Transaction mode, designed
+  // for serverless lambdas. Auto-route to 6543 if pooler.supabase.com:5432 is configured.
+  if (connectionString.includes("pooler.supabase.com:5432")) {
+    connectionString = connectionString.replace(":5432", ":6543");
+  }
+
+  const isServerless = Boolean(process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME);
+
   const config: PoolConfigEx = {
     connectionString,
     // Supabase pooler (5432 session / 6543 transaction) requires TLS.
@@ -32,9 +42,9 @@ function createPool(): Pool {
     // connection, so cached named prepared statements can vanish. Disable
     // the cache to avoid intermittent "prepared statement" errors.
     statement_cache_size: 0,
-    max: 5,
-    idleTimeoutMillis: 30_000,
-    connectionTimeoutMillis: 15_000,
+    max: isServerless ? 2 : 5,
+    idleTimeoutMillis: 10_000,
+    connectionTimeoutMillis: 8_000,
   };
   return new Pool(config);
 }

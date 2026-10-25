@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { SITE } from "@/lib/config";
-import { getCategories, getProducts } from "@/lib/catalog";
+import { dbAdminProducts, dbAdminCategories } from "@/lib/db/store";
+import local from "@/data/catalog.json";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
@@ -16,9 +17,31 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE.url}/checkout`, lastModified: now, changeFrequency: "weekly", priority: 0.4 },
   ];
 
-  // Catalog reads never throw (local JSON fallback), so the sitemap always
-  // includes products even if the database is unreachable at build time.
-  const [products, categories] = await Promise.all([getProducts(), getCategories()]);
+  // Route handlers / sitemaps prerender outside React's Suspense tree.
+  // Using uncached dbAdmin* reads avoids Next.js 16 HANGING_PROMISE_REJECTION
+  // while ensuring real DB products are indexed into sitemap.xml.
+  let products: { slug: string; image?: string | null }[] = [];
+  let categories: { slug: string }[] = [];
+
+  if (process.env.DATABASE_URL) {
+    try {
+      const [pRows, cRows] = await Promise.all([
+        dbAdminProducts(),
+        dbAdminCategories(),
+      ]);
+      products = pRows;
+      categories = cRows;
+    } catch (e) {
+      console.warn("[sitemap] DB fetch failed, using fallback:", e);
+    }
+  }
+
+  if (products.length === 0) {
+    products = (local.products as { slug: string; image?: string }[]).map((p) => ({
+      slug: p.slug,
+      image: p.image || `/img/products/${p.slug}.svg`,
+    }));
+  }
 
   for (const c of categories) {
     staticRoutes.push({

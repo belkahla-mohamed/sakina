@@ -35,9 +35,6 @@ function normalizeGallery(image: string | null, images?: string[] | null): strin
 }
 
 export async function getCategories(): Promise<Category[]> {
-  "use cache";
-  cacheLife("minutes");
-  cacheTag("categories");
   if (!process.env.DATABASE_URL) return [];
   try {
     return await dbCategories();
