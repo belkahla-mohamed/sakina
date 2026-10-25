@@ -65,6 +65,16 @@ export default async function RootLayout({
   const initialLang = cookieStore.get(LANG_COOKIE)?.value === "ar" ? "ar" : "fr";
   const settings = await getPublicSettings();
 
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: SITE.name,
+    alternateName: SITE.name_ar,
+    url: SITE.url,
+    description:
+      "Planners inspirants • Carnets de recettes gourmands • Livres de coloriage relaxants • mugs et gourdes Isotherme",
+  };
+
   return (
     <html
       lang={initialLang}
@@ -73,6 +83,12 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <body suppressHydrationWarning>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(websiteSchema).replace(/</g, "\\u003c"),
+          }}
+        />
         <Providers initialLang={initialLang} settings={settings}>
           {children}
         </Providers>
