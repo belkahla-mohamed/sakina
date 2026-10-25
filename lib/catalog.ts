@@ -48,9 +48,6 @@ export async function getCategories(): Promise<Category[]> {
 }
 
 export async function getProducts(): Promise<Product[]> {
-  "use cache";
-  cacheLife("minutes");
-  cacheTag("products");
   if (!process.env.DATABASE_URL) return localProducts;
   try {
     const rows = await dbProducts();

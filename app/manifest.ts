@@ -2,10 +2,10 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Sakina — Jouets, éveil & école",
+    name: "Sakina — Planners, Carnets de recettes, Livres de coloriage, mugs et gourdes",
     short_name: "Sakina",
     description:
-      "Une sélection courte et vérifiée : jouets, livres, école et bébé. Paiement à la livraison partout au Maroc.",
+      "Planners inspirants • Carnets de recettes gourmands • Livres de coloriage relaxants • mugs et gourdes Isotherme",
     start_url: "/",
     display: "standalone",
     background_color: "#fcfbf6",

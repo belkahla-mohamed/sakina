@@ -1,96 +1,23 @@
 "use client";
 
-import { useMemo, useState, useSyncExternalStore } from "react";
+import { useMemo, useState, useTransition } from "react";
 import { Star, CheckCircle, Plus, PaperPlaneTilt } from "@phosphor-icons/react";
-import { useLang, useSettings } from "@/components/providers";
-import { buildReviewMessage, openWhatsApp } from "@/lib/whatsapp";
+import { useLang } from "@/components/providers";
+import { submitReview } from "@/app/(store)/actions/reviews";
+import type { ReviewRow } from "@/lib/db/reviews";
 
-const REVIEWS = [
-  {
-    text_fr:
-      "Livraison super rapide à Casablanca et le plaid est encore plus doux qu'en photo. J'en ai commandé un deuxième pour mon frère.",
-    text_ar: "وصل الطلب بسرعة إلى الدار البيضاء، والبطانية أنعم مما تبدو في الصورة. طلبت واحدة إضافية لأخي.",
-    name: "Salma",
-    city_fr: "Casablanca",
-    city_ar: "الدار البيضاء",
-    date: "12/09/2026",
-    initial: "S",
-    color: "#0c6b62",
-  },
-  {
-    text_fr:
-      "Je commande depuis 3 mois : toujours le même sérieux, et je paie à la livraison sans souci.",
-    text_ar: "أطلب منذ ثلاثة أشهر: نفس الجدية دائمًا، وأدفع عند الاستلام دون أي مشكل.",
-    name: "Nadia",
-    city_fr: "Rabat",
-    city_ar: "الرباط",
-    date: "28/08/2026",
-    initial: "N",
-    color: "#b24327",
-  },
-  {
-    text_fr:
-      "Le diffuseur d'arôme sent divin, et l'emballage est parfait pour offrir. Je recommande.",
-    text_ar: "رائحة الموزّع رائعة، والتغليف مثالي للإهداء. أنصح به بشدة.",
-    name: "Imane",
-    city_fr: "Marrakech",
-    city_ar: "مراكش",
-    date: "05/09/2026",
-    initial: "I",
-    color: "#151634",
-  },
-];
+const AVATAR_COLORS = ["#0c6b62", "#e0a11c", "#151634", "#b24327", "#76220a"];
 
-const BARS = [
-  { stars: 5, pct: 94 },
-  { stars: 4, pct: 4 },
-  { stars: 3, pct: 1 },
-  { stars: 2, pct: 1 },
-  { stars: 1, pct: 0 },
-];
-
-const AVATAR_COLORS = ["#0c6b62", "#e0a11c", "#151634", "#b24327"];
-const REVIEWS_KEY = "sakina_reviews_v1";
-
-interface LocalReview {
-  name: string;
-  city: string;
-  rating: number;
-  text: string;
-  date: string;
-}
-
-function subscribeReviews(onStoreChange: () => void): () => void {
-  const handler = () => onStoreChange();
-  window.addEventListener("storage", handler);
-  window.addEventListener("sakina-store", handler);
-  return () => {
-    window.removeEventListener("storage", handler);
-    window.removeEventListener("sakina-store", handler);
-  };
-}
-
-function readReviewsRaw(): string | null {
+function formatDate(iso: string, lang: "fr" | "ar"): string {
   try {
-    return window.localStorage.getItem(REVIEWS_KEY);
+    return new Date(iso).toLocaleDateString(lang === "ar" ? "ar-MA" : "fr-FR", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      timeZone: "Africa/Casablanca",
+    });
   } catch {
-    return null;
-  }
-}
-
-function parseReviews(raw: string | null): LocalReview[] {
-  if (!raw) return [];
-  try {
-    const parsed = JSON.parse(raw);
-    if (!Array.isArray(parsed)) return [];
-    return parsed.filter(
-      (r): r is LocalReview =>
-        typeof r?.name === "string" &&
-        typeof r?.text === "string" &&
-        typeof r?.rating === "number"
-    );
-  } catch {
-    return [];
+    return "";
   }
 }
 
@@ -104,22 +31,46 @@ function Stars({ count }: { count: number }) {
   );
 }
 
-export function Testimonials() {
+export function Testimonials({ reviews = [] }: { reviews?: ReviewRow[] }) {
   const { lang, t } = useLang();
-  const settings = useSettings();
-
-  const storedReviews = useSyncExternalStore(subscribeReviews, readReviewsRaw, () => null);
-  const mine = useMemo(() => parseReviews(storedReviews), [storedReviews]);
   const [open, setOpen] = useState(false);
   const [sent, setSent] = useState(false);
-  const [rating, setRating] = useState(0);
+  const [rating, setRating] = useState(5);
   const [name, setName] = useState("");
   const [city, setCity] = useState("");
   const [text, setText] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
   const [errors, setErrors] = useState<Record<string, boolean>>({});
+  const [isPending, startTransition] = useTransition();
 
-  function submit(e: React.FormEvent) {
+  // Dynamic calculations from database reviews
+  const totalCount = reviews.length;
+  const avgScore = useMemo(() => {
+    if (totalCount === 0) return "—";
+    const sum = reviews.reduce((acc, r) => acc + (Number(r.rating) || 5), 0);
+    return (sum / totalCount).toFixed(2).replace(".", ",");
+  }, [reviews, totalCount]);
+
+  const bars = useMemo(() => {
+    return [5, 4, 3, 2, 1].map((s) => {
+      if (totalCount === 0) {
+        return { stars: s, pct: 0 };
+      }
+      const matching = reviews.filter((r) => Math.round(Number(r.rating)) === s).length;
+      const pct = Math.round((matching / totalCount) * 100);
+      return { stars: s, pct };
+    });
+  }, [reviews, totalCount]);
+
+  // Display top 3 reviews
+  const displayedReviews = useMemo(() => {
+    return reviews.slice(0, 3);
+  }, [reviews]);
+
+  function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    setErrorMsg("");
+
     const nextErrors = {
       rating: rating < 1,
       name: !name.trim(),
@@ -128,89 +79,74 @@ export function Testimonials() {
     setErrors(nextErrors);
     if (Object.values(nextErrors).some(Boolean)) return;
 
-    const message = buildReviewMessage({ name, city, rating, text });
-    openWhatsApp(message, settings.whatsapp);
+    startTransition(async () => {
+      const res = await submitReview({
+        name: name.trim(),
+        city: city.trim() || undefined,
+        rating,
+        text: text.trim(),
+      });
 
-    const review: LocalReview = {
-      name: name.trim(),
-      city: city.trim(),
-      rating,
-      text: text.trim(),
-      date: new Date().toLocaleDateString("fr-FR"),
-    };
-    try {
-      const next = [review, ...parseReviews(readReviewsRaw())];
-      window.localStorage.setItem(REVIEWS_KEY, JSON.stringify(next));
-      window.dispatchEvent(new Event("sakina-store"));
-    } catch {
-      /* storage unavailable */
-    }
-    setSent(true);
-    setOpen(false);
-    setRating(0);
-    setName("");
-    setCity("");
-    setText("");
+      if (res.ok) {
+        setSent(true);
+        setOpen(false);
+        setName("");
+        setCity("");
+        setText("");
+        setRating(5);
+        setErrors({});
+      } else {
+        setErrorMsg(res.error || "Une erreur est survenue.");
+      }
+    });
   }
 
   function closeForm() {
     setOpen(false);
+    setErrorMsg("");
     setErrors({});
   }
 
-  const cards = [
-    ...mine.map((r, i) => ({
-      key: `mine-${i}`,
-      text: r.text,
-      name: r.name,
-      city: r.city,
-      date: r.date,
-      rating: r.rating,
-      initial: r.name.trim().charAt(0).toUpperCase() || "?",
-      color: AVATAR_COLORS[r.name.length % AVATAR_COLORS.length],
-      isMine: true,
-    })),
-    ...REVIEWS.map((r) => ({
-      key: r.name,
-      text: lang === "ar" ? r.text_ar : r.text_fr,
-      name: r.name,
-      city: lang === "ar" ? r.city_ar : r.city_fr,
-      date: r.date,
-      rating: 5,
-      initial: r.initial,
-      color: r.color,
-      isMine: false,
-    })),
-  ]
-    .sort((a, b) => b.rating - a.rating)
-    .slice(0, 3);
+  // Automatically hide the entire section if there are no approved reviews
+  if (reviews.length === 0) {
+    return null;
+  }
 
   return (
     <section className="bg-white border-y-2 border-line anim-reveal">
       <div className="mx-auto max-w-6xl px-4 lg:px-6 py-12 md:py-16">
         <div className="grid md:grid-cols-[0.75fr_1.5fr] gap-6">
+          {/* Summary card */}
           <div className="card p-6 flex flex-col justify-center bg-milk">
             <p className="text-[11px] uppercase tracking-[0.16em] font-bold text-ink-soft">
               {t("home.testiScore")}
             </p>
             <div className="flex items-baseline gap-2 mt-1">
-              <span className="font-display text-[52px] font-extrabold leading-none">5,00</span>
-              <span className="text-ink-soft font-bold">/ 5</span>
+              <span className="font-display text-[52px] font-extrabold leading-none">
+                {avgScore}
+              </span>
+              {totalCount > 0 && <span className="text-ink-soft font-bold">/ 5</span>}
             </div>
             <div className="flex gap-1 mt-1 text-highlight">
               {Array.from({ length: 5 }).map((_, i) => (
-                <Star key={i} size={19} weight="fill" />
+                <Star key={i} size={19} weight={totalCount > 0 ? "fill" : "regular"} />
               ))}
             </div>
-            <p className="text-[13px] font-bold text-ink-soft mt-1">{t("home.testiCount")}</p>
+            <p className="text-[13px] font-bold text-ink-soft mt-1">
+              {totalCount > 0
+                ? `${totalCount} ${lang === "ar" ? "تقييمًا موثّقًا" : "avis vérifiés"}`
+                : lang === "ar"
+                ? "0 تقييمات موثقة"
+                : "0 avis vérifié"}
+            </p>
 
             <div className="mt-4 space-y-1.5">
-              {BARS.map((b) => (
+              {bars.map((b) => (
                 <div key={b.stars} className="flex items-center gap-2 text-[11.5px]">
                   <span className="w-8 text-ink-soft font-bold">{b.stars}★</span>
                   <span className="flex-1 h-2.5 rounded-full bg-line overflow-hidden">
                     <span
-                      className="block h-full rounded-full bg-highlight"
+                      className="block h-full rounded-full bg-highlight transition-all duration-500"
                       style={{ width: `${b.pct}%` }}
                     />
                   </span>
@@ -220,43 +156,58 @@ export function Testimonials() {
             </div>
           </div>
 
+          {/* Reviews list & submission */}
           <div>
-            <div className="grid sm:grid-cols-3 gap-4">
-              {cards.map((r) => (
-                <div key={r.key} className="card p-5 flex flex-col">
-                  <div className="flex items-center justify-between">
-                    <Stars count={r.rating} />
-                    {r.isMine ? (
-                      <span className="inline-flex items-center gap-1 text-[10.5px] font-extrabold text-primary">
-                        <Star size={12} weight="fill" /> {t("testi.mine")}
-                      </span>
-                    ) : (
-                      <span className="inline-flex items-center gap-1 text-[10.5px] font-extrabold text-teal-deep">
-                        <CheckCircle size={13} weight="fill" /> {t("home.testiVerified")}
-                      </span>
-                    )}
-                  </div>
-                  <p className={`text-[13.5px] mt-3 flex-1 ${lang === "ar" ? "ar" : ""}`}>
-                    “{r.text}”
-                  </p>
-                  <div className="flex items-center gap-2.5 mt-4 pt-3 border-t-2 border-line">
-                    <span
-                      className="w-9 h-9 rounded-full flex items-center justify-center text-white font-extrabold text-[14px]"
-                      style={{ background: r.color }}
-                    >
-                      {r.initial}
-                    </span>
-                    <div className="leading-tight">
-                      <p className="font-bold text-[13.5px]">{r.name}</p>
-                      <p className="text-[11.5px] text-ink-soft">
-                        {r.city ? `${r.city} · ` : ""}
-                        {r.date}
+            {displayedReviews.length === 0 ? (
+              <div className="card p-8 text-center flex flex-col items-center justify-center border-dashed border-2 border-line bg-milk/40 min-h-[180px]">
+                <p className="font-bold text-ink-soft text-[14px]">
+                  {lang === "ar"
+                    ? "لا توجد تقييمات معتمدة حالياً. شاركنا تجربتك وكن أول من يضيف تقييماً!"
+                    : "Aucun avis publié pour le moment. Soyez le premier à partager votre expérience !"}
+                </p>
+              </div>
+            ) : (
+              <div className="grid sm:grid-cols-3 gap-4">
+                {displayedReviews.map((r, i) => {
+                  const initial = r.name.trim().charAt(0).toUpperCase() || "?";
+                  const color = AVATAR_COLORS[i % AVATAR_COLORS.length];
+                  const dateStr = formatDate(r.created_at, lang);
+
+                return (
+                  <div key={r.id} className="card p-5 flex flex-col justify-between">
+                    <div>
+                      <div className="flex items-center justify-between">
+                        <Stars count={Number(r.rating) || 5} />
+                        <span className="inline-flex items-center gap-1 text-[10.5px] font-extrabold text-teal-deep">
+                          <CheckCircle size={13} weight="fill" /> {t("home.testiVerified")}
+                        </span>
+                      </div>
+                      <p className={`text-[13.5px] mt-3 leading-relaxed text-ink/90 ${lang === "ar" ? "ar" : ""}`}>
+                        “{r.text}”
                       </p>
                     </div>
+
+                    <div className="flex items-center gap-2.5 mt-4 pt-3 border-t-2 border-line">
+                      <span
+                        className="w-9 h-9 rounded-full flex items-center justify-center text-white font-extrabold text-[14px] shrink-0"
+                        style={{ background: color }}
+                      >
+                        {initial}
+                      </span>
+                      <div className="leading-tight min-w-0">
+                        <p className="font-bold text-[13.5px] truncate">{r.name}</p>
+                        <p className="text-[11.5px] text-ink-soft truncate flex items-center gap-1.5">
+                          {r.city && <span>{r.city}</span>}
+                          {r.city && <span className="opacity-40">·</span>}
+                          <time className="tabular-nums" dir="ltr">{dateStr}</time>
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
+            )}
 
             <div className="mt-5">
               {!open && !sent && (
@@ -270,15 +221,23 @@ export function Testimonials() {
               )}
 
               {sent && (
-                <div className="card p-5 flex items-center gap-3 anim-fade-up">
-                  <CheckCircle size={24} weight="fill" className="text-teal-deep shrink-0" />
-                  <p className="font-bold text-[14.5px]">{t("testi.thanks")}</p>
+                <div className="card p-5 flex items-center gap-3 anim-fade-up bg-teal-deep/5 border-teal-deep/20">
+                  <CheckCircle size={26} weight="fill" className="text-teal-deep shrink-0" />
+                  <p className="font-bold text-[14.5px] text-teal-deep">
+                    {t("testi.thanks")}
+                  </p>
                 </div>
               )}
 
               {open && (
-                <form onSubmit={submit} className="card p-5 anim-rise space-y-4">
+                <form onSubmit={handleSubmit} className="card p-5 anim-rise space-y-4">
                   <p className="font-display font-bold text-[17px]">{t("testi.formTitle")}</p>
+
+                  {errorMsg && (
+                    <div className="p-3 text-[13px] rounded-[10px] bg-primary/10 border border-primary/20 text-primary font-bold">
+                      {errorMsg}
+                    </div>
+                  )}
 
                   <div>
                     <span className="block text-[13.5px] font-bold mb-1.5">
@@ -295,12 +254,12 @@ export function Testimonials() {
                             setRating(n);
                             setErrors((prev) => ({ ...prev, rating: false }));
                           }}
-                          className="p-1"
+                          className="p-1 hover:scale-110 transition-transform"
                         >
                           <Star
                             size={28}
                             weight={n <= rating ? "fill" : "regular"}
-                            className={n <= rating ? "text-highlight" : "text-ink-soft"}
+                            className={n <= rating ? "text-highlight" : "text-ink-soft/40"}
                           />
                         </button>
                       ))}
@@ -324,8 +283,9 @@ export function Testimonials() {
                           setName(e.target.value);
                           setErrors((prev) => ({ ...prev, name: false }));
                         }}
-                        className="field w-full px-4 py-3 outline-none focus:border-ink"
+                        className="field w-full px-4 py-2.5 outline-none focus:border-ink"
                         data-error={errors.name ? "true" : undefined}
+                        placeholder={lang === "ar" ? "الاسم الكامل" : "Votre nom"}
                       />
                       {errors.name && (
                         <p className="text-[12.5px] text-primary font-bold mt-1 anim-fade-in">
@@ -341,7 +301,8 @@ export function Testimonials() {
                         id="review-city"
                         value={city}
                         onChange={(e) => setCity(e.target.value)}
-                        className="field w-full px-4 py-3 outline-none focus:border-ink"
+                        className="field w-full px-4 py-2.5 outline-none focus:border-ink"
+                        placeholder={lang === "ar" ? "المدينة (مثال: الدار البيضاء)" : "Ex: Casablanca"}
                       />
                     </div>
                   </div>
@@ -358,8 +319,13 @@ export function Testimonials() {
                         setText(e.target.value);
                         setErrors((prev) => ({ ...prev, text: false }));
                       }}
-                      className="field w-full px-4 py-3 outline-none focus:border-ink resize-y"
+                      className="field w-full px-4 py-2.5 outline-none focus:border-ink resize-y"
                       data-error={errors.text ? "true" : undefined}
+                      placeholder={
+                        lang === "ar"
+                          ? "اكتب رأيك هنا بكل صراحة..."
+                          : "Partagez votre avis sur vos achats..."
+                      }
                     />
                     {errors.text && (
                       <p className="text-[12.5px] text-primary font-bold mt-1 anim-fade-in">
@@ -368,11 +334,31 @@ export function Testimonials() {
                     )}
                   </div>
 
-                  <div className="flex flex-wrap gap-2">
-                    <button type="submit" className="btn btn-primary flex-1 sm:flex-none">
-                      <PaperPlaneTilt size={17} weight="bold" /> {t("form.send")}
+                  <p className="text-[12px] text-ink-soft">
+                    {lang === "ar"
+                      ? "🔒 سيتم مراجعة تقييمك من طرف الإدارة قبل نشره على الموقع."
+                      : "🔒 Votre avis sera soumis à modération avant d'apparaître sur le site."}
+                  </p>
+
+                  <div className="flex flex-wrap gap-2 pt-1">
+                    <button
+                      type="submit"
+                      disabled={isPending}
+                      className="btn btn-primary flex-1 sm:flex-none disabled:opacity-60"
+                    >
+                      <PaperPlaneTilt size={17} weight="bold" />
+                      {isPending
+                        ? lang === "ar"
+                          ? "جاري الإرسال..."
+                          : "Envoi..."
+                        : t("form.send")}
                     </button>
-                    <button type="button" onClick={closeForm} className="btn btn-outline">
+                    <button
+                      type="button"
+                      disabled={isPending}
+                      onClick={closeForm}
+                      className="btn btn-outline"
+                    >
                       {t("testi.cancel")}
                     </button>
                   </div>

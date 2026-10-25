@@ -13,6 +13,7 @@ interface Params {
 }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
+  await connection();
   const t = await adminT();
   const { slug } = await params;
   const category = await dbAdminCategory(slug);

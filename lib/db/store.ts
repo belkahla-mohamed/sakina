@@ -53,7 +53,30 @@ export async function dbAdminCategories(): Promise<Category[]> {
 }
 
 export async function dbAdminCategory(slug: string): Promise<Category | null> {
-  return q1<Category>("select * from public.categories where slug = $1", [slug]);
+  let decoded = slug;
+  try {
+    decoded = decodeURIComponent(slug);
+  } catch {
+    /* ignore malformed URI */
+  }
+  const slugified = decoded
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+  return q1<Category>(
+    `select * from public.categories 
+      where slug = $1 
+         or slug = $2 
+         or slug = $3 
+         or lower(slug) = lower($1) 
+         or lower(slug) = lower($2)
+         or lower(slug) = lower($3)
+      limit 1`,
+    [slug, decoded, slugified]
+  );
 }
 
 export interface ProductInput {

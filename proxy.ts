@@ -14,11 +14,10 @@ export function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
   const signedIn = request.cookies.has(SESSION_COOKIE);
 
-  // The login page is the one route reachable without a session. An already
-  // signed-in visitor is sent to the dashboard instead of seeing the form.
+  // The login page is always reachable. The login page component itself
+  // verifies if the session is actually valid against the DB before redirecting to /admin.
   if (pathname === ADMIN_LOGIN_PATH) {
-    if (!signedIn) return NextResponse.next();
-    return NextResponse.redirect(new URL("/admin", request.url));
+    return NextResponse.next();
   }
 
   if (!signedIn) {

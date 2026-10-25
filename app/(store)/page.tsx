@@ -1,5 +1,6 @@
 import { getCategories, getProducts } from "@/lib/catalog";
 import { getHeroSlides, getProductRotation, getHomeOffers } from "@/lib/site";
+import { getApprovedReviews } from "@/lib/db/reviews";
 import { Hero } from "@/components/home/Hero";
 import { HeroSlider } from "@/components/home/HeroSlider";
 import { TrustStrip } from "@/components/home/TrustStrip";
@@ -11,12 +12,13 @@ import { FaqAccordion } from "@/components/home/FaqAccordion";
 import { CtaSteps } from "@/components/home/CtaSteps";
 
 export default async function HomePage() {
-  const [products, categories, slides, rotate, homeOffers] = await Promise.all([
+  const [products, categories, slides, rotate, homeOffers, reviews] = await Promise.all([
     getProducts(),
     getCategories(),
     getHeroSlides(),
     getProductRotation(),
     getHomeOffers(),
+    getApprovedReviews(),
   ]);
 
   const counts: Record<string, number> = {};
@@ -38,7 +40,7 @@ export default async function HomePage() {
       <OffersShowcase offers={homeOffers} />
       <CategoryBento categories={categories} counts={counts} />
       <TrustStrip />
-      <Testimonials />
+      <Testimonials reviews={reviews} />
       <FaqAccordion />
       <CtaSteps />
     </>

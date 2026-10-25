@@ -1,8 +1,8 @@
-﻿"use client";
+"use client";
 
 import { useActionState, useMemo, useState } from "react";
-import { Check, MagnifyingGlass, Star, Trash, X } from "@phosphor-icons/react";
-import { deleteReview, deleteReviews, setReviewStatus, type ActionState } from "@/app/admin/actions";
+import { Check, MagnifyingGlass, PencilSimple, Star, Trash, X } from "@phosphor-icons/react";
+import { deleteReview, deleteReviews, setReviewStatus, updateReview, type ActionState } from "@/app/admin/actions";
 import { confirmSubmit, useConfirm } from "@/components/admin/Toast";
 import { useActionToast } from "@/components/admin/useActionToast";
 import { useLang } from "@/components/providers";
@@ -42,6 +42,8 @@ export function ReviewsTable({ reviews }: { reviews: ReviewRow[] }) {
   const [filter, setFilter] = useState("");
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState<Set<number>>(new Set());
+  const [editingId, setEditingId] = useState<number | null>(null);
+
   const [statusState, statusAction] = useActionState<ActionState, FormData>(
     setReviewStatus,
     {}
@@ -54,9 +56,15 @@ export function ReviewsTable({ reviews }: { reviews: ReviewRow[] }) {
     deleteReviews,
     {}
   );
+  const [updateState, updateAction, updatePending] = useActionState<ActionState, FormData>(
+    updateReview,
+    {}
+  );
+
   useActionToast(statusState);
   useActionToast(deleteState);
   useActionToast(bulkState);
+  useActionToast(updateState);
   const askConfirm = useConfirm();
   const { t, lang } = useLang();
 
@@ -253,59 +261,170 @@ export function ReviewsTable({ reviews }: { reviews: ReviewRow[] }) {
                   </div>
                 </div>
 
-                <p className="text-[14px] leading-relaxed bg-milk border border-line rounded-[10px] px-3.5 py-2.5">
-                  {r.text}
-                </p>
-
-                <div className="flex flex-wrap items-center gap-2">
-                  {r.status !== "approved" && (
-                    <form action={statusAction} className="inline">
-                      <input type="hidden" name="id" value={r.id} />
-                      <input type="hidden" name="status" value="approved" />
-                      <button
-                        type="submit"
-                        className="btn !px-3 !py-2 text-[13px] bg-teal-deep text-white hover:opacity-90"
-                      >
-                        <Check size={15} weight="bold" />
-                        {t("admin.review.approve")}
-                      </button>
-                    </form>
-                  )}
-                  {r.status !== "rejected" && (
-                    <form action={statusAction} className="inline">
-                      <input type="hidden" name="id" value={r.id} />
-                      <input type="hidden" name="status" value="rejected" />
-                      <button
-                        type="submit"
-                        className="btn !px-3 !py-2 text-[13px] border-2 border-line hover:border-ink"
-                      >
-                        <X size={15} weight="bold" />
-                        {t("admin.review.reject")}
-                      </button>
-                    </form>
-                  )}
+                {editingId === r.id ? (
                   <form
-                    action={deleteAction}
-                    className="inline ms-auto"
-                    onSubmit={(e) =>
-                      confirmSubmit(e, askConfirm, {
-                        title: t("admin.review.delTitle"),
-                        message: t("admin.review.delMsg").replace("{n}", r.name),
-                        confirmLabel: t("admin.table.delete"),
-                        tone: "danger",
-                      })
-                    }
+                    action={async (fd) => {
+                      await updateAction(fd);
+                      setEditingId(null);
+                    }}
+                    className="space-y-3 pt-2 border-t border-line anim-fade-in"
                   >
                     <input type="hidden" name="id" value={r.id} />
-                    <button
-                      type="submit"
-                      aria-label={t("admin.review.delAria").replace("{n}", r.name)}
-                      className="btn !px-3 !py-2 text-[13px] border-2 border-line text-primary hover:border-primary"
-                    >
-                      <Trash size={15} weight="bold" />
-                    </button>
+                    <div className="grid sm:grid-cols-3 gap-3">
+                      <div>
+                        <label className="block text-[12px] font-bold text-ink-soft mb-1">
+                          {t("form.name")} <span className="text-primary">*</span>
+                        </label>
+                        <input
+                          name="name"
+                          defaultValue={r.name}
+                          required
+                          className="field w-full px-3 py-2 text-[13.5px]"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[12px] font-bold text-ink-soft mb-1">
+                          {t("form.city")}
+                        </label>
+                        <input
+                          name="city"
+                          defaultValue={r.city ?? ""}
+                          placeholder="Casablanca"
+                          className="field w-full px-3 py-2 text-[13.5px]"
+                        />
+                      </div>
+                      <div className="grid grid-cols-2 gap-2">
+                        <div>
+                          <label className="block text-[12px] font-bold text-ink-soft mb-1">
+                            {t("testi.rating")}
+                          </label>
+                          <select
+                            name="rating"
+                            defaultValue={r.rating}
+                            className="field w-full px-2.5 py-2 text-[13.5px]"
+                          >
+                            <option value="5">5 ★★★★★</option>
+                            <option value="4">4 ★★★★</option>
+                            <option value="3">3 ★★★</option>
+                            <option value="2">2 ★★</option>
+                            <option value="1">1 ★</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label className="block text-[12px] font-bold text-ink-soft mb-1">
+                            Statut
+                          </label>
+                          <select
+                            name="status"
+                            defaultValue={r.status}
+                            className="field w-full px-2.5 py-2 text-[13.5px]"
+                          >
+                            <option value="approved">{t("admin.review.approved")}</option>
+                            <option value="pending">{t("admin.dash.pending")}</option>
+                            <option value="rejected">{t("admin.review.rejected")}</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-[12px] font-bold text-ink-soft mb-1">
+                        {t("testi.comment")} <span className="text-primary">*</span>
+                      </label>
+                      <textarea
+                        name="text"
+                        rows={3}
+                        defaultValue={r.text}
+                        required
+                        className="field w-full px-3 py-2 text-[13.5px] resize-y"
+                      />
+                    </div>
+
+                    <div className="flex items-center gap-2 pt-1">
+                      <button
+                        type="submit"
+                        disabled={updatePending}
+                        className="btn btn-primary !px-3.5 !py-2 text-[13px] disabled:opacity-60"
+                      >
+                        <Check size={14} weight="bold" />
+                        {updatePending ? "..." : t("admin.review.save")}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setEditingId(null)}
+                        className="btn btn-outline !px-3.5 !py-2 text-[13px]"
+                      >
+                        {t("testi.cancel")}
+                      </button>
+                    </div>
                   </form>
-                </div>
+                ) : (
+                  <>
+                    <p className="text-[14px] leading-relaxed bg-milk border border-line rounded-[10px] px-3.5 py-2.5">
+                      {r.text}
+                    </p>
+
+                    <div className="flex flex-wrap items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setEditingId(r.id)}
+                        aria-label={`${t("admin.review.edit")} ${r.name}`}
+                        className="btn !px-3 !py-2 text-[13px] border-2 border-line hover:border-ink inline-flex items-center gap-1.5"
+                      >
+                        <PencilSimple size={15} weight="bold" />
+                        <span>{t("admin.review.edit")}</span>
+                      </button>
+
+                      {r.status !== "approved" && (
+                        <form action={statusAction} className="inline">
+                          <input type="hidden" name="id" value={r.id} />
+                          <input type="hidden" name="status" value="approved" />
+                          <button
+                            type="submit"
+                            className="btn !px-3 !py-2 text-[13px] bg-teal-deep text-white hover:opacity-90"
+                          >
+                            <Check size={15} weight="bold" />
+                            {t("admin.review.approve")}
+                          </button>
+                        </form>
+                      )}
+                      {r.status !== "rejected" && (
+                        <form action={statusAction} className="inline">
+                          <input type="hidden" name="id" value={r.id} />
+                          <input type="hidden" name="status" value="rejected" />
+                          <button
+                            type="submit"
+                            className="btn !px-3 !py-2 text-[13px] border-2 border-line hover:border-ink"
+                          >
+                            <X size={15} weight="bold" />
+                            {t("admin.review.reject")}
+                          </button>
+                        </form>
+                      )}
+                      <form
+                        action={deleteAction}
+                        className="inline ms-auto"
+                        onSubmit={(e) =>
+                          confirmSubmit(e, askConfirm, {
+                            title: t("admin.review.delTitle"),
+                            message: t("admin.review.delMsg").replace("{n}", r.name),
+                            confirmLabel: t("admin.table.delete"),
+                            tone: "danger",
+                          })
+                        }
+                      >
+                        <input type="hidden" name="id" value={r.id} />
+                        <button
+                          type="submit"
+                          aria-label={t("admin.review.delAria").replace("{n}", r.name)}
+                          className="btn !px-3 !py-2 text-[13px] border-2 border-line text-primary hover:border-primary"
+                        >
+                          <Trash size={15} weight="bold" />
+                        </button>
+                      </form>
+                    </div>
+                  </>
+                )}
               </li>
             );
           })}

@@ -32,26 +32,26 @@ const tajawal = Tajawal({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
-    default: `${SITE.name} — Jouets, éveil & école | Livraison 24-48h au Maroc`,
+    default: `${SITE.name} — Planners, Carnets de recettes, Livres de coloriage, mugs et gourdes`,
     template: `%s | ${SITE.name}`,
   },
   description:
-    "Jouets d'éveil, livres, fournitures scolaires et vêtements bébé, sélectionnés et vérifiés. Paiement à la livraison, retours sous 7 jours, livraison 24-48h partout au Maroc.",
+    "Planners inspirants • Carnets de recettes gourmands • Livres de coloriage relaxants • mugs et gourdes Isotherme",
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     locale: "fr_MA",
     alternateLocale: ["ar_MA"],
     siteName: SITE.name,
-    title: `${SITE.name} — Jouets, éveil & école`,
+    title: `${SITE.name} — Planners, Carnets de recettes, Livres de coloriage, mugs et gourdes`,
     description:
-      "Une sélection courte et vérifiée : jouets, livres, école et bébé. Paiement à la livraison partout au Maroc.",
+      "Planners inspirants • Carnets de recettes gourmands • Livres de coloriage relaxants • mugs et gourdes Isotherme",
   },
   twitter: {
     card: "summary_large_image",
-    title: `${SITE.name} — Jouets, éveil & école`,
+    title: `${SITE.name} — Planners, Carnets de recettes, Livres de coloriage, mugs et gourdes`,
     description:
-      "Une sélection courte et vérifiée : jouets, livres, école et bébé. Paiement à la livraison partout au Maroc.",
+      "Planners inspirants • Carnets de recettes gourmands • Livres de coloriage relaxants • mugs et gourdes Isotherme",
   },
   robots: { index: true, follow: true },
 };

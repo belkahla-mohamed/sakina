@@ -271,7 +271,7 @@ export function CategoryTable({
                     )}
                   </button>
                   <Link
-                    href={`/admin/categories/${c.slug}`}
+                    href={`/admin/categories/${encodeURIComponent(c.slug)}`}
                     className="btn btn-outline !px-3 !py-2 text-[13px]"
                     aria-label={`${t("admin.table.edit")} ${cname(c)}`}
                   >

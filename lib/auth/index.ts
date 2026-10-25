@@ -18,8 +18,6 @@ export { ADMIN_LOGIN_PATH };
  * Must be rendered behind a <Suspense> boundary (Cache Components rule).
  */
 export async function getCurrentAdmin(): Promise<AdminUser> {
-  "use cache: private";
-
   const admin = await getSessionAdmin();
   if (!admin) redirect(ADMIN_LOGIN_PATH);
   return admin;

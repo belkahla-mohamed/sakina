@@ -8,7 +8,7 @@ import { PageSkeleton } from "@/components/PageSkeleton";
 export const metadata: Metadata = {
   title: "Tous les produits",
   description:
-    "Jouets d'éveil, livres, fournitures scolaires, coffrets et vêtements bébé — livraison 24-48h partout au Maroc.",
+    "Planners inspirants • Carnets de recettes gourmands • Livres de coloriage relaxants • mugs et gourdes Isotherme — livraison partout au Maroc.",
 };
 
 interface Search {

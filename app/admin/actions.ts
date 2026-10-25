@@ -19,7 +19,7 @@ import {
   type ProductInput,
 } from "@/lib/db/store";
 import { dbUpdateOrderStatus, dbUpdateOrderNote, dbDeleteOrders, type OrderStatus } from "@/lib/db/orders";
-import { dbSetReviewStatus, dbDeleteReview, dbDeleteReviews, type ReviewStatus } from "@/lib/db/reviews";
+import { dbSetReviewStatus, dbUpdateReview, dbDeleteReview, dbDeleteReviews, type ReviewStatus } from "@/lib/db/reviews";
 import { dbUpsertSetting } from "@/lib/db/settings";
 import {
   HERO_SLIDES_KEY,
@@ -388,6 +388,8 @@ export async function saveCategory(
     return actionState(e, t.lang);
   }
   revalidateStore();
+  revalidatePath(`/admin/categories/${encodeURIComponent(input.slug)}`);
+  revalidatePath("/admin/categories");
   await setFlash({
     kind: "success",
     title: t("admin.msg.categorySaved"),
@@ -532,9 +534,40 @@ export async function setReviewStatus(
   }
   updateTag("reviews");
   revalidatePath("/admin/avis");
+  revalidatePath("/");
   const label =
     status === "approved" ? t("admin.msg.reviewApproved") : status === "rejected" ? t("admin.msg.reviewRejected") : t("admin.msg.reviewPending");
   return { ok: label };
+}
+
+export async function updateReview(
+  _prev: ActionState,
+  fd: FormData
+): Promise<ActionState> {
+  await requireAdmin();
+  const t = await adminT();
+  const id = num(fd.get("id"));
+  const name = str(fd.get("name"));
+  const city = str(fd.get("city")) || null;
+  const rating = Math.min(5, Math.max(1, num(fd.get("rating"), 5)));
+  const text = str(fd.get("text"));
+  const status = str(fd.get("status")) as ReviewStatus;
+
+  if (!id || !name || !text || !["pending", "approved", "rejected"].includes(status)) {
+    return {
+      error: t("admin.msg.statusFail"),
+      solution: t("admin.msg.reviewStatusSol"),
+    };
+  }
+  try {
+    await dbUpdateReview(id, { name, city, rating, text, status });
+  } catch (e) {
+    return actionState(e, t.lang);
+  }
+  updateTag("reviews");
+  revalidatePath("/admin/avis");
+  revalidatePath("/");
+  return { ok: t("admin.review.saved") || "Avis modifié avec succès." };
 }
 
 export async function deleteReview(
@@ -554,6 +587,7 @@ export async function deleteReview(
   }
   updateTag("reviews");
   revalidatePath("/admin/avis");
+  revalidatePath("/");
   return { ok: t("admin.msg.reviewDeleted") };
 }
 
@@ -575,6 +609,7 @@ export async function deleteReviews(
     const n = await dbDeleteReviews(ids);
     updateTag("reviews");
     revalidatePath("/admin/avis");
+    revalidatePath("/");
     return { ok: t("admin.msg.reviewsDeleted").replace("{n}", String(n)) };
   } catch (e) {
     return actionState(e, t.lang);

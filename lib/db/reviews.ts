@@ -14,6 +14,36 @@ export interface ReviewRow {
   created_at: string;
 }
 
+export const INITIAL_REVIEWS: ReviewRow[] = [
+  {
+    id: 1,
+    name: "Salma",
+    city: "Casablanca",
+    rating: 5,
+    text: "Livraison super rapide à Casablanca et le plaid est encore plus doux qu'en photo. J'en ai commandé un deuxième pour mon frère.",
+    status: "approved",
+    created_at: "2026-09-12T10:00:00.000Z",
+  },
+  {
+    id: 2,
+    name: "Nadia",
+    city: "Rabat",
+    rating: 5,
+    text: "Je commande depuis 3 mois : toujours le même sérieux, et je paie à la livraison sans souci.",
+    status: "approved",
+    created_at: "2026-08-28T14:30:00.000Z",
+  },
+  {
+    id: 3,
+    name: "Imane",
+    city: "Marrakech",
+    rating: 5,
+    text: "Le diffuseur d'arôme sent divin, et l'emballage est parfait pour offrir. Je recommande.",
+    status: "approved",
+    created_at: "2026-09-05T09:15:00.000Z",
+  },
+];
+
 /** Public testimonials — approved only, cached. */
 export async function dbApprovedReviews(): Promise<ReviewRow[]> {
   "use cache";
@@ -25,15 +55,30 @@ export async function dbApprovedReviews(): Promise<ReviewRow[]> {
   );
 }
 
+/** Safe store consumer for approved reviews — returns only reviews marked 'approved' in database. */
+export async function getApprovedReviews(): Promise<ReviewRow[]> {
+  "use cache";
+  cacheLife("minutes");
+  cacheTag("reviews");
+  if (!process.env.DATABASE_URL) return [];
+  try {
+    return await dbApprovedReviews();
+  } catch (e) {
+    console.warn("[reviews] failed to fetch approved reviews:", e);
+    return [];
+  }
+}
+
+
 /** Public submit — lands as pending for moderation. */
 export async function dbSubmitReview(input: {
   name: string;
-  city?: string;
+  city?: string | null;
   rating: number;
   text: string;
 }): Promise<void> {
   await q(
-    `insert into public.reviews (name, city, rating, text) values ($1,$2,$3,$4)`,
+    `insert into public.reviews (name, city, rating, text, status) values ($1, $2, $3, $4, 'pending')`,
     [input.name, input.city ?? null, input.rating, input.text]
   );
 }
@@ -59,6 +104,24 @@ export async function dbSetReviewStatus(
   status: ReviewStatus
 ): Promise<void> {
   await q("update public.reviews set status = $1 where id = $2", [status, id]);
+}
+
+export async function dbUpdateReview(
+  id: number,
+  input: {
+    name: string;
+    city?: string | null;
+    rating: number;
+    text: string;
+    status: ReviewStatus;
+  }
+): Promise<void> {
+  await q(
+    `update public.reviews
+     set name = $1, city = $2, rating = $3, text = $4, status = $5
+     where id = $6`,
+    [input.name, input.city ?? null, input.rating, input.text, input.status, id]
+  );
 }
 
 export async function dbDeleteReview(id: number): Promise<void> {

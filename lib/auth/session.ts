@@ -57,15 +57,21 @@ export async function getSessionAdmin(): Promise<AdminUser | null> {
   const token = store.get(SESSION_COOKIE)?.value;
   if (!token) return null;
 
-  const row = await q1<SessionRow>(
-    `select s.id, s.admin_id, s.expires_at, u.email, u.name
-       from public.admin_sessions s
-       join public.admin_users u on u.id = s.admin_id
-      where s.id = $1 and s.expires_at > now()`,
-    [token]
-  );
-  if (!row) return null;
-  return { id: row.admin_id, email: row.email, name: row.name };
+  try {
+    const row = await q1<SessionRow>(
+      `select s.id, s.admin_id, s.expires_at, u.email, u.name
+         from public.admin_sessions s
+         join public.admin_users u on u.id = s.admin_id
+        where s.id = $1 and s.expires_at > now()`,
+      [token]
+    );
+    if (!row) return null;
+    return { id: row.admin_id, email: row.email, name: row.name };
+  } catch {
+    // DB unreachable (bad credentials, network error, etc.) — treat as
+    // unauthenticated so the login page can render instead of looping.
+    return null;
+  }
 }
 
 /** Delete the current session row and clear the cookie. */
