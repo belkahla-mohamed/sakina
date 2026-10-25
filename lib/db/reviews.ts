@@ -49,10 +49,15 @@ export async function dbApprovedReviews(): Promise<ReviewRow[]> {
   "use cache";
   cacheLife("minutes");
   cacheTag("reviews");
-  return q<ReviewRow>(
-    `select * from public.reviews where status = 'approved'
-     order by created_at desc limit 30`
-  );
+  try {
+    return await q<ReviewRow>(
+      `select * from public.reviews where status = 'approved'
+       order by created_at desc limit 30`
+    );
+  } catch (e) {
+    console.warn("[reviews] dbApprovedReviews failed:", e);
+    return [];
+  }
 }
 
 /** Safe store consumer for approved reviews — returns only reviews marked 'approved' in database. */

@@ -9,9 +9,14 @@ export async function dbCategories(): Promise<Category[]> {
   "use cache";
   cacheLife("minutes");
   cacheTag("categories");
-  return q<Category>(
-    "select * from public.categories order by featured desc, name_fr asc"
-  );
+  try {
+    return await q<Category>(
+      "select * from public.categories order by featured desc, name_fr asc"
+    );
+  } catch (e) {
+    console.warn("[catalog] dbCategories failed:", e);
+    return [];
+  }
 }
 
 /* ---------------- Products ---------------- */
@@ -22,14 +27,24 @@ export async function dbProducts(): Promise<Product[]> {
   "use cache";
   cacheLife("minutes");
   cacheTag("products");
-  return q<Product>(`select * from public.products order by ${PRODUCT_ORDER}`);
+  try {
+    return await q<Product>(`select * from public.products order by ${PRODUCT_ORDER}`);
+  } catch (e) {
+    console.warn("[catalog] dbProducts failed:", e);
+    return [];
+  }
 }
 
 export async function dbProduct(slug: string): Promise<Product | null> {
   "use cache";
   cacheLife("minutes");
   cacheTag("products");
-  return q1<Product>("select * from public.products where slug = $1", [slug]);
+  try {
+    return await q1<Product>("select * from public.products where slug = $1", [slug]);
+  } catch (e) {
+    console.warn("[catalog] dbProduct failed:", e);
+    return null;
+  }
 }
 
 /* ---------------- Admin reads (uncached, always fresh) ---------------- */

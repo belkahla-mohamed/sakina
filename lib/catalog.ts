@@ -51,6 +51,7 @@ export async function getProducts(): Promise<Product[]> {
   if (!process.env.DATABASE_URL) return localProducts;
   try {
     const rows = await dbProducts();
+    if (rows.length === 0) return localProducts;
     return rows.map((p) => {
       const gallery = normalizeGallery(p.image, p.images);
       return { ...p, image: gallery[0], images: gallery };
