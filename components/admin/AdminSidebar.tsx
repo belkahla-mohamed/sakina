@@ -127,25 +127,32 @@ export function AdminSidebar({ admin }: { admin: AdminUser }) {
       </aside>
 
       {/* Mobile top nav */}
-      <div className="md:hidden sticky top-0 z-30 bg-white border-b border-line">
-        <div className="flex items-center justify-between px-4 h-14">
-          <Link href="/admin" className="font-display text-[17px] font-bold">
+      <div className="md:hidden sticky top-0 z-30 bg-white border-b border-line shadow-xs">
+        <div className="flex items-center justify-between px-3 sm:px-4 h-14">
+          <Link href="/admin" className="font-display text-[16px] sm:text-[17px] font-bold">
             Sakina <span className="text-primary">{t("admin.nav.brandAdmin")}</span>
           </Link>
           <div className="flex items-center gap-2">
             <LangToggle lang={lang} setLang={setLang} />
+            <Link
+              href="/"
+              className="text-[12px] font-bold text-ink-soft hover:text-ink px-2.5 py-1 rounded-full border border-line"
+            >
+              {t("admin.nav.viewShop")}
+            </Link>
             <form action={logout}>
               <button
                 type="submit"
-                className="flex items-center gap-1.5 text-[13.5px] font-bold text-primary"
+                className="flex items-center gap-1.5 text-[13px] font-bold text-primary p-1"
+                title={t("admin.nav.exit")}
               >
                 <SignOut size={17} />
-                {t("admin.nav.exit")}
+                <span className="hidden sm:inline">{t("admin.nav.exit")}</span>
               </button>
             </form>
           </div>
         </div>
-        <div className="flex gap-1 overflow-x-auto px-3 pb-2">
+        <div className="flex gap-1.5 overflow-x-auto px-3 pb-2.5 pt-0.5 scrollbar-none [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
           {NAV.map((item) => {
             const active = isActive(item);
             const Icon = item.icon;
@@ -153,11 +160,11 @@ export function AdminSidebar({ admin }: { admin: AdminUser }) {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center gap-1.5 whitespace-nowrap px-3 py-2 rounded-full text-[13px] font-bold ${
-                  active ? "bg-primary text-white" : "text-ink-soft bg-milk"
+                className={`flex items-center gap-1.5 whitespace-nowrap px-3 py-1.5 rounded-full text-[12.5px] font-bold shrink-0 transition-colors ${
+                  active ? "bg-primary text-white" : "text-ink-soft bg-milk hover:text-ink hover:bg-sand"
                 }`}
               >
-                <Icon size={16} />
+                <Icon size={15} weight={active ? "fill" : "regular"} />
                 {t(item.key)}
               </Link>
             );

@@ -34,7 +34,7 @@ async function AdminShell({ children }: { children: React.ReactNode }) {
     <div className="min-h-screen md:flex">
       <AdminSidebar admin={admin} />
       <main className="flex-1 min-w-0">
-        <div className="mx-auto max-w-6xl px-5 md:px-8 py-7">{children}</div>
+        <div className="mx-auto max-w-6xl px-3.5 sm:px-6 lg:px-8 py-5 sm:py-7">{children}</div>
       </main>
     </div>
   );
